@@ -6,11 +6,12 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 13:04:54 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/12 19:07:07 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/17 20:11:46 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 int	ft_strlen(char *s)
 {	
