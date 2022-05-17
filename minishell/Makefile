@@ -1,0 +1,35 @@
+NAME = minishell
+
+HEADER = push_swap.h
+
+CC = gcc
+
+
+INCLUDES = push_swap.h
+
+INCLUDESB = push_swap_bonus.h
+
+SRC =	minishell.c					\
+		ft_strtrim.c				\
+		ft_strjoin.c				\
+		parser/ft_check_arg.c		\
+		parser/get_varb.c 			\
+
+OBJECTS = $(SRC:.c=.o)
+OBJECTSB = $(SRCB:.c=.o)
+
+all: $(NAME)
+	@echo "------------------minishell-----------------\n\n\n"
+
+$(NAME): $(OBJECTS)
+	@$(CC) -lreadline $(OBJECTS) -o $(NAME)
+
+%.o : %.c $(INCLUDES)
+	$(CC) -o $@ -c $<
+clean:
+	@rm -rf $(OBJECTS) $(OBJECTSB) 
+
+fclean: clean
+	@rm -rf $(NAME) $(NAME2)
+
+re: fclean all
