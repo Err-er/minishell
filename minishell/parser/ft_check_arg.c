@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/17 17:44:03 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/19 13:51:51 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,20 +129,21 @@ int	ft_lstsize(t_list *lst)
 int	ft_parser_edit(t_list **node, char *input, int i)
 {
 	int		j;
+	int		n;
 
 	j = i;
+	if(input[j] == '\'' && input[j + 1] == '\'')
+		return 0;
 	while(input[++j])
 	{
 		if(input[j] == '\'')
 			break ;
 	}
-	if(j == i + 1)
-		return(0);
 	if(input[j] == '\'')
 	{
-		i++;
-		ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, j - i), WR));
-		return(j - i + 1);
+			i++;
+			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, j - i), WR));
+			return(j - i + 1);
 	}
 	return(-1);
 }
@@ -156,13 +157,15 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 	char	*str;
 
 	j = i;
+	if(input[j] == '"' && input[j + 1] == '"')
+		return 0;
 	while(input[++j])
 	{
 		if(input[j] == '"')
 			break ;
 	}
-	if(j == i + 1)
-		return(0);
+
+	
 	if(input[j] == '"')
 	{
 		i++;
@@ -171,28 +174,6 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 		{
 			if(input[c] == '$')
 				break;
-			if(input[c] == '"')
-				break;
-			if(input[c] == '\'')
-				break;
-		}
-		if(input[c] == '"')
-		{
-			n = ft_parser_edit1(node, input, i, env);
-			if(n == -1)
-			{
-				printf("double codes not close\n");
-				return 0;
-			}
-		}
-		if(input[c] == '\'')
-		{
-			n = ft_parser_edit(node, input, i);
-			if(n == -1)
-			{
-				printf("single codes not close\n");
-				return 0;
-			}
 		}
 		if(input[c] == '$')
 		{
@@ -282,7 +263,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 				j++;
 			str = get_path(env, ft_substr(input, i + 1, j - (i + 1)));
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WR));
-			i += j;
+			i += (j - i);
 		}
 		else if (input[i] == '>')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), Oredi));
@@ -391,6 +372,7 @@ void	ft_parser(char *input, char **env)
 	node = ft_lstnew(ft_strdup("->"), ST_TOKN);
 	if(!ft_tokinaizer(&node, input, env))
 		return;
-	printf_list(node);
+	ft_echo(node);
+	// printf_list(node);
 	ft_lstclear(&node);
 }

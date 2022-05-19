@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/17 13:52:33 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/19 15:22:13 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,8 @@ void	ft_parser(char *input, char **env);
 char	**ft_split(char *s, char c);
 int		words_count(char *s, char c);
 void	ft_lstclear(t_list **lst);
+void    ft_echo(t_list *node);
 char	*get_path(char **str, char *to_find);
+int		ft_parser_edit1(t_list **node, char *input, int i, char **env);
+int		ft_strncmp(char *str1, char *str2, int n);
 #endif

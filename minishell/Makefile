@@ -14,6 +14,7 @@ SRC =	minishell.c					\
 		ft_strjoin.c				\
 		parser/ft_check_arg.c		\
 		parser/get_varb.c 			\
+		commends/echo.c 			\
 
 OBJECTS = $(SRC:.c=.o)
 OBJECTSB = $(SRCB:.c=.o)
