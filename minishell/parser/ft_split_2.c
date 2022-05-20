@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 12:57:46 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/20 10:41:36 by asabbar          ###   ########.fr       */
+/*   Created: 2022/01/20 12:58:18 by asabbar           #+#    #+#             */
+/*   Updated: 2022/05/20 10:41:14 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../minishell.h"
 
-int	words_count(char *s, char c)
-{
-	int	i;
-	int	words;
+// static int	words_count(char *s, char c)
+// {
+// 	int	i;
+// 	int	words;
 
-	i = 0;
-	words = 0;
-	while (s[i] == c && s[i])
-		i++;
-	while (s[i])
-	{
-		if (i == 0 || s[i - 1] == c)
-		{
-			if (s[i] != c && s[i] != '\0')
-				words++;
-		}
-		i++;
-	}
-	return (words);
-}
+// 	i = 0;
+// 	words = 0;
+// 	while (s[i] == c && s[i])
+// 		i++;
+// 	while (s[i])
+// 	{
+// 		if (i == 0 || s[i - 1] == c)
+// 		{
+// 			if (s[i] != c && s[i] != '\0')
+// 				words++;
+// 		}
+// 		i++;
+// 	}
+// 	return (words);
+// }
 
 static void	move_word(char *from, char *to, int start, int j)
 {
@@ -45,15 +45,7 @@ static void	move_word(char *from, char *to, int start, int j)
 		start++;
 		j--;
 	}
-	to[a++] = '/';
 	to[a] = '\0';
-}
-
-void	ft_free(char **p, int a)
-{
-	while (a >= 0)
-		free(p[--a]);
-	free(p);
 }
 
 static void	ft_mallocnmove(char **p, char const *s, char c)
@@ -74,7 +66,7 @@ static void	ft_mallocnmove(char **p, char const *s, char c)
 			len++;
 		if (len != 0)
 		{
-			p[a] = (char *)malloc(len + 2);
+			p[a] = (char *)malloc(len + 1);
 			if (p[a] == NULL)
 				ft_free(p, a);
 			move_word((char *)s, p[a], i, len);
@@ -84,7 +76,7 @@ static void	ft_mallocnmove(char **p, char const *s, char c)
 	}
 }
 
-char	**ft_split(char *s, char c)
+char	**ft_split_2(char *s, char c)
 {
 	int		i;
 	int		len;
@@ -96,10 +88,7 @@ char	**ft_split(char *s, char c)
 	len = words_count((char *)s, c);
 	p = (char **)malloc(sizeof(char *) * (len + 1));
 	if (p == NULL)
-	{
-		ft_free(p, len);
 		return (NULL);
-	}
 	ft_mallocnmove(p, s, c);
 	p[len] = NULL;
 	return (p);

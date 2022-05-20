@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 09:49:04 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/17 17:36:34 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/20 11:17:37 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*get_path(char **str, char *to_find)
 			{
 				if(!ft_strncmp(str[i], to_find, ft_strlen(to_find)))
 				{
-					free(to_find);
+					// free(to_find);
 					return (&str[i][j + 2]);
 				}
 			}
@@ -52,6 +52,6 @@ char	*get_path(char **str, char *to_find)
 			j++;
 		}
 	}
-	free(to_find);
+	// free(to_find);
 	return (NULL);
 }

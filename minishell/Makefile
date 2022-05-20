@@ -14,7 +14,10 @@ SRC =	minishell.c					\
 		ft_strjoin.c				\
 		parser/ft_check_arg.c		\
 		parser/get_varb.c 			\
+		parser/ft_split.c	 			\
+		parser/ft_split_2.c	 		\
 		commends/echo.c 			\
+		commends/pip.c				\
 
 OBJECTS = $(SRC:.c=.o)
 OBJECTSB = $(SRCB:.c=.o)

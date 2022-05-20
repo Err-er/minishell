@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/18 14:19:00 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/20 14:54:34 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,25 @@ int main(int ac, char **av, char **env)
 {
 	char	*input;
 	// char	**cmds;
-	// int		pid;
+	int		pid;
 
 	(void)av;
 	if(ac != 1)
 		return (printf("error in argm\n"),0);
 	input = NULL;
-	while (!input || ft_strcmp(input, "exit"))
+	while (1)
 	{
 		input = readline("minishell -> ");
-		if(!input)
+		if(!input || !ft_strcmp(input, "exit"))
 			break ;
+		pid = fork();
+		if (pid == 0)
+		{
+			ft_parser(input, env);
+			exit(0);
+		}
 		add_history(input);
-		ft_parser(input, env);
+		waitpid(pid, NULL, 0);
 		free(input);
 	}
 	printf("exit\n");

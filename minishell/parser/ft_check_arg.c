@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/19 13:51:51 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/20 21:29:45 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,6 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 		if(input[j] == '"')
 			break ;
 	}
-
-	
 	if(input[j] == '"')
 	{
 		i++;
@@ -192,7 +190,7 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, j - i), WR));
 		return(j - i + 1);
 	}
-	return(-1);
+	return(printf("double codes not close\n"), -1);
 }
 
 
@@ -236,10 +234,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		{
 			j = ft_parser_edit1(node, input, i, env);
 			if(j == -1)
-			{
-				printf("double codes not close\n");
 				return 0;
-			}
 			i += j + 1;
 		}
 		else if (input[i] == '\'')
@@ -305,7 +300,7 @@ void	printf_list(t_list *lst)
 {
 	while (lst)
 	{
-		printf("%s", lst->data);
+		printf("%d - %s\n", lst->tokn, lst->data);
 		lst = lst->next;
 	}
 	puts("");
@@ -360,6 +355,82 @@ void deleteNode(t_list **head, int key)
       }
 }
 
+int ft_check_pip(t_list *node)
+{
+	t_list *head;
+
+	head = node;
+	while (head)
+	{
+		if(head->tokn == PIP)
+			return(1);
+		head = head->next;
+	}
+	return(0);
+}
+
+void	ft_pip(t_list *node, char **env)
+{
+	t_list *head;
+	char	*str;
+	char	**s;
+
+	str = malloc(1);
+	str[0] = '\0';
+	head = node->next;
+	while (head->tokn != EN_TOKN)
+	{
+		if(head->tokn == PIP)
+			str = ft_strjoin(str, "\t");
+		else
+			str = ft_strjoin(str, head->data);
+		head = head->next;
+	}
+	s = ft_split_2(str, '\t');
+	free(str);
+	c_pip(s, env, node);
+}
+
+void	ft_ex_com_utils(char *cmds, char **env, t_list *node)
+{
+	char	*pat;
+	char	**cmd;
+
+	pat = ft_path(env, cmds);
+	cmd = ft_split_2(cmds, ' ');
+	if(!ft_strcmp(cmd[0], "echo"))
+	{
+		ft_echo(node);
+		exit(0);
+	}
+	else if (execve(pat, cmd, env) == -1)
+	{
+		printf("error in ft_child2\n");
+		exit (1);
+	}
+}
+
+void	ft_ex_com(t_list *node, char **env)
+{
+	t_list *head;
+	char	*str;
+	int		pid;
+
+	str = malloc(1);
+	str[0] = '\0';
+	head = node->next;
+	while (head->tokn != EN_TOKN)
+	{
+		str = ft_strjoin(str, head->data);
+		head = head->next;
+	}
+	pid = fork();
+	if(pid == 0)
+		ft_ex_com_utils(str, env, node);
+	waitpid(pid, NULL, 0);
+	free(str);
+}
+
 void	ft_parser(char *input, char **env)
 {
 	int		i;
@@ -369,10 +440,16 @@ void	ft_parser(char *input, char **env)
 
 	j = 1;
 	i = 0;
+	if(input[0] == '\0')
+		return;
 	node = ft_lstnew(ft_strdup("->"), ST_TOKN);
 	if(!ft_tokinaizer(&node, input, env))
 		return;
-	ft_echo(node);
-	// printf_list(node);
+	if(ft_check_pip(node))
+		ft_pip(node, env);
+	else
+		ft_ex_com(node, env);
+	// ft_echo(node);
+	//printf_list(node);
 	ft_lstclear(&node);
 }
