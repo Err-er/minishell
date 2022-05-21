@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/20 21:29:45 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/21 14:12:44 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,16 +163,24 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 	{
 		if(input[j] == '"')
 			break ;
+		if(input[j] == '\\')
+			break ;
 	}
+	if(input[j] == '\\')
+		return(-1);
 	if(input[j] == '"')
 	{
 		i++;
 		c = i - 1;
 		while (++c < j)
 		{
+			if(input[j] == '\\')
+				break ;
 			if(input[c] == '$')
 				break;
 		}
+		if(input[j] == '\\')
+			return(-1);
 		if(input[c] == '$')
 		{
 			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, c - i), WR));
@@ -216,20 +224,8 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WS));
 			i--;
 		}
-		else if (input[i] == '&' && input[i + 1] == '&')
-		{
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("&&"), AND));
-			i++;
-		}
-		else if (input[i] == '|' && input[i + 1] == '|')
-		{
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("||"), OR));
-			i++;
-		}
 		else if (input[i] == '|')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("|"), PIP));
-		else if (input[i] == '*')
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("*"), ET));
 		else if (input[i] == '"')
 		{
 			j = ft_parser_edit1(node, input, i, env);
@@ -247,18 +243,19 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			}
 			i += j + 1;
 		}
-		else if (input[i] == '(')
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("("), Arch));
-		else if (input[i] == ')')
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(")"), EArch));
 		else if (input[i] == '$')
 		{
-			j = i + 1;
-			while(check_str(input, j))
-				j++;
-			str = get_path(env, ft_substr(input, i + 1, j - (i + 1)));
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WR));
-			i += (j - i);
+			if(!input[i + 1] ||input[i + 1] == ' ')
+				ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WR));
+			else
+			{
+				j = i + 1;
+				while(check_str(input, j))
+					j++;
+				str = get_path(env, ft_substr(input, i + 1, j - (i + 1)));
+				ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WR));
+				i += (j - i);
+			}
 		}
 		else if (input[i] == '>')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), Oredi));
@@ -382,6 +379,8 @@ void	ft_pip(t_list *node, char **env)
 	{
 		if(head->tokn == PIP)
 			str = ft_strjoin(str, "\t");
+		else if(head->tokn == WS)
+			str = ft_strjoin(str, "&");
 		else
 			str = ft_strjoin(str, head->data);
 		head = head->next;
@@ -389,25 +388,6 @@ void	ft_pip(t_list *node, char **env)
 	s = ft_split_2(str, '\t');
 	free(str);
 	c_pip(s, env, node);
-}
-
-void	ft_ex_com_utils(char *cmds, char **env, t_list *node)
-{
-	char	*pat;
-	char	**cmd;
-
-	pat = ft_path(env, cmds);
-	cmd = ft_split_2(cmds, ' ');
-	if(!ft_strcmp(cmd[0], "echo"))
-	{
-		ft_echo(node);
-		exit(0);
-	}
-	else if (execve(pat, cmd, env) == -1)
-	{
-		printf("error in ft_child2\n");
-		exit (1);
-	}
 }
 
 void	ft_ex_com(t_list *node, char **env)
@@ -421,12 +401,20 @@ void	ft_ex_com(t_list *node, char **env)
 	head = node->next;
 	while (head->tokn != EN_TOKN)
 	{
-		str = ft_strjoin(str, head->data);
+		if(head->tokn == WS)
+			str = ft_strjoin(str, "&");
+		else if (head->data)
+			str = ft_strjoin(str, head->data);
 		head = head->next;
+	}
+	if(!str)
+	{
+		puts("");
+		return ;
 	}
 	pid = fork();
 	if(pid == 0)
-		ft_ex_com_utils(str, env, node);
+		ft_child2(str, env, node);
 	waitpid(pid, NULL, 0);
 	free(str);
 }
@@ -450,6 +438,6 @@ void	ft_parser(char *input, char **env)
 	else
 		ft_ex_com(node, env);
 	// ft_echo(node);
-	//printf_list(node);
+	// printf_list(node);
 	ft_lstclear(&node);
 }

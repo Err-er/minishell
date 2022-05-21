@@ -1,13 +1,12 @@
 NAME = minishell
 
-HEADER = push_swap.h
+HEADER = minishell.h
 
 CC = gcc
 
 
-INCLUDES = push_swap.h
+INCLUDES = minishell.h
 
-INCLUDESB = push_swap_bonus.h
 
 SRC =	minishell.c					\
 		ft_strtrim.c				\

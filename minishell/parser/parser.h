@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/20 20:00:41 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/21 14:22:01 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,11 @@
 # include <time.h>
 # include <fcntl.h>
 
-# define UND		-1
+# define UND		-1  // undefined
 # define ST_TOKN	0	//start
 # define PIP		1	//	|  !
-# define AND		2	//	&&
-# define OR			3	//	||
-# define point		5	//	.
 # define CD			6	//	"
 # define SCD		7	//	'
-# define ET			8	//	*
-# define Arch		9	//	( 
-# define EArch		10	//	)
 # define WR			11	//	Word
 # define WS			13	//	space ' '
 # define DOL		14	//	Dollar $ !
@@ -62,4 +56,5 @@ void    c_pip(char **str, char **env, t_list *node);
 void	ft_free(char **p, int a);
 char	*ft_path(char **env, char *cd);
 void	ft_child2(char *cmds, char **env, t_list *node);
+void	printf_list(t_list *lst);
 #endif

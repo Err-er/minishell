@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/20 20:03:56 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/21 12:55:26 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	waitp(char **cmd, int id)
 	i = -1;
 	while (cmd[++i])
 		waitpid(id, NULL, 0);
-	//ft_fre(cmd);
+	ft_fre(cmd);
 }
 
 char	*ft_path(char **env, char *cd)
@@ -43,7 +43,7 @@ char	*ft_path(char **env, char *cd)
         return (cd);
 	str = get_path(env, "PATH");
 	p = ft_split(str, ':');
-    cmd = ft_split_2(cd, ' ');
+    cmd = ft_split_2(cd, '&');
 	i = -1;
 	while (p[++i])
 	{
@@ -53,12 +53,12 @@ char	*ft_path(char **env, char *cd)
 			ft_fre(cmd);
 			return (str2);
 		}
-		//free(str2);
+		free(str2);
 	}
 	printf("error --> command not found: ");
 	printf("%s", cmd[0]);
 	printf("\n");
-	//ft_fre(cmd);
+	ft_fre(cmd);
 	exit(1);
 }
 void	ft_child1(char *cmd, char **env, int *end, t_list *node)
@@ -67,7 +67,8 @@ void	ft_child1(char *cmd, char **env, int *end, t_list *node)
 	char	**cmds;
 
 	pat = ft_path(env, cmd);
-	cmds = ft_split_2(cmd, ' ');
+	cmds = ft_split_2(cmd, '&');
+	close(end[0]);
 	dup2(end[1], 1);
 	if(!ft_strcmp(cmds[0], "echo"))
 	{
@@ -87,8 +88,8 @@ void	ft_child3(char *cmd, char **env, int *end, t_list *node)
 	char	**cmds;
 
 	pat = ft_path(env, cmd);
-	// if (cmd[0] != ' ')
-    cmds = ft_split_2(cmd, ' ');
+    cmds = ft_split_2(cmd, '&');
+	close(end[0]);
 	dup2(end[1], 1);
 	if(!ft_strcmp(cmds[0], "echo"))
 	{
@@ -108,7 +109,7 @@ void	ft_child2(char *cmds, char **env, t_list *node)
 	char	**cmd;
 
 	pat = ft_path(env, cmds);
-	cmd = ft_split_2(cmds, ' ');
+	cmd = ft_split_2(cmds, '&');
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
 		ft_echo(node);
@@ -171,8 +172,13 @@ void    c_pip(char **str, char **env, t_list *node)
 {
 	int		end[2];
 	int		id;
+	int		id1;
 	int		i;
 
+	// i = -1;
+	// while(str[i])
+	// 	i++;
+	// id  = malloc(i * sizeof(int));
 	i = -1;
 	while (str[++i])
 	{
@@ -188,9 +194,14 @@ void    c_pip(char **str, char **env, t_list *node)
 			else if (ft_cheak(i, str) == 3)
 				ft_child3(str[i], env, end, node);
 		}
-        dup2(end[0], 0);
-        close(end[0]);
+		if(i == 0)
+			id1 = id;
 	    close(end[1]);
+        dup2(end[0], 0);
+	    close(end[0]);
 	}
-	waitp(str, id);
+	waitpid(id1, NULL, 0);
+	// while (str[--i])
+	// 	waitpid(id, NULL, 0);
+	// waitp(str, id);
 }

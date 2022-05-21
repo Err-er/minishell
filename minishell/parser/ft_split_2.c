@@ -6,32 +6,11 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 12:58:18 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/20 10:41:14 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/21 12:06:53 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// static int	words_count(char *s, char c)
-// {
-// 	int	i;
-// 	int	words;
-
-// 	i = 0;
-// 	words = 0;
-// 	while (s[i] == c && s[i])
-// 		i++;
-// 	while (s[i])
-// 	{
-// 		if (i == 0 || s[i - 1] == c)
-// 		{
-// 			if (s[i] != c && s[i] != '\0')
-// 				words++;
-// 		}
-// 		i++;
-// 	}
-// 	return (words);
-// }
 
 static void	move_word(char *from, char *to, int start, int j)
 {
