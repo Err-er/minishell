@@ -12,6 +12,18 @@
 
 #include "../minishell.h"
 
+void	ft_putstr(char	*c)
+{
+	int		i;
+
+	i = 0;
+	while (c[i] != '\0')
+	{
+		write(1, &c[i], 1);
+		i++;
+	}
+}
+
 void    ft_echo_flag(t_list **node)
 {
 	while((*node)->tokn != EN_TOKN && (*node)->tokn != PIP && (*node)->tokn != Iredi && (*node)->tokn != Oredi)
@@ -19,7 +31,7 @@ void    ft_echo_flag(t_list **node)
 		if((*node)->tokn == WS && ((*node)->next->tokn == WS || (*node)->next->tokn == PIP || (*node)->next->tokn == Iredi || (*node)->next->tokn == Oredi))
 			return ;
 		else if((*node)->data)
-			printf("%s", (*node)->data);
+			ft_putstr((*node)->data);
 		(*node) = (*node)->next;
 	}
 }
@@ -27,11 +39,12 @@ void    ft_echo_flag(t_list **node)
 void    ft_echo_utils(t_list **node)
 {
 
-	(*node) = (*node)->next;
+	(*node) = (*node)->next; // skip node of echo
+	(*node) = (*node)->next;	//skip node of ' '
 	while((*node)->tokn != EN_TOKN  && (*node)->tokn != PIP && (*node)->tokn != Iredi && (*node)->tokn != Oredi)
 	{
 		if((*node)->data)
-			printf("%s", (*node)->data);
+			ft_putstr((*node)->data);
 		(*node) = (*node)->next;
 	}
 	puts("");
@@ -50,7 +63,6 @@ int	skip_flags(t_list  *node)
 		i++;
 	if (node->data[i] == 'n' || !node->data[i])
 		return (1);
-	printf("i   : %d\n", i);
 	return (0);
 }
 void    ft_echo(t_list **node)
@@ -76,6 +88,7 @@ void    ft_echo(t_list **node)
 			else
 				ft_echo_utils(&head);
 			ft_lstclear(node);
+			head = head->next;
 			node = &head;
 			return ;
 		}

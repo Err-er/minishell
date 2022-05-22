@@ -20,7 +20,6 @@ void red () {
 int main(int ac, char **av, char **env)
 {
 	char	*input;
-	int		pid;
 
 	(void)av;
 	if(ac != 1)
@@ -29,13 +28,12 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		red ();
-		input = readline("➜ \033[0;32m minishell : \033[0;37m");
+		input = readline("➜ \033[0;32m minishell \033[0;37m: ");
 		if(!input || !ft_strcmp(input, "exit"))
 			break ;
 		ft_parser(input, env);
 		if(input[0] != '\0')
 			add_history(input);
-		waitpid(pid, NULL, 0);
 		free(input);
 	}
 	printf("exit\n");

@@ -55,6 +55,6 @@ char	**ft_split(char *s, char c);
 void    c_pip(char **str, char **env, t_list *node);
 void	ft_free(char **p, int a);
 char	*ft_path(char **env, char *cd);
-void	ft_child2(char *cmds, char **env, t_list *node);
+void	ft_child2(char *cmds, char **env, t_list **node);
 void	printf_list(t_list *lst);
 #endif

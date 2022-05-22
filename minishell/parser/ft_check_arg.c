@@ -298,7 +298,7 @@ void	printf_list(t_list *lst)
 {
 	while (lst)
 	{
-		printf("%d - %s\n", lst->tokn, lst->data);
+		printf("%s", lst->data);
 		lst = lst->next;
 	}
 	puts("");
@@ -417,7 +417,7 @@ void	ft_ex_com(t_list *node, char **env)
 	// printf("(%s)\n", str);
 	pid = fork();
 	if(pid == 0)
-		ft_child2(str, env, node);
+		ft_child2(str, env, &node);
 	waitpid(pid, NULL, 0);
 	free(str);
 }
@@ -434,15 +434,15 @@ void	ft_parser(char *input, char **env)
 	node = ft_lstnew(ft_strdup("->"), ST_TOKN);
 	if(!ft_tokinaizer(&node, input, env))
 		return;
-	// printf_list(node);
 	if(ft_check_pip(node))
 	{
-		pid =fork();
+		pid = fork();
 		if(pid == 0)
 		{
 			ft_pip(node, env);
 			exit(0);
 		}
+		waitpid(pid, NULL, 0);
 	}
 	else
 		ft_ex_com(node, env);

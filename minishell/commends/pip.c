@@ -61,18 +61,19 @@ char	*ft_path(char **env, char *cd)
 	ft_fre(cmd);
 	exit(1);
 }
-void	ft_child1(char *cmd, char **env, int *end, t_list *node)
+void	ft_child1(char *cmd, char **env, int *end, t_list **node)
 {
 	char	*pat;
 	char	**cmds;
 
 	pat = ft_path(env, cmd);
 	cmds = ft_split_2(cmd, '\v');
-	close(end[0]);
 	dup2(end[1], 1);
+	close(end[0]);
+	close(end[1]);
 	if(!ft_strcmp(cmds[0], "echo"))
 	{
-		ft_echo(&node);
+		ft_echo(node);
 		exit(0);
 	}
 	else if (execve(pat, cmds, env) == -1)
@@ -83,29 +84,29 @@ void	ft_child1(char *cmd, char **env, int *end, t_list *node)
 	}
 }
 
-void	ft_child3(char *cmd, char **env, int *end, t_list *node)
+void	ft_child3(char *cmd, char **env, int *end, t_list **node)
 {
 	char	*pat;
 	char	**cmds;
 
 	pat = ft_path(env, cmd);
     cmds = ft_split_2(cmd, '\v');
-	close(end[0]);
 	dup2(end[1], 1);
+	close(end[0]);
+	close(end[1]);
 	if(!ft_strcmp(cmds[0], "echo"))
 	{
-		ft_echo(&node);
+		ft_echo(node);
 		exit(0);
 	}
 	else if (execve(pat, cmds, env) == -1)
 	{
-		// printf("error in ft_child3\n");
 		perror("Error ");
 		exit (1);
 	}
 }
 
-void	ft_child2(char *cmds, char **env, t_list *node)
+void	ft_child2(char *cmds, char **env, t_list **node)
 {
 	char	*pat;
 	char	**cmd;
@@ -114,12 +115,11 @@ void	ft_child2(char *cmds, char **env, t_list *node)
 	cmd = ft_split_2(cmds, '\v');
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
-		ft_echo(&node);
+		ft_echo(node);
 		exit(0);
 	}
 	else if (execve(pat, cmd, env) == -1)
 	{
-		// printf("error in ft_child2\n");
 		perror("Error ");
 		exit (1);
 	}
@@ -171,6 +171,18 @@ int	ft_cheak(int i, char **cmd)
 	return (0);
 }
 
+void ft_change_node(t_list **node, char *str)
+{
+	char	**s;
+
+	s = ft_split_2(str, '\v');
+	if(!ft_strcmp(s[0], "echo"))
+	{
+		while(ft_strcmp((*node)->data, "echo"))
+			(*node) = (*node)->next;
+		(*node) = (*node)->next;
+	}
+}
 void    c_pip(char **str, char **env, t_list *node)
 {
 	int		end[2];
@@ -187,19 +199,20 @@ void    c_pip(char **str, char **env, t_list *node)
 		else if (id == 0)
 		{
 			if (i == 0)
-				ft_child1(str[i], env, end, node);
+				ft_child1(str[i], env, end, &node);
 			else if (ft_cheak(i, str) == 2)
-				ft_child2(str[i], env, node);
+				ft_child2(str[i], env, &node);
 			else if (ft_cheak(i, str) == 3)
-				ft_child3(str[i], env, end, node);
+				ft_child3(str[i], env, end, &node);
 		}
+		ft_change_node(&node , str[i]);
 		if(i == 0)
 			id1 = id;
-	    close(end[1]);
         dup2(end[0], 0);
+	    close(end[1]);
 	    close(end[0]);
 	}
-	waitpid(id1, NULL, 0);
 	waitpid(-1, NULL, 0);
+	waitpid(id1, NULL, 0);
 	ft_fre(str);
 }
