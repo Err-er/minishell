@@ -24,7 +24,7 @@
 # include <fcntl.h>
 
 # define UND		-1  // undefined
-# define ST_TOKN	0	//start
+# define ST_TOKN	0	//	start
 # define PIP		1	//	|  !
 # define CD			6	//	"
 # define SCD		7	//	'
@@ -46,7 +46,7 @@ void	ft_parser(char *input, char **env);
 char	**ft_split(char *s, char c);
 int		words_count(char *s, char c);
 void	ft_lstclear(t_list **lst);
-void    ft_echo(t_list *node);
+void    ft_echo(t_list **node);
 char	*get_path(char **str, char *to_find);
 int		ft_parser_edit1(t_list **node, char *input, int i, char **env);
 int		ft_strncmp(char *str1, char *str2, int n);

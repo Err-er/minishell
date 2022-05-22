@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/21 12:55:26 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/21 16:33:03 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ char	*ft_path(char **env, char *cd)
 	char	**p;
 	char	**cmd;
 
-    if(access(cd, X_OK) == 0)
-        return (cd);
 	str = get_path(env, "PATH");
 	p = ft_split(str, ':');
-    cmd = ft_split_2(cd, '&');
+    cmd = ft_split_2(cd, '\v');
+	if(access(cmd[0], X_OK) == 0)
+        return (cmd[0]);
 	i = -1;
 	while (p[++i])
 	{
@@ -55,7 +55,7 @@ char	*ft_path(char **env, char *cd)
 		}
 		free(str2);
 	}
-	printf("error --> command not found: ");
+	printf("minishell : command not found: ");
 	printf("%s", cmd[0]);
 	printf("\n");
 	ft_fre(cmd);
@@ -67,17 +67,18 @@ void	ft_child1(char *cmd, char **env, int *end, t_list *node)
 	char	**cmds;
 
 	pat = ft_path(env, cmd);
-	cmds = ft_split_2(cmd, '&');
+	cmds = ft_split_2(cmd, '\v');
 	close(end[0]);
 	dup2(end[1], 1);
 	if(!ft_strcmp(cmds[0], "echo"))
 	{
-		ft_echo(node);
+		ft_echo(&node);
 		exit(0);
 	}
 	else if (execve(pat, cmds, env) == -1)
 	{
-		printf("error in ft_child1\n");
+		// printf("error in ft_child1\n");
+		perror("Error");
 		exit (1);
 	}
 }
@@ -88,17 +89,18 @@ void	ft_child3(char *cmd, char **env, int *end, t_list *node)
 	char	**cmds;
 
 	pat = ft_path(env, cmd);
-    cmds = ft_split_2(cmd, '&');
+    cmds = ft_split_2(cmd, '\v');
 	close(end[0]);
 	dup2(end[1], 1);
 	if(!ft_strcmp(cmds[0], "echo"))
 	{
-		ft_echo(node);
+		ft_echo(&node);
 		exit(0);
 	}
 	else if (execve(pat, cmds, env) == -1)
 	{
-		printf("error in ft_child3\n");
+		// printf("error in ft_child3\n");
+		perror("Error ");
 		exit (1);
 	}
 }
@@ -109,15 +111,16 @@ void	ft_child2(char *cmds, char **env, t_list *node)
 	char	**cmd;
 
 	pat = ft_path(env, cmds);
-	cmd = ft_split_2(cmds, '&');
+	cmd = ft_split_2(cmds, '\v');
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
-		ft_echo(node);
+		ft_echo(&node);
 		exit(0);
 	}
 	else if (execve(pat, cmd, env) == -1)
 	{
-		printf("error in ft_child2\n");
+		// printf("error in ft_child2\n");
+		perror("Error ");
 		exit (1);
 	}
 }
@@ -175,10 +178,6 @@ void    c_pip(char **str, char **env, t_list *node)
 	int		id1;
 	int		i;
 
-	// i = -1;
-	// while(str[i])
-	// 	i++;
-	// id  = malloc(i * sizeof(int));
 	i = -1;
 	while (str[++i])
 	{
@@ -201,7 +200,6 @@ void    c_pip(char **str, char **env, t_list *node)
 	    close(end[0]);
 	}
 	waitpid(id1, NULL, 0);
-	// while (str[--i])
-	// 	waitpid(id, NULL, 0);
-	// waitp(str, id);
+	waitpid(-1, NULL, 0);
+	ft_fre(str);
 }
