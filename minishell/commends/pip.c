@@ -186,17 +186,20 @@ void ft_change_node(t_list **node, char *str)
 void    c_pip(char **str, char **env, t_list *node)
 {
 	int		end[2];
-	int		id;
-	int		id1;
+	int		*id;
+	int		c;
 	int		i;
 
 	i = -1;
+	while (str[++i]);
+	id = malloc(i * sizeof(int));
+	i = -1;
 	while (str[++i])
 	{
-		id = forkpipe(end);
-		if (id == -1)
+		id[i] = forkpipe(end);
+		if (id[i] == -1)
 			exit(1);
-		else if (id == 0)
+		else if (id[i] == 0)
 		{
 			if (i == 0)
 				ft_child1(str[i], env, end, &node);
@@ -205,14 +208,18 @@ void    c_pip(char **str, char **env, t_list *node)
 			else if (ft_cheak(i, str) == 3)
 				ft_child3(str[i], env, end, &node);
 		}
+		if (i == 0)
+			c = id[i];
 		ft_change_node(&node , str[i]);
-		if(i == 0)
-			id1 = id;
         dup2(end[0], 0);
 	    close(end[1]);
 	    close(end[0]);
 	}
-	waitpid(-1, NULL, 0);
-	waitpid(id1, NULL, 0);
+	while(i)
+	{
+		waitpid(id[i], NULL, 0);
+		i--;
+	}
+	waitpid(c, NULL, 0);
 	ft_fre(str);
 }

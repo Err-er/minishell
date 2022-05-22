@@ -388,7 +388,14 @@ void	ft_pip(t_list *node, char **env)
 	}
 	s = ft_split_2(str, '\t');
 	free(str);
-	c_pip(s, env, node);
+	int i;
+	i = fork();
+	if(i == 0)
+	{
+		c_pip(s, env, node);
+		exit(1);
+	}
+	waitpid(i, NULL, 0);
 	exit(1);
 }
 

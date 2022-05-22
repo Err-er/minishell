@@ -34,6 +34,7 @@ int main(int ac, char **av, char **env)
 		ft_parser(input, env);
 		if(input[0] != '\0')
 			add_history(input);
+		wait(NULL);
 		free(input);
 	}
 	printf("exit\n");
