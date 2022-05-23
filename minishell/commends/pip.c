@@ -42,6 +42,8 @@ char	*ft_path(char **env, char *cd)
 	str = get_path(env, "PATH");
 	p = ft_split(str, ':');
     cmd = ft_split_2(cd, '\v');
+	if (!cmd[0])
+		exit(0);
 	if(access(cmd[0], X_OK) == 0)
         return (cmd[0]);
 	i = -1;

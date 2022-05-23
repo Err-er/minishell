@@ -4,7 +4,6 @@ HEADER = minishell.h
 
 CC = gcc
 
-
 INCLUDES = minishell.h
 
 
@@ -28,7 +27,7 @@ $(NAME): $(OBJECTS)
 	@$(CC) -lreadline $(OBJECTS) -o $(NAME)
 
 %.o : %.c $(INCLUDES)
-	$(CC) -o $@ -c $<
+	@$(CC) -o $@ -c $<
 clean:
 	@rm -rf $(OBJECTS) $(OBJECTSB) 
 

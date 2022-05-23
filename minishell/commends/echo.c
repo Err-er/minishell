@@ -36,11 +36,13 @@ void    ft_echo_flag(t_list **node)
 	}
 }
 
-void    ft_echo_utils(t_list **node)
+void    ft_echo_utils(t_list **node ,int i)
 {
-
-	(*node) = (*node)->next; // skip node of echo
-	(*node) = (*node)->next;	//skip node of ' '
+	if(i == 1)
+	{
+		(*node) = (*node)->next; // skip node of echo
+		(*node) = (*node)->next;	//skip node of ' '
+	}
 	while((*node)->tokn != EN_TOKN  && (*node)->tokn != PIP && (*node)->tokn != Iredi && (*node)->tokn != Oredi)
 	{
 		if((*node)->data)
@@ -80,13 +82,18 @@ void    ft_echo(t_list **node)
 				if(!ft_strncmp(head->next->next->data, "-n", 2))
 				{
 					head = head->next->next;
-					while(skip_flags(head))
-						head = head->next;
-					ft_echo_flag(&head);
+					if(head->next->tokn == WS)
+					{
+						while(skip_flags(head))
+							head = head->next;
+						ft_echo_flag(&head);
+					}
+					else
+						ft_echo_utils(&head, 0);
 				}
 			}
 			else
-				ft_echo_utils(&head);
+				ft_echo_utils(&head, 1);
 			ft_lstclear(node);
 			head = head->next;
 			node = &head;

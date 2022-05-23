@@ -33,6 +33,8 @@
 # define DOL		14	//	Dollar $ !
 # define Iredi		15	//	< !
 # define Oredi		16	//	> ! 
+# define input_h	17	//	< !
+# define output_h	18	//	> ! 
 # define EN_TOKN	0	//	End
 
 typedef struct s_list
