@@ -3,39 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/21 17:31:54 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/24 01:49:48 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-char	*ft_strdup(char *src)
-{
-	int		i;
-	int		lens;
-	char	*copy;
-
-	i = 0;
-	if(!src)
-		return (NULL);
-	while (src[i] != '\0')
-		i++;
-	lens = i;
-	copy = (char *)malloc(lens + 1);
-	if (copy == NULL)
-		return (0);
-	i = 0;
-	while (src[i] != '\0')
-	{
-		copy[i] = src[i];
-		i++;
-	}
-	copy[i] = '\0';
-	return (copy);
-}
 
 char	*ft_substr(char *s, int start, int len)
 {
@@ -226,7 +201,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			i--;
 		}
 		else if ((input[i] == '|' && input[i + 1] != '|' && input[i - 1] != '|'))
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("|"), PIP));
+			ft_lstadd_back(node, ft_lstnew(ft_strdup("|"), PIPE));
 		else if (input[i] == '"')
 		{
 			j = ft_parser_edit1(node, input, i, env);
@@ -272,7 +247,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		if(!j)
 			i++;
 	}
-	ft_lstadd_back(node, ft_lstnew(strdup("<-"), EN_TOKN));
+	ft_lstadd_back(node, ft_lstnew(strdup("<-"), END_TOKN));
 	return(1);
 }
 
@@ -360,7 +335,7 @@ int ft_check_pip(t_list *node)
 	head = node;
 	while (head)
 	{
-		if(head->tokn == PIP)
+		if(head->tokn == PIPE)
 			return(1);
 		head = head->next;
 	}
@@ -373,12 +348,11 @@ void	ft_pip(t_list *node, char **env)
 	char	*str;
 	char	**s;
 
-	str = malloc(1);
-	str[0] = '\0';
+	str = ft_strdup("");
 	head = node->next;
-	while (head->tokn != EN_TOKN)
+	while (head->tokn != END_TOKN)
 	{
-		if(head->tokn == PIP)
+		if(head->tokn == PIPE)
 			str = ft_strjoin(str, "\t");
 		else if(head->tokn == WS)
 			str = ft_strjoin(str, "\v");
@@ -388,14 +362,7 @@ void	ft_pip(t_list *node, char **env)
 	}
 	s = ft_split_2(str, '\t');
 	free(str);
-	int i;
-	i = fork();
-	if(i == 0)
-	{
-		c_pip(s, env, node);
-		exit(1);
-	}
-	waitpid(i, NULL, 0);
+	c_pip(s, env, node);
 	exit(1);
 }
 
@@ -408,7 +375,7 @@ void	ft_ex_com(t_list *node, char **env)
 	str = malloc(1);
 	str[0] = '\0';
 	head = node->next;
-	while (head->tokn != EN_TOKN)
+	while (head->tokn != END_TOKN)
 	{
 		if(head->tokn == WS)
 			str = ft_strjoin(str, "\v");

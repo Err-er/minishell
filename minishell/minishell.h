@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:51:33 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/20 20:00:38 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/23 19:59:34 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*get_next_line(int fd);
 char	*ft_strtrim(char *s1, char *set);
 int		ft_strcmp(char *str1, char *str2);
 char	*ft_strnstr(char *str, char *to_find);
+char	*ft_strdup(char *src);
 int		ft_strlen(char *s);
 int     ft_strlen1(char *s);
 char	*ft_strchr(char *s, int c);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/21 14:22:01 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/24 05:45:04 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 # define UND		-1  // undefined
 # define ST_TOKN	0	//	start
-# define PIP		1	//	|  !
+# define PIPE		1	//	|  !
 # define CD			6	//	"
 # define SCD		7	//	'
 # define WR			11	//	Word
@@ -35,7 +35,7 @@
 # define Oredi		16	//	> ! 
 # define input_h	17	//	< !
 # define output_h	18	//	> ! 
-# define EN_TOKN	0	//	End
+# define END_TOKN	0	//	End
 
 typedef struct s_list
 {
@@ -59,4 +59,5 @@ void	ft_free(char **p, int a);
 char	*ft_path(char **env, char *cd);
 void	ft_child2(char *cmds, char **env, t_list **node);
 void	printf_list(t_list *lst);
+void	ft_cd(t_list **node, char **env);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/21 16:33:03 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/24 05:45:19 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_fre(char **cmd)
 		free(cmd[i]);
 	free(cmd);
 }
+
 void	waitp(char **cmd, int id)
 {
 	int	i;
@@ -78,6 +79,11 @@ void	ft_child1(char *cmd, char **env, int *end, t_list **node)
 		ft_echo(node);
 		exit(0);
 	}
+	if(!ft_strcmp(cmd, "cd"))
+	{
+		ft_cd(node,env);
+		exit(0);
+	}
 	else if (execve(pat, cmds, env) == -1)
 	{
 		// printf("error in ft_child1\n");
@@ -96,6 +102,11 @@ void	ft_child3(char *cmd, char **env, int *end, t_list **node)
 	dup2(end[1], 1);
 	close(end[0]);
 	close(end[1]);
+	if(!ft_strcmp(cmd, "cd"))
+	{
+		ft_cd(node,env);
+		exit(0);
+	}
 	if(!ft_strcmp(cmds[0], "echo"))
 	{
 		ft_echo(node);
@@ -118,6 +129,16 @@ void	ft_child2(char *cmds, char **env, t_list **node)
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
 		ft_echo(node);
+		exit(0);
+	}
+	if(!ft_strcmp(cmd[0], "cd"))
+	{
+		ft_cd(node,env);
+		exit(0);
+	}
+	else if(!ft_strcmp(cmd[0], "pwd"))
+	{
+		printf("%s\n", get_path(env, "PWD"));
 		exit(0);
 	}
 	else if (execve(pat, cmd, env) == -1)
