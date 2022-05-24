@@ -134,14 +134,14 @@ void	ft_child2(char *cmds, char **env, t_list **node)
 	if(!ft_strcmp(cmd[0], "cd"))
 	{
 		ft_cd(node,env);
-		exit(0);
+		//exit(0);
 	}
 	else if(!ft_strcmp(cmd[0], "pwd"))
 	{
 		printf("%s\n", get_path(env, "PWD"));
 		exit(0);
 	}
-	else if (execve(pat, cmd, env) == -1)
+	if (execve(pat, cmd, env) == -1)
 	{
 		perror("Error ");
 		exit (1);

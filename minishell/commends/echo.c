@@ -79,18 +79,17 @@ void    ft_echo(t_list **node)
 		{
 			if(head->next->next->data && !ft_strncmp(head->next->next->data, "-n", 2))
 			{
-				// if(!ft_strncmp(head->next->next->data, "-n", 2))
-				// {
 				head = head->next->next;
-				if(head->next->tokn == WS)
+				if(head->next->tokn == WS || !head->next->tokn)
 				{
 					while(skip_flags(head))
 						head = head->next;
+					if(!head->tokn)	//edit if command (echo -n)
+						return ;
 					ft_echo_flag(&head);
 				}
 				else
 					ft_echo_utils(&head, 0);
-				// }
 			}
 			else
 				ft_echo_utils(&head, 1);

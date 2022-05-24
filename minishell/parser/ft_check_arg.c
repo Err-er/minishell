@@ -139,24 +139,16 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 	{
 		if(input[j] == '"')
 			break ;
-		if(input[j] == '\\')
-			break ;
 	}
-	if(input[j] == '\\')
-		return(-1);
 	if(input[j] == '"')
 	{
 		i++;
 		c = i - 1;
 		while (++c < j)
 		{
-			if(input[j] == '\\')
-				break ;
 			if(input[c] == '$')
 				break;
 		}
-		if(input[j] == '\\')
-			return(-1);
 		if(input[c] == '$')
 		{
 			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, c - i), WR));
@@ -233,8 +225,18 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 				i += (j - i);
 			}
 		}
+		else if (input[i] == '>' && input[i + 1] == '>')
+		{
+			ft_lstadd_back(node, ft_lstnew(ft_strdup(">>"), output_h));
+			i++;
+		}
 		else if (input[i] == '>')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), Oredi));
+		else if (input[i] == '<' && input[i + 1] == '<')
+		{
+			ft_lstadd_back(node, ft_lstnew(ft_strdup("<<"), output_h));
+			i++;
+		}
 		else if (input[i] == '<')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), Iredi));
 		else
@@ -388,7 +390,6 @@ void	ft_ex_com(t_list *node, char **env)
 		puts("");
 		return ;
 	}
-	// printf("(%s)\n", str);
 	pid = fork();
 	if(pid == 0)
 		ft_child2(str, env, &node);

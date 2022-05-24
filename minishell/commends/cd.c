@@ -28,13 +28,11 @@ int get_pwd(char **env)
 
 int get_prev_directory(char *s)
 {
-	int len = ft_strlen(s);
-	// len--;
-	while(len)
+	int len = ft_strlen(s) + 1;
+	while(--len)
 	{
 		if (s[len] == '/')
 			return(len);
-		len--;
 	}
 	return(-1);
 }
