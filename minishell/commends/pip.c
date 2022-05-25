@@ -119,7 +119,7 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_list **node)
 	}
 }
 
-void	ft_child2(char *cmds, t_cd *cd, t_list **node)
+void	ft_child2(char *cmds, t_cd *cd, t_list **node, int fd, int i)
 {
 	char	*pat;
 	char	**cmd;
@@ -127,6 +127,8 @@ void	ft_child2(char *cmds, t_cd *cd, t_list **node)
 	
 	pat = ft_path(cd->my_env, cmds);
 	cmd = ft_split_2(cmds, '\v');
+	dup2(fd, i);
+	close(fd);
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
 		ft_echo(node);
@@ -142,7 +144,7 @@ void	ft_child2(char *cmds, t_cd *cd, t_list **node)
 	{
 		printf("%s\n",getcwd(hh,100));
 		exit(0);
-		return ;
+		//return ;
 	}
 	if (execve(pat, cmd, cd->my_env) == -1)
 	{
@@ -230,7 +232,7 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 			if (i == 0)
 				ft_child1(str[i], cd, end, &node);
 			else if (ft_cheak(i, str) == 2)
-				ft_child2(str[i], cd, &node);
+				ft_child2(str[i], cd, &node, 1, 1);
 			else if (ft_cheak(i, str) == 3)
 				ft_child3(str[i], cd, end, &node);
 		}

@@ -13,6 +13,7 @@ SRC =	minishell.c					\
 		parser/ft_check_arg.c		\
 		parser/get_varb.c 			\
 		parser/ft_split.c	 		\
+		parser/ft_atoi.c	 		\
 		parser/ft_split_2.c	 		\
 		commends/echo.c 			\
 		commends/pip.c				\
