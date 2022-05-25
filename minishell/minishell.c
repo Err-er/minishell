@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/24 20:57:51 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/25 15:14:38 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		red ();
-		input = readline("➜ \033[0;32m minishell \033[0;37m: ");
+		input = readline("➜ \033[0;32m minishell \033[0;37m$ ");
 		if(!input || !ft_strcmp(input, "exit"))
 			break ;
 		ft_parser(input, cd);

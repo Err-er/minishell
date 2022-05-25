@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/25 14:56:04 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/25 15:40:24 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,7 +293,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 					i--;
 					while(check_str(input, ++i))
 						j++;
-					if(!ft_isdigit(input[i - 1]) && (input[i] != '>' || input[i] != '<'))
+					if(!ft_isdigit(input[i - 1]) && input[i - 1] != '-' && (input[i] != '>' || input[i] != '<'))
 						ft_lstadd_back(node, ft_lstnew(ft_substr(input, i - j, j), WR));
 				}
 			}
@@ -442,7 +442,10 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 		else if(head->tokn == NB)
 		{
 			nb = ft_atoi(head->data);
-			c++;
+			if(nb == -1)
+				c = 0;
+			else
+				c++;
 		}
 		else if(head->tokn == Oredi)
 		{

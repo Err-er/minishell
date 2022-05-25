@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/25 14:46:37 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/25 15:39:38 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_cd
 }	t_cd;
 
 
-int		ft_atoi(char *str);
+long long	ft_atoi(const char *str);
 void	ft_parser(char *input, t_cd *cd);
 char	**ft_split(char *s, char c);
 int		words_count(char *s, char c);

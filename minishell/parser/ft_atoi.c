@@ -6,31 +6,32 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 14:46:11 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/25 14:51:45 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/25 15:39:30 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	ft_atoi(char *str)
+long long	ft_atoi(const char *str)
 {
-	int		i;
-	long	r;
-	int		sn;
+	size_t	i;
+	size_t	sign;
+	size_t	result;
 
-	r = 0;
 	i = 0;
-	sn = 1;
-	if (str[i] == '-')
-		sn *= -1;
-	if (str[i] == '+')
+	sign = 1;
+	result = 0;
+	while (str[i] == ' ' || str[i] == '\f' || str[i] == '\n'
+		|| str[i] == '\r' || str[i] == '\t' || str[i] == '\v')
 		i++;
-	if (!str[i])
-		return (-1);
+	if (str[i] == '-')
+		sign *= -1;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		r = (r * 10) + str[i] - '0';
+		result = (result * 10) + str[i] - '0';
 		i++;
 	}
-	return (r * sn);
+	return (result * sign);
 }
