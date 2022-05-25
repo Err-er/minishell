@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/25 15:39:38 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/25 16:22:31 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	**ft_split(char *s, char c);
 void    c_pip(char **str, t_cd *cd, t_list *node);
 void	ft_free(char **p, int a);
 char	*ft_path(char **env, char *cd);
-void	ft_child2(char *cmds, t_cd *cd, t_list **node, int fd, int i);
+void	ft_child2(char *cmds, t_cd *cd, t_list **node);
 void	printf_list(t_list *lst);
 void	ft_cd(t_list **node, t_cd *cd);
 #endif

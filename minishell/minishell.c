@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/25 15:14:38 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/25 16:37:16 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int main(int ac, char **av, char **env)
 		if(!input || !ft_strcmp(input, "exit"))
 			break ;
 		ft_parser(input, cd);
-		if(input[0] != '\0')
+		if(input)
 			add_history(input);
 		free(input);
 	}

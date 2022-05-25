@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/25 15:40:24 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/25 16:24:17 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -420,6 +420,40 @@ void	ft_pip(t_list *node, t_cd *cd)
 	exit(1);
 }
 
+void	ft_ex(char *cmds, t_cd *cd, t_list **node, int fd, int i)
+{
+	char	*pat;
+	char	**cmd;
+	char	hh[100];
+	
+	pat = ft_path(cd->my_env, cmds);
+	cmd = ft_split_2(cmds, '\v');
+	dup2(fd, i);
+	close(fd);
+	if(!ft_strcmp(cmd[0], "echo"))
+	{
+		ft_echo(node);
+		exit(0);
+	}
+	// if(!ft_strcmp(cmd[0], "cd"))
+	// {
+	// 	ft_cd(node,cd);
+	// 	// exit(0);
+	// 	return ;
+	// }
+	else if(!ft_strcmp(cmd[0], "pwd"))
+	{
+		printf("%s\n",getcwd(hh,100));
+		exit(0);
+		//return ;
+	}
+	if (execve(pat, cmd, cd->my_env) == -1)
+	{
+		perror("Error ");
+		exit (1);
+	}
+}
+
 void	ft_ex_com(t_list *node, t_cd *cd)
 {
 	t_list *head;
@@ -481,7 +515,7 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	{
 		pid = fork();
 		if(pid == 0)
-			ft_child2(str, cd, &node, fd, i);
+			ft_ex(str, cd, &node, fd, i);
 		waitpid(pid, NULL, 0);
 	}
 	free(str);

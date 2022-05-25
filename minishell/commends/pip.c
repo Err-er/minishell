@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/24 22:44:09 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/25 16:31:30 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_list **node)
 	}
 }
 
-void	ft_child2(char *cmds, t_cd *cd, t_list **node, int fd, int i)
+void	ft_child2(char *cmds, t_cd *cd, t_list **node)
 {
 	char	*pat;
 	char	**cmd;
@@ -127,8 +127,6 @@ void	ft_child2(char *cmds, t_cd *cd, t_list **node, int fd, int i)
 	
 	pat = ft_path(cd->my_env, cmds);
 	cmd = ft_split_2(cmds, '\v');
-	dup2(fd, i);
-	close(fd);
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
 		ft_echo(node);
@@ -201,15 +199,10 @@ int	ft_cheak(int i, char **cmd)
 
 void ft_change_node(t_list **node, char *str)
 {
-	char	**s;
-
-	s = ft_split_2(str, '\v');
-	if(!ft_strcmp(s[0], "echo"))
-	{
-		while(ft_strcmp((*node)->data, "echo"))
-			(*node) = (*node)->next;
+	while((*node)->tokn != PIPE)
 		(*node) = (*node)->next;
-	}
+	(*node) = (*node)->next;
+		
 }
 void    c_pip(char **str, t_cd *cd, t_list *node)
 {
@@ -232,7 +225,7 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 			if (i == 0)
 				ft_child1(str[i], cd, end, &node);
 			else if (ft_cheak(i, str) == 2)
-				ft_child2(str[i], cd, &node, 1, 1);
+				ft_child2(str[i], cd, &node);
 			else if (ft_cheak(i, str) == 3)
 				ft_child3(str[i], cd, end, &node);
 		}
