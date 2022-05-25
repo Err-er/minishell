@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/24 01:49:48 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/24 20:57:51 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ char **ft_new_env(char **env,char **my_env)
 int main(int ac, char **av, char **env)
 {
 	char	*input;
-	char	**my_env;
+	// char	**my_env;
+	t_cd *cd;
 
 	(void)av;
 	if(ac != 1)
 		return (printf("error in argm\n"),0);
-	my_env = ft_new_env(env,my_env);
+	cd = malloc(sizeof(t_cd));
+	cd->my_env = ft_new_env(env,cd->my_env);
 	input = NULL;
 	while (1)
 	{
@@ -49,7 +51,7 @@ int main(int ac, char **av, char **env)
 		input = readline("➜ \033[0;32m minishell \033[0;37m: ");
 		if(!input || !ft_strcmp(input, "exit"))
 			break ;
-		ft_parser(input, my_env);
+		ft_parser(input, cd);
 		if(input[0] != '\0')
 			add_history(input);
 		free(input);

@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/24 06:15:04 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/24 23:24:43 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,21 @@ int get_prev_directory(char *s)
 	return(-1);
 }
 
-void ft_cd(t_list **node, char **env)
+void ft_cd(t_list **node, t_cd *cd)
 {
 	t_list *head;
 	int i;
 	int x;
+	char hh[100];
 
-	i = get_pwd(env);
-	x = get_prev_directory(env[i]);
+	i = get_pwd(cd->my_env);
+	x = get_prev_directory(cd->my_env[i]);
 	head = *node;
 	head = head->next;
+	// if (*cd->oldpwd)
+	// 	free(cd->oldpwd);
+	cd->oldpwd = ft_strdup("OLD");
+	cd->oldpwd = ft_strjoin(cd->oldpwd,cd->my_env[i]);
 	while(1)
 	{
 		if (head->next->tokn == WS)
@@ -56,31 +61,48 @@ void ft_cd(t_list **node, char **env)
 	}
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
 	{
-		env[i] = ft_strdup("PWD=");
-		env[i] = ft_strjoin(env[i],get_path(env, "HOME"));
+		return ;
+		// cd->my_env[i] = ft_strdup("PWD=");
+		// cd->my_env[i] = ft_strjoin(cd->my_env[i],get_path(cd->my_env, "HOME"));
 	}
 	else
 	{	
 		if (head->next->data[0] == '/')
 		{
-			env[i] = ft_strdup("PWD=");
-			env[i] = ft_strjoin(env[i],head->next->data);
+			cd->my_env[i] = ft_strdup("PWD=");
+			cd->my_env[i] = ft_strjoin(cd->my_env[i],head->next->data);
+			// printf("%s\n",getcwd(hh,100));
+			if (chdir(head->next->data))
+				printf("didn't work\n");
 		}
 		else if (head->next->data[0] == '.' && head->next->data[1] == '.' && head->next->data[2] == '/')
 		{
-			env[i] = ft_strtrim(env[i],&env[i][x]);
+			ft_strlcpy(cd->my_env[i],cd->my_env[i],x);
+			if (chdir(".."))
+				printf("didn't work\n");
 			if (head->next->data[3])
 			{
-				env[i] = ft_strjoin(env[i],"/");
-				env[i] = ft_strjoin(env[i],&head->next->data[3]);	
+				cd->my_env[i] = ft_strjoin(cd->my_env[i],"/");
+				cd->my_env[i] = ft_strjoin(cd->my_env[i],&head->next->data[3]);	
+				chdir(&head->next->data[3]);
 			}
+		}
+		else if (head->next->data[0] == '.' && head->next->data[1] == '.'){
+			ft_strlcpy(cd->my_env[i],cd->my_env[i],x);
+			chdir("..");
 		}
 		else
 		{
-			env[i] = ft_strjoin(env[i],"/");
-			env[i] = ft_strjoin(env[i],head->next->data);
+			if (!access(head->next->data,R_OK))
+			{
+				cd->my_env[i] = ft_strjoin(cd->my_env[i],"/");
+				cd->my_env[i] = ft_strjoin(cd->my_env[i],head->next->data);
+				chdir(head->next->data);	
+			}
+			else
+				return ;
 		}
 	}
-	printf("%s\n",env[i]);
+	cd->my_env[i+1] = ft_strdup(cd->oldpwd);
 	return ;
 }

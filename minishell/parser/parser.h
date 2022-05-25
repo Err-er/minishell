@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/24 05:45:04 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/24 21:02:32 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,14 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-void	ft_parser(char *input, char **env);
+
+typedef struct s_cd
+{
+	char	**my_env;
+	char	*oldpwd;
+}	t_cd;
+
+void	ft_parser(char *input, t_cd *cd);
 char	**ft_split(char *s, char c);
 int		words_count(char *s, char c);
 void	ft_lstclear(t_list **lst);
@@ -54,10 +61,10 @@ int		ft_parser_edit1(t_list **node, char *input, int i, char **env);
 int		ft_strncmp(char *str1, char *str2, int n);
 char	**ft_split_2(char *s, char c);
 char	**ft_split(char *s, char c);
-void    c_pip(char **str, char **env, t_list *node);
+void    c_pip(char **str, t_cd *cd, t_list *node);
 void	ft_free(char **p, int a);
 char	*ft_path(char **env, char *cd);
-void	ft_child2(char *cmds, char **env, t_list **node);
+void	ft_child2(char *cmds, t_cd *cd, t_list **node);
 void	printf_list(t_list *lst);
-void	ft_cd(t_list **node, char **env);
+void	ft_cd(t_list **node, t_cd *cd);
 #endif

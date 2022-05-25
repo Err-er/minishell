@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/24 01:49:48 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/24 21:48:07 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,7 +344,7 @@ int ft_check_pip(t_list *node)
 	return(0);
 }
 
-void	ft_pip(t_list *node, char **env)
+void	ft_pip(t_list *node, t_cd *cd)
 {
 	t_list *head;
 	char	*str;
@@ -364,14 +364,15 @@ void	ft_pip(t_list *node, char **env)
 	}
 	s = ft_split_2(str, '\t');
 	free(str);
-	c_pip(s, env, node);
+	c_pip(s, cd, node);
 	exit(1);
 }
 
-void	ft_ex_com(t_list *node, char **env)
+void	ft_ex_com(t_list *node, t_cd *cd)
 {
 	t_list *head;
 	char	*str;
+	char	**cmd;
 	int		pid;
 
 	str = malloc(1);
@@ -390,14 +391,20 @@ void	ft_ex_com(t_list *node, char **env)
 		puts("");
 		return ;
 	}
-	pid = fork();
-	if(pid == 0)
-		ft_child2(str, env, &node);
+	cmd = ft_split_2(str, '\v');
+	if (!ft_strcmp(cmd[0], "cd"))
+		ft_cd(&node,cd);
+	else
+	{
+		pid = fork();
+		if(pid == 0)
+			ft_child2(str, cd, &node);
+	}
 	waitpid(pid, NULL, 0);
 	free(str);
 }
 
-void	ft_parser(char *input, char **env)
+void	ft_parser(char *input, t_cd *cd)
 {
 	int		i;
 	int		pid;
@@ -407,20 +414,20 @@ void	ft_parser(char *input, char **env)
 	if(input[0] == '\0')
 		return;
 	node = ft_lstnew(ft_strdup("->"), ST_TOKN);
-	if(!ft_tokinaizer(&node, input, env))
+	if(!ft_tokinaizer(&node, input, cd->my_env))
 		return;
 	if(ft_check_pip(node))
 	{
 		pid = fork();
 		if(pid == 0)
 		{
-			ft_pip(node, env);
+			ft_pip(node, cd);
 			exit(0);
 		}
 		waitpid(pid, NULL, 0);
 	}
 	else
-		ft_ex_com(node, env);
+		ft_ex_com(node, cd);
 	// ft_echo(node);
 	ft_lstclear(&node);
 }

@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/24 05:45:19 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/24 22:44:09 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ char	*ft_path(char **env, char *cd)
 	ft_fre(cmd);
 	exit(1);
 }
-void	ft_child1(char *cmd, char **env, int *end, t_list **node)
+void	ft_child1(char *cmd, t_cd *cd, int *end, t_list **node)
 {
 	char	*pat;
 	char	**cmds;
 
-	pat = ft_path(env, cmd);
+	pat = ft_path(cd->my_env, cmd);
 	cmds = ft_split_2(cmd, '\v');
 	dup2(end[1], 1);
 	close(end[0]);
@@ -79,12 +79,12 @@ void	ft_child1(char *cmd, char **env, int *end, t_list **node)
 		ft_echo(node);
 		exit(0);
 	}
-	if(!ft_strcmp(cmd, "cd"))
-	{
-		ft_cd(node,env);
-		exit(0);
-	}
-	else if (execve(pat, cmds, env) == -1)
+	// if(!ft_strcmp(cmd, "cd"))
+	// {
+	// 	ft_cd(node,cd);
+	// 	exit(0);
+	// }
+	else if (execve(pat, cmds, cd->my_env) == -1)
 	{
 		// printf("error in ft_child1\n");
 		perror("Error");
@@ -92,56 +92,59 @@ void	ft_child1(char *cmd, char **env, int *end, t_list **node)
 	}
 }
 
-void	ft_child3(char *cmd, char **env, int *end, t_list **node)
+void	ft_child3(char *cmd, t_cd *cd, int *end, t_list **node)
 {
 	char	*pat;
 	char	**cmds;
 
-	pat = ft_path(env, cmd);
+	pat = ft_path(cd->my_env, cmd);
     cmds = ft_split_2(cmd, '\v');
 	dup2(end[1], 1);
 	close(end[0]);
 	close(end[1]);
-	if(!ft_strcmp(cmd, "cd"))
-	{
-		ft_cd(node,env);
-		exit(0);
-	}
+	// if(!ft_strcmp(cmd, "cd"))
+	// {
+	// 	ft_cd(node,env);
+	// 	exit(0);
+	// }
 	if(!ft_strcmp(cmds[0], "echo"))
 	{
 		ft_echo(node);
 		exit(0);
 	}
-	else if (execve(pat, cmds, env) == -1)
+	else if (execve(pat, cmds, cd->my_env) == -1)
 	{
 		perror("Error ");
 		exit (1);
 	}
 }
 
-void	ft_child2(char *cmds, char **env, t_list **node)
+void	ft_child2(char *cmds, t_cd *cd, t_list **node)
 {
 	char	*pat;
 	char	**cmd;
-
-	pat = ft_path(env, cmds);
+	char	hh[100];
+	
+	pat = ft_path(cd->my_env, cmds);
 	cmd = ft_split_2(cmds, '\v');
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
 		ft_echo(node);
 		exit(0);
 	}
-	if(!ft_strcmp(cmd[0], "cd"))
-	{
-		ft_cd(node,env);
-		//exit(0);
-	}
+	// if(!ft_strcmp(cmd[0], "cd"))
+	// {
+	// 	ft_cd(node,cd);
+	// 	// exit(0);
+	// 	return ;
+	// }
 	else if(!ft_strcmp(cmd[0], "pwd"))
 	{
-		printf("%s\n", get_path(env, "PWD"));
+		printf("%s\n",getcwd(hh,100));
 		exit(0);
+		return ;
 	}
-	if (execve(pat, cmd, env) == -1)
+	if (execve(pat, cmd, cd->my_env) == -1)
 	{
 		perror("Error ");
 		exit (1);
@@ -206,7 +209,7 @@ void ft_change_node(t_list **node, char *str)
 		(*node) = (*node)->next;
 	}
 }
-void    c_pip(char **str, char **env, t_list *node)
+void    c_pip(char **str, t_cd *cd, t_list *node)
 {
 	int		end[2];
 	int		*id;
@@ -225,11 +228,11 @@ void    c_pip(char **str, char **env, t_list *node)
 		else if (id[i] == 0)
 		{
 			if (i == 0)
-				ft_child1(str[i], env, end, &node);
+				ft_child1(str[i], cd, end, &node);
 			else if (ft_cheak(i, str) == 2)
-				ft_child2(str[i], env, &node);
+				ft_child2(str[i], cd, &node);
 			else if (ft_cheak(i, str) == 3)
-				ft_child3(str[i], env, end, &node);
+				ft_child3(str[i], cd, end, &node);
 		}
 		if (i == 0)
 			c = id[i];
