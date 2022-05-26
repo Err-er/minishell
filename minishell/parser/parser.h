@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/25 16:22:31 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/26 15:47:06 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_parser(char *input, t_cd *cd);
 char	**ft_split(char *s, char c);
 int		words_count(char *s, char c);
 void	ft_lstclear(t_list **lst);
-void    ft_echo(t_list **node);
+void    ft_echo(t_list *node);
 char	*get_path(char **str, char *to_find);
 int		ft_parser_edit1(t_list **node, char *input, int i, char **env);
 int		ft_strncmp(char *str1, char *str2, int n);
@@ -68,7 +68,9 @@ char	**ft_split(char *s, char c);
 void    c_pip(char **str, t_cd *cd, t_list *node);
 void	ft_free(char **p, int a);
 char	*ft_path(char **env, char *cd);
-void	ft_child2(char *cmds, t_cd *cd, t_list **node);
+void	ft_child2(char *cmds, t_cd *cd, t_list *node, int fd, int x);
 void	printf_list(t_list *lst);
 void	ft_cd(t_list **node, t_cd *cd);
+void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i);
+void	ft_fre(char **cmd);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/25 22:04:10 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/26 15:56:31 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, j - i), WR));
 		return(j - i + 1);
 	}
-	return(printf("double codes not close\n"), -1);
+	return(printf("double quotes not closed\n"), -1);
 }
 
 int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
@@ -217,7 +217,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			j = ft_parser_edit(node, input, i);
 			if(j == -1)
 			{
-				printf("single codes not close\n");
+				printf("single quotes not closed\n");
 				return 0;
 			}
 			i += j + 1;
@@ -327,7 +327,7 @@ void	printf_list(t_list *lst)
 {
 	while (lst)
 	{
-		printf("(%s - %d)\n", lst->data, lst->tokn);
+		printf("%s", lst->data);
 		lst = lst->next;
 	}
 	puts("");
@@ -408,6 +408,12 @@ void	ft_pip(t_list *node, t_cd *cd)
 	{
 		if(head->tokn == PIPE)
 			str = ft_strjoin(str, "\t");
+		else if(head->tokn == Oredi)
+			head = head->next;
+		else if(head->tokn == Iredi)
+			head = head->next;
+		else if(head->tokn == NB)
+			head = head->next;
 		else if(head->tokn == WS)
 			str = ft_strjoin(str, "\v");
 		else
@@ -420,7 +426,7 @@ void	ft_pip(t_list *node, t_cd *cd)
 	exit(1);
 }
 
-void	ft_ex(char *cmds, t_cd *cd, t_list **node, int fd, int i)
+void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i)
 {
 	char	*pat;
 	char	**cmd;
@@ -428,7 +434,7 @@ void	ft_ex(char *cmds, t_cd *cd, t_list **node, int fd, int i)
 	
 	pat = ft_path(cd->my_env, cmds);
 	cmd = ft_split_2(cmds, '\v');
-	// dup2(fd, i); // if not red fd = 0 / i = 0 so nathing change
+	dup2(fd, i); // if not red fd = 0 / i = 0 so nathing change
 	close(fd);
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
@@ -515,10 +521,11 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	{
 		pid = fork();
 		if(pid == 0)
-			ft_ex(str, cd, &node, fd, i);
+			ft_ex(str, cd, node, fd, i);
 		waitpid(pid, NULL, 0);
 	}
 	free(str);
+	ft_fre(cmd);
 }
 
 void	ft_parser(char *input, t_cd *cd)

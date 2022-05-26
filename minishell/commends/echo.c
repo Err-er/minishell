@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/23 17:58:18 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/26 13:47:17 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,30 @@ void	ft_putstr(char	*c)
 	}
 }
 
-void    ft_echo_flag(t_list **node)
+void    ft_echo_flag(t_list *node)
 {
-	while((*node)->tokn != END_TOKN && (*node)->tokn != PIPE && (*node)->tokn != Iredi && (*node)->tokn != Oredi)
+	while(node->tokn != END_TOKN && node->tokn != PIPE && node->tokn != Iredi && node->tokn != Oredi)
 	{
-		if((*node)->tokn == WS && ((*node)->next->tokn == WS || (*node)->next->tokn == PIPE || (*node)->next->tokn == Iredi || (*node)->next->tokn == Oredi))
+		if(node->tokn == WS && (node->next->tokn == WS || node->next->tokn == PIPE || node->next->tokn == Iredi || node->next->tokn == Oredi))
 			return ;
-		else if((*node)->data)
-			ft_putstr((*node)->data);
-		(*node) = (*node)->next;
+		else if(node->data)
+			ft_putstr(node->data);
+		node = node->next;
 	}
 }
 
-void    ft_echo_utils(t_list **node ,int i)
+void    ft_echo_utils(t_list *node ,int i)
 {
 	if(i == 1)
 	{
-		(*node) = (*node)->next; // skip node of echo
-		(*node) = (*node)->next;	//skip node of ' '
+		node = node->next; // skip node of echo
+		node = node->next;	//skip node of ' '
 	}
-	while((*node)->tokn != END_TOKN  && (*node)->tokn != PIPE && (*node)->tokn != Iredi && (*node)->tokn != Oredi)
+	while(node->tokn != END_TOKN  && node->tokn != PIPE && node->tokn != Iredi && node->tokn != Oredi)
 	{
-		if((*node)->data)
-			ft_putstr((*node)->data);
-		(*node) = (*node)->next;
+		if(node->data)
+			ft_putstr(node->data);
+		node = node->next;
 	}
 	puts("");
 }
@@ -67,12 +67,12 @@ int	skip_flags(t_list  *node)
 		return (1);
 	return (0);
 }
-void    ft_echo(t_list **node)
+void    ft_echo(t_list *node)
 {
 	int     i;
 	t_list *head;
 
-	head = *node;
+	head = node;
 	while(head)
 	{
 		if(!ft_strcmp(head->data, "echo"))
@@ -86,16 +86,14 @@ void    ft_echo(t_list **node)
 						head = head->next;
 					if(!head->tokn)	//edit if command (echo -n)
 						return ;
-					ft_echo_flag(&head);
+					ft_echo_flag(head);
 				}
 				else
-					ft_echo_utils(&head, 0);
+					ft_echo_utils(head, 0);
 			}
 			else
-				ft_echo_utils(&head, 1);
-			ft_lstclear(node);
-			head = head->next;
-			node = &head;
+				ft_echo_utils(head, 1);
+			ft_lstclear(&node);
 			return ;
 		}
 		head = head->next;
