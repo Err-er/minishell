@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/24 23:24:43 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/26 00:20:47 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,19 +88,27 @@ void ft_cd(t_list **node, t_cd *cd)
 			}
 		}
 		else if (head->next->data[0] == '.' && head->next->data[1] == '.'){
+			
 			ft_strlcpy(cd->my_env[i],cd->my_env[i],x);
 			chdir("..");
 		}
 		else
 		{
-			if (!access(head->next->data,R_OK))
+			if (!access(head->next->data,F_OK) && !access(head->next->data,X_OK))
 			{
 				cd->my_env[i] = ft_strjoin(cd->my_env[i],"/");
 				cd->my_env[i] = ft_strjoin(cd->my_env[i],head->next->data);
 				chdir(head->next->data);	
 			}
+			else if (access(head->next->data,X_OK))
+			{
+				printf("minishell: cd: %s: Permission denied\n",head->next->data);
+			}
 			else
+			{
+				printf("minishell: cd: %s: No such file or directory\n",head->next->data);
 				return ;
+			}
 		}
 	}
 	cd->my_env[i+1] = ft_strdup(cd->oldpwd);
