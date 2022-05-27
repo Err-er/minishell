@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/27 01:11:33 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/27 16:38:01 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@ char *ft_cpoy_content(char *s, char *f)
 	t = ft_strdup(f);
 	while(s[i] != '=')
 		i++;
+	i++;
+	t = ft_strjoin(t,"=");
+	t = ft_strjoin(t,"\"");
 	t = ft_strjoin(t,&s[i]);
+	t = ft_strjoin(t,"\"");
 	return(t);
 }
 
@@ -130,6 +134,11 @@ void	ft_exprot(t_list **node, t_cd *cd)
 			break  ;
 	}
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
+	{
+		ft_print_export(cd);
+		return ;
+	}
+	else if (head->next->tokn == Oredi || head->next->tokn == Iredi || head->next->tokn == output_h || head->next->tokn == input_h)
 	{
 		ft_print_export(cd);
 		return ;

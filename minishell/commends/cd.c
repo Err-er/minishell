@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/26 00:20:47 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/27 18:11:26 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ void ft_cd(t_list **node, t_cd *cd)
 	x = get_prev_directory(cd->my_env[i]);
 	head = *node;
 	head = head->next;
-	// if (*cd->oldpwd)
-	// 	free(cd->oldpwd);
 	cd->oldpwd = ft_strdup("OLD");
 	cd->oldpwd = ft_strjoin(cd->oldpwd,cd->my_env[i]);
 	while(1)
@@ -61,9 +59,11 @@ void ft_cd(t_list **node, t_cd *cd)
 	}
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
 	{
-		return ;
-		// cd->my_env[i] = ft_strdup("PWD=");
-		// cd->my_env[i] = ft_strjoin(cd->my_env[i],get_path(cd->my_env, "HOME"));
+		if (!get_path(cd->my_env, "HOME"))
+			printf("HOME not set\n");
+		cd->my_env[i] = ft_strdup("PWD=");
+		cd->my_env[i] = ft_strjoin(cd->my_env[i],get_path(cd->my_env, "HOME"));
+		chdir(get_path(cd->my_env, "HOME"));
 	}
 	else
 	{	
@@ -73,6 +73,14 @@ void ft_cd(t_list **node, t_cd *cd)
 			cd->my_env[i] = ft_strjoin(cd->my_env[i],head->next->data);
 			// printf("%s\n",getcwd(hh,100));
 			if (chdir(head->next->data))
+				printf("didn't work\n");
+		}
+		else if (head->next->data[0] == '-')
+		{
+			cd->my_env[i] = ft_strdup("PWD=");
+			cd->my_env[i] = ft_strjoin(cd->my_env[i],get_path(cd->my_env, "OLDPWD"));
+			printf("%s\n",get_path(cd->my_env, "OLDPWD"));
+			if (chdir(get_path(cd->my_env, "OLDPWD")))
 				printf("didn't work\n");
 		}
 		else if (head->next->data[0] == '.' && head->next->data[1] == '.' && head->next->data[2] == '/')
@@ -100,14 +108,14 @@ void ft_cd(t_list **node, t_cd *cd)
 				cd->my_env[i] = ft_strjoin(cd->my_env[i],head->next->data);
 				chdir(head->next->data);	
 			}
-			else if (access(head->next->data,X_OK))
-			{
-				printf("minishell: cd: %s: Permission denied\n",head->next->data);
-			}
-			else
+			else if (access(head->next->data,F_OK))
 			{
 				printf("minishell: cd: %s: No such file or directory\n",head->next->data);
 				return ;
+			}
+			else if (access(head->next->data,X_OK))
+			{
+				printf("minishell: cd: %s: Permission denied\n",head->next->data);
 			}
 		}
 	}

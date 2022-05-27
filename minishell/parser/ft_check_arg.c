@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/26 23:05:40 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/27 18:25:25 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,12 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 	}
 	return(printf("double quotes not closed\n"), -1);
 }
+int ft_check_sc(char c)
+{
+	if(c == '#' || c == '~' || c == '&' || c == '*' || c == '`' || c == '(' || c == ')' || c == '\\' || c == '{' || c == '}' || c == '[' || c ==']' || c == '!' || c == ';' || c == '^' || c == ':')
+		return (0);
+	return(1);
+}
 
 int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 {
@@ -191,6 +197,11 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		i++;
 	while(i < ft_strlen(input))
 	{
+		if (!ft_check_sc(input[i]))
+		{
+			printf("Error  special characters\n");
+			return(0);
+		}
 		j = 0;
 		if (input[i] == ' ')
 		{
@@ -201,8 +212,6 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WS));
 			i--;
 		}
-		if (input[i] == '#')
-			break;
 		else if ((input[i] == '|' && input[i + 1] != '|' && input[i - 1] != '|'))
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("|"), PIPE));
 		else if (input[i] == '"')
@@ -432,7 +441,6 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i)
 	char	**cmd;
 	char	hh[100];
 	
-	pat = ft_path(cd->my_env, cmds);
 	cmd = ft_split_2(cmds, '\v');
 	dup2(fd, i); // if not red fd = 0 / i = 0 so nathing change
 	close(fd);
@@ -441,18 +449,23 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i)
 		ft_echo(node);
 		exit(0);
 	}
-	// if(!ft_strcmp(cmd[0], "cd"))
-	// {
-	// 	ft_cd(node,cd);
-	// 	// exit(0);
-	// 	return ;
-	// }
+	else if (!ft_strcmp(cmd[0], "export"))
+	{
+		ft_exprot(&node,cd);
+		exit(0);
+	}
+	else if (!ft_strcmp(cmd[0], "unset"))
+	{
+		ft_unset(&node,cd);
+		exit(0);
+	}
 	else if(!ft_strcmp(cmd[0], "pwd"))
 	{
 		printf("%s\n",getcwd(hh,100));
 		exit(0);
 		//return ;
 	}
+	pat = ft_path(cd->my_env, cmds);
 	if (execve(pat, cmd, cd->my_env) == -1)
 	{
 		perror("Error ");
@@ -470,7 +483,9 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	int		i;
 	int		nb;
 	int		c;
+	int		out_put;
 
+	out_put = dup(1);
 	str = malloc(1);
 	str[0] = '\0';
 	head = node->next;
@@ -509,18 +524,17 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 			str = ft_strjoin(str, head->data);
 		head = head->next;
 	}
+	// if(fd)
+	// {
+	// 	dup2(fd, i); // if not red fd = 0 / i = 0 so nathing change
+	// 	close(fd);	
+	// }
 	if(!str[0])
-	{
-		//puts("");
 		return ;
-	}
 	cmd = ft_split_2(str, '\v');
 	if (!ft_strcmp(cmd[0], "cd"))
 		ft_cd(&node,cd);
-	else if (!ft_strcmp(cmd[0], "export"))
-		ft_exprot(&node,cd);
-	else if (!ft_strcmp(cmd[0], "unset"))
-		ft_unset(&node,cd);
+	//dup2(out_put, 1);
 	else
 	{
 		pid = fork();
@@ -532,6 +546,81 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	ft_fre(cmd);
 }
 
+void	ft_ex_sc(t_list *node, t_cd *cd)
+{
+	t_list *head;
+	char	*str;
+	char	**cmd;
+	int		c;
+
+	str = malloc(1);
+	str[0] = '\0';
+	head = node->next;
+	c = 0;
+	while (head->tokn != END_TOKN)
+	{
+		if(head->tokn == WS)
+			str = ft_strjoin(str, "\v");
+		else if (head->data)
+			str = ft_strjoin(str, head->data);
+		head = head->next;
+	}
+	cmd = ft_split_2(str, '\v');
+	if (!ft_strcmp(cmd[0], "cd"))
+		ft_cd(&node,cd);
+	else if (!ft_strcmp(cmd[0], "export"))
+		ft_exprot(&node,cd);
+	else if (!ft_strcmp(cmd[0], "unset"))
+		ft_unset(&node,cd);
+	free(str);
+	ft_fre(cmd);
+}
+int	ft_sc(t_list *node, t_cd *cd)
+{
+	t_list *head;
+	char	*str;
+	char	**cmd;
+	int		c;
+
+	str = malloc(1);
+	str[0] = '\0';
+	head = node->next;
+	c = 0;
+	while (head->tokn != END_TOKN)
+	{
+		if(head->tokn == WS)
+			str = ft_strjoin(str, "\v");
+		else if(head->tokn == Oredi)
+			return(0);
+		else if(head->tokn == Iredi)
+			return(0);
+		else if (head->data)
+			str = ft_strjoin(str, head->data);
+		head = head->next;
+	}
+	if(!str[0])
+		return -1;
+	cmd = ft_split_2(str, '\v');
+	free(str);
+	int i = -1;
+	if (!ft_strcmp(cmd[0], "cd"))
+	{
+		ft_fre(cmd);
+		return(1);
+	}
+	else if (!ft_strcmp(cmd[0], "export"))
+	{
+		ft_fre(cmd);
+		return(1);
+	}
+	else if (!ft_strcmp(cmd[0], "unset"))
+	{
+		ft_fre(cmd);
+		return(1);
+	}
+	ft_fre(cmd);
+	return(0);
+}
 void	ft_parser(char *input, t_cd *cd)
 {
 	int		i;
@@ -555,7 +644,11 @@ void	ft_parser(char *input, t_cd *cd)
 		}
 		waitpid(pid, NULL, 0);
 	}
-	else
+	else if(ft_sc(node, cd))
+	{
+		ft_ex_sc(node, cd);
+	}
+	else if(!ft_sc(node, cd))
 		ft_ex_com(node, cd);
 	ft_lstclear(&node);
 }

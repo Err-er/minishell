@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/26 23:04:37 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/27 17:17:54 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define output_h	18	//	>> ! 
 # define file		19	//	file of input or output  {> , < , >> , <<}
 # define NB			20	//	number before 3>, ?>
+# define LIMITER	21	//	LIMITER of herdoc
 # define END_TOKN	0	//	End
 
 typedef struct s_list
@@ -47,7 +48,15 @@ typedef struct s_list
 }	t_list;
 
 
-typedef struct s_cd
+// typedef struct s_cd
+// {
+// 	char	**my_env;
+// 	int		env_len;
+// 	char	**exported;
+// 	char	*oldpwd;
+// }	t_gl;
+
+typedef struct s_gl
 {
 	char	**my_env;
 	int		env_len;
