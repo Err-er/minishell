@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/26 15:56:31 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/26 23:05:40 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -517,6 +517,10 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	cmd = ft_split_2(str, '\v');
 	if (!ft_strcmp(cmd[0], "cd"))
 		ft_cd(&node,cd);
+	else if (!ft_strcmp(cmd[0], "export"))
+		ft_exprot(&node,cd);
+	else if (!ft_strcmp(cmd[0], "unset"))
+		ft_unset(&node,cd);
 	else
 	{
 		pid = fork();

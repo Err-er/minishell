@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/26 15:47:06 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/26 23:04:37 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ typedef struct s_list
 typedef struct s_cd
 {
 	char	**my_env;
+	int		env_len;
+	char	**exported;
 	char	*oldpwd;
 }	t_cd;
 
@@ -72,5 +74,7 @@ void	ft_child2(char *cmds, t_cd *cd, t_list *node, int fd, int x);
 void	printf_list(t_list *lst);
 void	ft_cd(t_list **node, t_cd *cd);
 void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i);
+void	ft_exprot(t_list **node, t_cd *cd);
+void	ft_unset(t_list **node, t_cd *cd);
 void	ft_fre(char **cmd);
 #endif

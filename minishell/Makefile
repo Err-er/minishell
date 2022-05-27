@@ -18,6 +18,8 @@ SRC =	minishell.c					\
 		commends/echo.c 			\
 		commends/pip.c				\
 		commends/cd.c				\
+		commends/export.c			\
+		commends/unset.c			\
 		ft_strdup.c					\
 
 OBJECTS = $(SRC:.c=.o)
