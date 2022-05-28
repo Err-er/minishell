@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/26 16:02:53 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/28 12:21:00 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,17 @@ char	*ft_path(char **env, char *cd)
 	p = ft_split(str, ':');
     cmd = ft_split_2(cd, '\v');
 	if (!cmd[0])
+	{
+		ft_fre(cmd);
+		ft_fre(p);
 		exit(0);
+	}
 	if(access(cmd[0], X_OK) == 0)
+	{
+		ft_fre(cmd);
+		ft_fre(p);
         return (cmd[0]);
+	}
 	i = -1;
 	while (p[++i])
 	{
@@ -105,7 +113,6 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x)
 	char	*pat;
 	char	**cmds;
 	int		c;
-	int		nb;
 	t_list *head = node;
 
 	pat = ft_path(cd->my_env, cmd);
@@ -113,31 +120,17 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x)
 	c = 0;
 	while (head && head->tokn != PIPE)
 	{
-		if(head->tokn == NB)
-		{
-			nb = ft_atoi(head->data);
-			if(nb == -1)
-				c = 0;
-			else
-				c++;
-		}
-		else if(head->tokn == Oredi)
+		if(head->tokn == Oredi)
 		{
 			head = head->next;
 			fd = open(head->data, O_CREAT | O_RDWR | O_TRUNC, 0666);
-			if(!c)
 				x = 1;
-			else
-				x = nb;
 		}
 		else if(head->tokn == Iredi)
 		{
 			head = head->next;
 			fd = open(head->data, O_RDONLY);
-			if(!c)
 				x = 0;
-			else
-				x = nb;
 		}
 		head = head->next;
 	}
@@ -258,37 +251,22 @@ void ft_change_node(t_list **node, char *str)
 
 int ft_check_red(t_list *node, int fd)
 {
-	int nb;
 	int c; 
 	int i;
 
 	while (node->tokn != PIPE)
 	{
-		if(node->tokn == NB)
-		{
-			nb = ft_atoi(node->data);
-			if(nb == -1)
-				c = 0;
-			else
-				c++;
-		}
-		else if(node->tokn == Oredi)
+		 if(node->tokn == Oredi)
 		{
 			node = node->next;
 			fd = open(node->data, O_CREAT | O_RDWR | O_TRUNC, 0666);
-			if(!c)
 				i = 1;
-			else
-				i = nb;
 		}
 		else if(node->tokn == Iredi)
 		{
 			node = node->next;
 			fd = open(node->data, O_RDONLY);
-			if(!c)
 				i = 0;
-			else
-				i = nb;
 		}
 		node = node->next;
 	}
@@ -297,8 +275,6 @@ int ft_check_red(t_list *node, int fd)
 
 int ft_check_red2(t_list *node, int fd)
 {
-	int nb;
-
 	while (node->tokn != PIPE && node)
 	{
 		if(node->tokn == Oredi)
@@ -324,48 +300,30 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 	int		i;
 	int		fd;
 	int		x;
-	int		st_out;
+	t_list	*head;
 
 	i = -1;
 	while (str[++i]);
 	id = malloc(i * sizeof(int));
 	i = -1;
-	st_out = dup(1);
 	while (str[++i])
 	{
-		int		c;
-		int		nb;
-		t_list *head = node;
-
 		c = 0;
 		fd = 0;
+		head = node;
 		while (head && head->tokn != PIPE)
 		{
-			if(head->tokn == NB)
-			{
-				nb = ft_atoi(head->data);
-				if(nb == -1)
-					c = 0;
-				else
-					c++;
-			}
-			else if(head->tokn == Oredi)
+			if(head->tokn == Oredi)
 			{
 				head = head->next;
 				fd = open(head->data, O_CREAT | O_RDWR | O_TRUNC, 0666);
-				if(!c)
 					x = 1;
-				else
-					x = nb;
 			}
 			else if(head->tokn == Iredi)
 			{
 				head = head->next;
 				fd = open(head->data, O_RDONLY);
-				if(!c)
 					x = 0;
-				else
-					x = nb;
 			}
 			head = head->next;
 		}

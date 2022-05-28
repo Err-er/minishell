@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/27 23:48:01 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/28 16:47:27 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@
 # include <unistd.h>
 # include <time.h>
 # include <fcntl.h>
+# include <termios.h>
+# include <stdbool.h>
+# include <paths.h>
+# include <signal.h>
+# include <limits.h>
 
 # define UND		-1  // undefined
 # define ST_TOKN	0	//	start
@@ -36,7 +41,6 @@
 # define input_h	17	//	<< !
 # define output_h	18	//	>> ! 
 # define file		19	//	file of input or output  {> , < , >> , <<}
-# define NB			20	//	number before 3>, ?>
 # define LIMITER	21	//	LIMITER of herdoc
 # define END_TOKN	0	//	End
 
@@ -82,8 +86,10 @@ char	*ft_path(char **env, char *cd);
 void	ft_child2(char *cmds, t_cd *cd, t_list *node, int fd, int x);
 void	printf_list(t_list *lst);
 void	ft_cd(t_list **node, t_cd *cd);
-void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i);
+void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value);
 void	ft_exprot(t_list **node, t_cd *cd);
 void	ft_unset(t_list **node, t_cd *cd);
 void	ft_fre(char **cmd);
+char	*ft_strjoin_nf(char *s1, char *s2);
+char	*ft_substr(char *s, int start, int len);
 #endif

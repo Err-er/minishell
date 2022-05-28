@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/27 23:38:47 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/28 16:36:09 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void red () {
-  printf("\033[1;31m");
-}
 
 void ft_new_env(char **env,t_cd *cd)
 {
@@ -41,6 +37,7 @@ int main(int ac, char **av, char **env)
 	t_cd *cd;
 
 	(void)av;
+	//rl_catch_signals = 0;
 	if(ac != 1)
 		return (printf("error in argm\n"),0);
 	cd = malloc(sizeof(t_cd));
@@ -48,8 +45,7 @@ int main(int ac, char **av, char **env)
 	input = NULL;
 	while (1)
 	{
-		red ();
-		input = readline("➜ \033[0;32m minishell \033[0;37m$ ");
+		input = readline("➜ minishell $ ");
 		if(!input || !ft_strcmp(input, "exit"))
 			break ;
 		ft_parser(input, cd);

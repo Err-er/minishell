@@ -1,20 +1,33 @@
-#include "minishell.h"
+#include "./parser/parser.h"
 
-
-static int i = 0;
-
-
+char *ft_new_file(char *txt)
+{
+    char *new;
+    int i = 0;
+    int j = 0;
+    while(txt[i])
+    {
+        if(txt[i] ==  '"')
+            break ;
+        if(txt[i] ==  '\'')
+            break ;
+    }
+    if(txt[i] ==  '"')
+    {
+        j = i;
+        new = ft_substr(txt, i - j, i);
+        while(txt[++j])
+        {
+            if(txt[j] ==  '"')
+                break ;
+        }
+        if(txt[j] ==  '"')
+            new = ft_strjoin(new, ft_substr(txt, i + 1, j - (i + 1)));
+    }
+}
 int main()
 {
-    printf("i   : %d\n", i);
-    int j = fork();
-
-    if(j == 0)
-    {
-        i+=1;
-        exit(1);
-    }
-    waitpid(j,NULL, 0);
-    printf("i   : %d\n", i);
-
+    char *str = strdup("\"achraf\"");
+    printf("%s\n", str);
+    printf("%s\n", ft_new_file(str));
 }
