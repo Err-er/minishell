@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/28 16:36:09 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/28 20:16:14 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int main(int ac, char **av, char **env)
 	t_cd *cd;
 
 	(void)av;
-	//rl_catch_signals = 0;
 	if(ac != 1)
 		return (printf("error in argm\n"),0);
 	cd = malloc(sizeof(t_cd));

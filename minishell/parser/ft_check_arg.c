@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/28 17:20:35 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/28 20:16:28 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,6 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 
 	j = 1;
 	i = 0 ;
-	limiter = ft_strdup("");
 	while(input[i] == ' ')
 		i++;
 	while(i < ft_strlen(input))
@@ -273,6 +272,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		}
 		else if (input[i] == '<' && input[i + 1] == '<')
 		{
+			limiter = ft_strdup("");
 			i += 2;
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("<<"), input_h));
 			while(input[i] == ' ')
@@ -328,6 +328,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 				}
 			}
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(limiter), LIMITER));
+			free(limiter);
 		}
 		else if (input[i] == '<')
 		{
@@ -341,14 +342,12 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 				i--;
 				while(check_str(input, ++i))
 					j++;
-				if(!ft_isdigit(input[i - 1]) && input[i - 1] != '-' && (input[i] != '>' || input[i] != '<'))
-					ft_lstadd_back(node, ft_lstnew(ft_substr(input, i - j, j), WR));
+				ft_lstadd_back(node, ft_lstnew(ft_substr(input, i - j, j), WR));
 			}
 		}
 		if(!j)
 			i++;
 	}
-	free(limiter);
 	ft_lstadd_back(node, ft_lstnew(strdup("<-"), END_TOKN));
 	return(1);
 }
@@ -536,7 +535,6 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 
 	str = ft_strdup("");
 	value = ft_strdup("");
-	file_n = ft_strdup("");
 	head = node->next;
 	c = 0;
 	while (head)
@@ -545,10 +543,11 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 			str = ft_strjoin(str, "\v");
 		else if(head->tokn == Oredi)
 		{
+			file_n = ft_strdup("");
 			head = head->next;
 			if(head->tokn == WS)
 				head = head->next;
-			while(head->tokn == WR)
+			while(head->tokn == WR && head->tokn != END_TOKN)
 			{
 				file_n = ft_strjoin_nf(file_n, head->data);
 				head = head->next;
@@ -564,10 +563,11 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 		}
 		else if(head->tokn == output_h)
 		{
+			file_n = ft_strdup("");
 			head = head->next;
 			if(head->tokn == WS)
 				head = head->next;
-			while(head->tokn == WR)
+			while(head->tokn == WR && head->tokn != END_TOKN)
 			{
 				file_n = ft_strjoin_nf(file_n, head->data);
 				head = head->next;
@@ -583,8 +583,9 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 		}
 		else if(head->tokn == input_h)
 		{
+			value = ft_strdup("");
 			head = head->next;
-			while(head->tokn != LIMITER)
+			while(head->tokn == WR && head->tokn != END_TOKN)
 				head = head->next;
 			if(pipe(end) == -1)
 				perror("Error");
@@ -600,10 +601,11 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 		}
 		else if(head->tokn == Iredi)
 		{
+			file_n = ft_strdup("");
 			head = head->next;
 			if(head->tokn == WS)
 				head = head->next;
-			while(head->tokn == WR)
+			while(head->tokn == WR && head->tokn != END_TOKN)
 			{
 				file_n = ft_strjoin_nf(file_n, head->data);
 				head = head->next;
@@ -621,8 +623,6 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 			str = ft_strjoin(str, head->data);
 		head = head->next;
 	}
-	if(!value[0])
-		free(value);
 	if(!str[0])
 	{
 		printf("minishell: : command not found\n");
@@ -638,6 +638,8 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 			ft_ex(str, cd, node, fd, i, value);
 		waitpid(pid, NULL, 0);
 	}
+	if(!value[0])
+		free(value);
 	ft_fre(cmd);
 	free(str);
 }

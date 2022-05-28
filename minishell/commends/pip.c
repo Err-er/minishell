@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/28 12:21:00 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/28 17:50:03 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,7 +323,7 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 			{
 				head = head->next;
 				fd = open(head->data, O_RDONLY);
-					x = 0;
+				x = 0;
 			}
 			head = head->next;
 		}
