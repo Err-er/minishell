@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/27 17:17:54 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/27 23:48:01 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,21 @@ typedef struct s_list
 }	t_list;
 
 
-// typedef struct s_cd
+typedef struct s_cd
+{
+	char	**my_env;
+	int		env_len;
+	char	**sorted;
+	char	*oldpwd;
+}	t_cd;
+
+// typedef struct s_gl
 // {
 // 	char	**my_env;
 // 	int		env_len;
 // 	char	**exported;
 // 	char	*oldpwd;
-// }	t_gl;
-
-typedef struct s_gl
-{
-	char	**my_env;
-	int		env_len;
-	char	**exported;
-	char	*oldpwd;
-}	t_cd;
+// }	t_cd;
 
 
 long long	ft_atoi(const char *str);

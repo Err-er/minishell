@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/27 18:11:26 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/27 23:10:53 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,19 @@ void ft_cd(t_list **node, t_cd *cd)
 	{	
 		if (head->next->data[0] == '/')
 		{
+			if (head->next->data[0] == '/' && head->next->data[1] == '.' && head->next->data[2] == '.')
+			{
+				cd->my_env[i] = ft_strdup("PWD=");
+				cd->my_env[i] = ft_strjoin(cd->my_env[i],"/");
+				if (chdir(head->next->data))
+					printf("didn't work\n");
+			}
+			else{
 			cd->my_env[i] = ft_strdup("PWD=");
 			cd->my_env[i] = ft_strjoin(cd->my_env[i],head->next->data);
-			// printf("%s\n",getcwd(hh,100));
 			if (chdir(head->next->data))
 				printf("didn't work\n");
+			}
 		}
 		else if (head->next->data[0] == '-')
 		{

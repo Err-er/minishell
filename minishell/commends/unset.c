@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:01:24 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/27 01:20:07 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/27 23:43:54 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,7 @@ void	ft_unset(t_list **node, t_cd *cd)
 			break  ;
 	}
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
-	{
-		printf("unset : no arguments\n");
 		return ;
-	}
 	else
 	{
 		while(head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN)
