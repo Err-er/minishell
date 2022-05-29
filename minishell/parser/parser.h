@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/28 17:48:54 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/29 17:27:51 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define PARSER_H
 
 # include "../minishell.h"
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <stdlib.h>
 # include <string.h>
 # include <stdio.h>
@@ -27,6 +25,8 @@
 # include <paths.h>
 # include <signal.h>
 # include <limits.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define UND		-1  // undefined
 # define ST_TOKN	0	//	start
@@ -83,7 +83,7 @@ char	**ft_split(char *s, char c);
 void    c_pip(char **str, t_cd *cd, t_list *node);
 void	ft_free(char **p, int a);
 char	*ft_path(char **env, char *cd);
-void	ft_child2(char *cmds, t_cd *cd, t_list *node, int fd, int x);
+void	ft_child2(char *cmds, t_cd *cd, t_list *node, int fd, int x, char *value);
 void	printf_list(t_list *lst);
 void	ft_cd(t_list **node, t_cd *cd);
 void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value);
@@ -92,4 +92,7 @@ void	ft_unset(t_list **node, t_cd *cd);
 void	ft_fre(char **cmd);
 char	*ft_strjoin_nf(char *s1, char *s2);
 char	*ft_substr(char *s, int start, int len);
+int		ft_check_pip(t_list *node, int c);
+void	ft_putstr_fd(char *s, int fd);
+int ft_check_pip2(t_list *node, int c);
 #endif

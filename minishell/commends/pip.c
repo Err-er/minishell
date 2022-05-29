@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/28 17:50:03 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/29 16:56:53 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,17 @@ char	*ft_path(char **env, char *cd)
 	str = get_path(env, "PATH");
 	p = ft_split(str, ':');
     cmd = ft_split_2(cd, '\v');
-	if (!cmd[0])
-	{
-		ft_fre(cmd);
-		ft_fre(p);
-		exit(0);
-	}
 	if(access(cmd[0], X_OK) == 0)
 	{
 		ft_fre(cmd);
 		ft_fre(p);
         return (cmd[0]);
+	}
+	if (!cmd[0])
+	{
+		ft_fre(cmd);
+		ft_fre(p);
+		exit(0);
 	}
 	i = -1;
 	while (p[++i])
@@ -72,14 +72,14 @@ char	*ft_path(char **env, char *cd)
 	ft_fre(cmd);
 	exit(1);
 }
-void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x)
+void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x, char *value)
 {
 	char	*pat;
 	char	**cmds;
+	char	hh[100];
 
-	pat = ft_path(cd->my_env, cmd);
 	cmds = ft_split_2(cmd, '\v');
-	if(fd)
+	if(ft_check_pip(node, Oredi))
 	{
 		dup2(fd, x);
 		close(fd);
@@ -95,46 +95,32 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x)
 		ft_echo(node);
 		exit(0);
 	}
-	// if(!ft_strcmp(cmd, "cd"))
-	// {
-	// 	ft_cd(node,cd);
-	// 	exit(0);
-	// }
-	else if (execve(pat, cmds, cd->my_env) == -1)
+	else if(!ft_strcmp(cmds[0], "pwd"))
 	{
-		// printf("error in ft_child1\n");
+		printf("%s\n",getcwd(hh,100));
+		exit(0);
+	}
+	pat = ft_path(cd->my_env, cmd);
+	if (access(cmds[0], X_OK) == 0)
+		pat = cmds[0];
+	if (execve(pat, cmds, cd->my_env) == -1)
+	{
 		perror("Error");
 		exit (1);
 	}
 }
 
-void	ft_child3(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x)
+void	ft_child3(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x, char *value)
 {
 	char	*pat;
 	char	**cmds;
 	int		c;
+	char	hh[100];
 	t_list *head = node;
+	int		p[2];
 
-	pat = ft_path(cd->my_env, cmd);
     cmds = ft_split_2(cmd, '\v');
-	c = 0;
-	while (head && head->tokn != PIPE)
-	{
-		if(head->tokn == Oredi)
-		{
-			head = head->next;
-			fd = open(head->data, O_CREAT | O_RDWR | O_TRUNC, 0666);
-				x = 1;
-		}
-		else if(head->tokn == Iredi)
-		{
-			head = head->next;
-			fd = open(head->data, O_RDONLY);
-				x = 0;
-		}
-		head = head->next;
-	}
-	if(fd)
+	if(ft_check_pip(node, Oredi) || ft_check_pip(node, Iredi))
 	{
 		dup2(fd, x);
 		close(fd);
@@ -145,40 +131,48 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x)
 		close(end[0]);
 		close(end[1]);
 	}
-	// if(!ft_strcmp(cmd, "cd"))
-	// {
-	// 	ft_cd(node,env);
-	// 	exit(0);
-	// }
 	if(!ft_strcmp(cmds[0], "echo"))
 	{
 		puts("here");
 		ft_echo(node);
 		exit(0);
 	}
-	else if (execve(pat, cmds, cd->my_env) == -1)
+	else if(!ft_strcmp(cmds[0], "pwd"))
+	{
+		printf("%s\n",getcwd(hh,100));
+		exit(0);
+	}
+	pat = ft_path(cd->my_env, cmd);
+	if (access(cmds[0], X_OK) == 0)
+		pat = cmds[0];
+	if (execve(pat, cmds, cd->my_env) == -1)
 	{
 		perror("Error ");
 		exit (1);
 	}
 }
 
-void	ft_child2(char *cmds, t_cd *cd, t_list *node, int fd, int x)
+void	ft_child2(char *cmds, t_cd *cd, t_list *node, int fd, int x, char *value)
 {
 	char	*pat;
 	char	**cmd;
 	char	hh[100];
+	int		end[2];
 
-	pat = ft_path(cd->my_env, cmds);
 	cmd = ft_split_2(cmds, '\v');
-	if(fd)
+	if(ft_check_pip2(node, Oredi) || ft_check_pip2(node, Iredi))
 	{
 		dup2(fd, x);
 		close(fd);
 	}
+	else
+	{
+		dup2(end[1], 1);
+		close(end[0]);
+		close(end[1]);
+	}
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
-		//printf("(%d)\n", ft_strcmp(cmd[0], "echo"));
 		ft_echo(node);
 		exit(0);
 	}
@@ -186,8 +180,10 @@ void	ft_child2(char *cmds, t_cd *cd, t_list *node, int fd, int x)
 	{
 		printf("%s\n",getcwd(hh,100));
 		exit(0);
-		//return ;
 	}
+	pat = ft_path(cd->my_env, cmds);
+	if (access(cmd[0], X_OK) == 0)
+		pat = cmd[0];
 	if (execve(pat, cmd, cd->my_env) == -1)
 	{
 		perror("Error ");
@@ -301,8 +297,13 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 	int		fd;
 	int		x;
 	t_list	*head;
+	char	*file_n;
+	char	*value;
+	char	*p;
 
 	i = -1;
+	file_n = ft_strdup("");
+	value = ft_strdup("");
 	while (str[++i]);
 	id = malloc(i * sizeof(int));
 	i = -1;
@@ -315,17 +316,92 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 		{
 			if(head->tokn == Oredi)
 			{
+				file_n = ft_strdup("");
 				head = head->next;
-				fd = open(head->data, O_CREAT | O_RDWR | O_TRUNC, 0666);
-					x = 1;
+				if(head->tokn == WS)
+					head = head->next;
+				while(head->tokn == WR && head->tokn != END_TOKN)
+				{
+					file_n = ft_strjoin_nf(file_n, head->data);
+					head = head->next;
+				}
+				if(ft_strchr(file_n, '/'))
+				{
+					printf("minishell: %s: No such file or directory\n", file_n);
+					return ;
+				}
+				fd = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0666);
+				free(file_n);
+				x = 1;
+			}
+			else if(head->tokn == output_h)
+			{
+				file_n = ft_strdup("");
+				head = head->next;
+				if(head->tokn == WS)
+					head = head->next;
+				while(head->tokn == WR && head->tokn != END_TOKN)
+				{
+					file_n = ft_strjoin_nf(file_n, head->data);
+					head = head->next;
+				}
+				if(ft_strchr(file_n, '/'))
+				{
+					printf("minishell: %s: No such file or directory\n", file_n);
+					return ;
+				}
+				fd = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
+				free(file_n);
+				x = 1;
+			}
+			else if(head->tokn == input_h)
+			{
+				value = ft_strdup("");
+				head = head->next;
+				while(head->tokn == WS && head->tokn != END_TOKN)
+					head = head->next;
+				if(pipe(end) == -1)
+					perror("Error");
+				while (1)
+				{
+					p = readline("> ");
+					if(!ft_strcmp(p, head->data))
+						break;
+					p = ft_strjoin_nf(p,"\n");
+					value = ft_strjoin(value,p);
+					free(p);
+				}
 			}
 			else if(head->tokn == Iredi)
 			{
+				file_n = ft_strdup("");
 				head = head->next;
-				fd = open(head->data, O_RDONLY);
+				if(head->tokn == WS)
+					head = head->next;
+				while(head->tokn == WR && head->tokn != END_TOKN)
+				{
+					file_n = ft_strjoin_nf(file_n, head->data);
+					head = head->next;
+				}
+				if(ft_strchr(file_n, '/'))
+				{
+					printf("minishell: %s: No such file or directory\n", file_n);
+					return ;
+				}
+				fd = open(file_n, O_RDONLY);
+				free(file_n);
 				x = 0;
 			}
 			head = head->next;
+		}
+		if(ft_check_pip2(node, input_h))
+		{
+			if(pipe(end) == -1)
+				perror("Error");
+			ft_putstr_fd(value, end[1]);
+			close(end[1]);
+			dup2(end[0], 0);
+			close(end[0]);
 		}
 		id[i] = forkpipe(end);
 		if (id[i] == -1)
@@ -333,11 +409,11 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 		else if (id[i] == 0)
 		{
 			if (i == 0)
-				ft_child1(str[i], cd, end, node, fd, x);
+				ft_child1(str[i], cd, end, node, fd, x, value);
 			else if (ft_cheak(i, str) == 2)
-				ft_child2(str[i], cd, node, fd, x);
+				ft_child2(str[i], cd, node, fd, x, value);
 			else if (ft_cheak(i, str) == 3)
-				ft_child3(str[i], cd, end, node, fd, x);
+				ft_child3(str[i], cd, end, node, fd, x, value);
 		}
 		if (i == 0)
 			c = id[i];

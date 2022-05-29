@@ -6,6 +6,7 @@ CC = cc
 
 INCLUDES = minishell.h
 
+RLFLAGS = -I/goinfre/asabbar/.brew/opt/readline/include
 
 SRC =	minishell.c					\
 		ft_strtrim.c				\
@@ -27,12 +28,12 @@ OBJECTSB = $(SRCB:.c=.o)
 
 all: $(NAME)
 	@echo "------------------minishell-----------------\n\n\n"
-# -L /goinfre/zait-sli/.brew/opt/readline/lib I/goinfre/zait-sli/.brew/opt/readline/include
+
 $(NAME): $(OBJECTS)
-	@$(CC) -lreadline  $(OBJECTS) -o $(NAME)
+	@$(CC) -lreadline $(OBJECTS) -o $(NAME) $(RLFLAGS) -L/goinfre/asabbar/.brew/opt/readline/lib
 
 %.o : %.c $(INCLUDES)
-	@$(CC) -o $@ -c $<
+	@$(CC) $(RLFLAGS) -o $@ -c $<
 clean:
 	@rm -rf $(OBJECTS) $(OBJECTSB) 
 

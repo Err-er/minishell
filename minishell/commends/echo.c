@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/26 13:47:17 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/29 16:58:53 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void    ft_echo_utils(t_list *node ,int i)
 		node = node->next; // skip node of echo
 		node = node->next;	//skip node of ' '
 	}
-	while(node->tokn != END_TOKN  && node->tokn != PIPE && node->tokn != Iredi && node->tokn != Oredi)
+	while(node->tokn != END_TOKN  && node->tokn != PIPE && node->tokn != Iredi && node->tokn != Oredi && node->tokn !=output_h && node->tokn != input_h)
 	{
 		if(node->data)
 			ft_putstr(node->data);

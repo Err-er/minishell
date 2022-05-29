@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/29 00:30:40 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/29 16:57:49 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,14 +262,11 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		}
 		else if (input[i] == '>' && input[i + 1] == '>')
 		{
-			i += 2;
+			i++;
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), output_h));
 		}
 		else if (input[i] == '>')
-		{
-			i++;
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), Oredi));
-		}
 		else if (input[i] == '<' && input[i + 1] == '<')
 		{
 			limiter = ft_strdup("");
@@ -277,7 +274,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("<<"), input_h));
 			while(input[i] == ' ')
 				i++;
-			while(input[i] && input[i] != ' ' && input[i] != '\\' && input[i] != ';')
+			while(input[i] && input[i] != ' ' && input[i] != '<' && input[i] != '>' && input[i] != '|')
 			{
 				if(input[i] == '"')
 				{
@@ -318,7 +315,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 				else
 				{
 					j = 0;
-					while(input[i] && input[i] !='\'' && input[i] != '"' && input[i] != ' ')
+					while(input[i] && input[i] !='\'' && input[i] != '"' && input[i] != ' ' && input[i] != '<' && input[i] != '>' && input[i] != '|')
 					{
 						j++;
 						i++;
@@ -331,10 +328,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			free(limiter);
 		}
 		else if (input[i] == '<')
-		{
-			i++;
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), Iredi));
-		}
 		else
 		{
 			if(input[i] != ' ')
@@ -442,6 +436,19 @@ int ft_check_pip(t_list *node, int c)
 	}
 	return(0);
 }
+int ft_check_pip2(t_list *node, int c)
+{
+	t_list *head;
+
+	head = node;
+	while (head->tokn != PIPE && head->tokn != END_TOKN)
+	{
+		if(head->tokn == c)
+			return(1);
+		head = head->next;
+	}
+	return(0);
+}
 
 void	ft_pip(t_list *node, t_cd *cd)
 {
@@ -456,9 +463,25 @@ void	ft_pip(t_list *node, t_cd *cd)
 		if(head->tokn == PIPE)
 			str = ft_strjoin(str, "\t");
 		else if(head->tokn == Oredi)
+		{
+				head = head->next;
+			while(head->tokn == WS && head->tokn != END_TOKN)
+				head = head->next;
+		}
+		else if(head->tokn == output_h)
+		{
+				head = head->next;
+			while(head->tokn == WS && head->tokn != END_TOKN)
+				head = head->next;
+		}
+		else if(head->tokn == input_h)
 			head = head->next;
 		else if(head->tokn == Iredi)
-			head = head->next;
+		{
+				head = head->next;
+				while(head->tokn == WS && head->tokn != END_TOKN)
+				head = head->next;
+		}
 		else if(head->tokn == WS)
 			str = ft_strjoin(str, "\v");
 		else
@@ -477,7 +500,7 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 	char	**cmd;
 	int		end[2];
 	char	hh[100];
-	
+
 	cmd = ft_split_2(cmds, '\v');
 	if(ft_check_pip(node, input_h))
 	{
@@ -512,6 +535,8 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 		//return ;
 	}
 	pat = ft_path(cd->my_env, cmds);
+	if (access(cmd[0], X_OK) == 0)
+		pat = cmd[0];
 	if (execve(pat, cmd, cd->my_env) == -1)
 	{
 		perror("Error ");
@@ -585,7 +610,7 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 		{
 			value = ft_strdup("");
 			head = head->next;
-			while(head->tokn == WR && head->tokn != END_TOKN)
+			while(head->tokn == WS && head->tokn != END_TOKN)
 				head = head->next;
 			if(pipe(end) == -1)
 				perror("Error");
@@ -624,10 +649,7 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 		head = head->next;
 	}
 	if(!str[0])
-	{
-		printf("minishell: : command not found\n");
 		return;
-	}
 	cmd = ft_split_2(str, '\v');
 	if (!ft_strcmp(cmd[0], "cd"))
 		ft_cd(&node,cd);
@@ -732,7 +754,6 @@ void	ft_parser(char *input, t_cd *cd)
 
 	if(!ft_tokinaizer(&node, input, cd->my_env))
 		return;
-	// printf_list(node);
 	if(ft_check_pip(node, PIPE))
 	{
 		pid = fork();
