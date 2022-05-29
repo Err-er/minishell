@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/29 16:56:53 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/29 19:07:10 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,6 +300,7 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 	char	*file_n;
 	char	*value;
 	char	*p;
+	int		st_in;
 
 	i = -1;
 	file_n = ft_strdup("");
@@ -307,6 +308,7 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 	while (str[++i]);
 	id = malloc(i * sizeof(int));
 	i = -1;
+	st_in = dup(0);
 	while (str[++i])
 	{
 		c = 0;
@@ -362,6 +364,8 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 					head = head->next;
 				if(pipe(end) == -1)
 					perror("Error");
+				dup2(st_in, 0);
+				close(st_in);
 				while (1)
 				{
 					p = readline("> ");
