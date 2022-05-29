@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:01:24 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/27 23:43:54 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/29 04:22:34 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,16 @@ int	check_valid_unset(char *s,char **env)
 {
 	int i = 0;
 	char **t;
-	
+	while(s[i])
+	{
+		if ((s[i] < 65 && s[i] != 32)|| s[i] > 122 || (s[i] >= 91 && s[i] <=94) || s[i] == 96)
+		{
+			printf("minishell: unset: `%s': not a valid identifier\n",s);
+			return(1);
+		}
+		i++;
+	}
+	i = 0;
 	while(env[i])
 	{
 		t = ft_split_2(env[i],'=');

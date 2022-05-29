@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/28 05:22:09 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/29 04:02:56 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,66 @@ void ft_sort_expo(t_cd *cd)
 	}
 }
 
+char	*ft_add_content(char *old,char *new,char *n)
+{
+	int i = 0;
+	char *t;
+
+	t = ft_strdup(n);
+	while(old[i] != '=')
+		i++;
+	i++;
+	old = ft_strtrim(old,"\"=");
+	t = ft_strjoin(t,"=");
+	t = ft_strjoin(t,&old[i]);
+	t = ft_strjoin(t,&new[i+1]);
+	t = ft_strjoin(t,"\"");
+	return(t);
+}
+
+
+void add_this(t_cd *cd, char *s)
+{
+	int i = 0;
+	char *temp;
+	char **t;
+	char **t1;
+	
+	t1 = ft_split_2(s,'+');
+	while(cd->my_env[i])
+	{
+		t = ft_split_2(cd->my_env[i],'=');
+		if (t[0] && t1[0] && !ft_strcmp(t[0],t1[0]))
+		{
+			temp = ft_add_content(cd->my_env[i],s,t1[0]);
+			cd->my_env[i] = temp;
+			ft_fre(t);
+			ft_fre(t1);
+			return ;
+		}
+		ft_fre(t);
+		i++;
+	}
+}
+
+int ft_check_addition(char *s)
+{
+	int i = 0;
+	int x = 0;
+	char **t;
+
+	t = ft_split_2(s,'=');
+	while(t[0][i])
+	{
+		if(t[0][i] == '+')
+			x++;
+		i++;
+	}
+	if (x != 1 || (x >= 1 && !t[1]))
+		return(0);
+	return(1);
+}
+
 void	ft_print_export(t_cd *cd)
 {
 	int i = 0;
@@ -63,9 +123,27 @@ void	ft_print_export(t_cd *cd)
 	}
 }
 
+char *ft_cpoy_content(char *s, char *f)
+{
+	int i = 0;
+	char *t;
+
+	t = ft_strdup(f);
+	while(s[i] != '=')
+		i++;
+	if (!s[i])
+		return(s);
+	i++;
+	t = ft_strjoin(t,"=\"");
+	t = ft_strjoin(t,&s[i]);
+	t = ft_strjoin(t,"\"");
+	return(t);
+}
+
 void	export_this(t_cd *cd, char *s)
 {
 	char **new_env;
+	char **t;
 	int i= 0;
 
 	while(cd->my_env[i])
@@ -77,27 +155,17 @@ void	export_this(t_cd *cd, char *s)
 		new_env[i] = ft_strdup(cd->my_env[i]);
 		i++;
 	}
-	new_env[i] = ft_strdup(s);
+	t = ft_split_2(s,'=');
+	if (t[1])
+		new_env[i] = ft_cpoy_content(s,t[0]);
+	else
+		new_env[i] = ft_strdup(s);
 	i++;
 	new_env[i] = NULL;
 	free(cd->my_env);
 	cd->my_env = new_env;
 }
 
-char *ft_cpoy_content(char *s, char *f)
-{
-	int i = 0;
-	char *t;
-
-	t = ft_strdup(f);
-	while(s[i] != '=')
-		i++;
-	i++;
-	t = ft_strjoin(t,"=\"");
-	t = ft_strjoin(t,&s[i]);
-	t = ft_strjoin(t,"\"");
-	return(t);
-}
 
 void	replace_this(t_cd *cd, char *s)
 {
@@ -112,8 +180,11 @@ void	replace_this(t_cd *cd, char *s)
 		t = ft_split_2(cd->my_env[i],'=');
 		if (t[0] && t1[0] && !ft_strcmp(t[0],t1[0]))
 		{
-			temp = ft_cpoy_content(s,t1[0]);
-			cd->my_env[i] = temp;
+			if (t1[1])
+			{
+				temp = ft_cpoy_content(s,t1[0]);
+				cd->my_env[i] = temp;
+			}
 			ft_fre(t);
 			ft_fre(t1);
 			return ;
@@ -121,7 +192,6 @@ void	replace_this(t_cd *cd, char *s)
 		ft_fre(t);
 		i++;
 	}
-	
 }
 
 int check_exist(char *s,char **env)
@@ -205,10 +275,24 @@ void	ft_exprot(t_list **node, t_cd *cd)
 	{
 		while(head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN)
 		{
-			if (check_valid(head->next->data,cd->my_env) && !check_exist(head->next->data,cd->my_env ) && head->next->tokn != WS)
-				export_this(cd, head->next->data);
-			else if (check_valid(head->next->data,cd->my_env) && check_exist(head->next->data,cd->my_env) && head->next->tokn != WS)
-				replace_this(cd, head->next->data);
+			if (ft_check_addition(head->next->data))
+			{
+				puts("here");
+				if (check_valid(head->next->data,cd->my_env))
+					add_this(cd, head->next->data);
+			}
+			else if (!check_exist(head->next->data,cd->my_env ) && head->next->tokn != WS)
+			{
+				puts("here1");
+				if (check_valid(head->next->data,cd->my_env))
+					export_this(cd, head->next->data);
+			}
+			else if (check_exist(head->next->data,cd->my_env) && head->next->tokn != WS)
+			{
+				puts("here2");
+				if (check_valid(head->next->data,cd->my_env))
+					replace_this(cd, head->next->data);
+			}
 			head = head->next;
 		}
 	}

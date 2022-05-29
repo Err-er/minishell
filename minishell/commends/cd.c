@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/27 23:10:53 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/29 04:13:39 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@ void ft_cd(t_list **node, t_cd *cd)
 				printf("didn't work\n");
 			if (head->next->data[3])
 			{
+				chdir(&head->next->data[3]);
 				cd->my_env[i] = ft_strjoin(cd->my_env[i],"/");
 				cd->my_env[i] = ft_strjoin(cd->my_env[i],&head->next->data[3]);	
-				chdir(&head->next->data[3]);
 			}
 		}
 		else if (head->next->data[0] == '.' && head->next->data[1] == '.'){
