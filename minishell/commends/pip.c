@@ -79,7 +79,7 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x, char 
 	char	hh[100];
 
 	cmds = ft_split_2(cmd, '\v');
-	if(ft_check_pip(node, Oredi))
+	if(ft_check_pip2(node, Oredi) || ft_check_pip2(node, Iredi))
 	{
 		dup2(fd, x);
 		close(fd);
@@ -120,7 +120,7 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x, char 
 	int		p[2];
 
     cmds = ft_split_2(cmd, '\v');
-	if(ft_check_pip(node, Oredi) || ft_check_pip(node, Iredi))
+	if(ft_check_pip2(node, Oredi) || ft_check_pip2(node, Iredi))
 	{
 		dup2(fd, x);
 		close(fd);
