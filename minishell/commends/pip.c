@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/30 14:53:19 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/30 16:06:44 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,6 +306,7 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 	id = malloc(i * sizeof(int));
 	i = -1;
 	st_in = dup(0);
+	// printf_list(node);
 	while (str[++i])
 	{
 		c = 0;
@@ -313,6 +314,7 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 		head = node;
 		while (head && head->tokn != PIPE)
 		{
+			// printf("data   :   %s\n", head->data);
 			if(head->tokn == Oredi)
 			{
 				file_n = ft_strdup("");
@@ -361,13 +363,19 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 					head = head->next;
 				if(pipe(end) == -1)
 					perror("Error");
-// 				dup2(st_in, 0);
-// 				close(st_in);
+				if(!ft_check_pip(head,input_h))
+				{
+					dup2(st_in, 0);
+					close(st_in);
+				}
 				while (1)
 				{
 					p = readline("> ");
 					if(!ft_strcmp(p, head->data))
+					{
+						free(p);
 						break;
+					}
 					p = ft_strjoin_nf(p,"\n");
 					value = ft_strjoin(value,p);
 					free(p);

@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/30 14:52:22 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/30 16:32:02 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -545,6 +545,8 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 		exit(0);
 	}
 	pat = ft_path(cd->my_env, cmds);
+	if (access(cmd[0], X_OK) == 0)
+		pat = cmd[0];
 	if (access(cmd[0], X_OK) == 0)
 		pat = cmd[0];
 	if (execve(pat, cmd, cd->my_env) == -1)
