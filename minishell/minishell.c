@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/28 20:16:14 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/30 06:14:52 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int ds = 0;
 
 void ft_new_env(char **env,t_cd *cd)
 {
@@ -42,6 +44,7 @@ int main(int ac, char **av, char **env)
 	cd = malloc(sizeof(t_cd));
 	ft_new_env(env,cd);
 	input = NULL;
+	ds = 0;
 	while (1)
 	{
 		input = readline("➜ minishell $ ");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/29 17:27:51 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/30 06:14:32 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@
 # define file		19	//	file of input or output  {> , < , >> , <<}
 # define LIMITER	21	//	LIMITER of herdoc
 # define END_TOKN	0	//	End
+
+extern int ds;
 
 typedef struct s_list
 {
@@ -94,5 +96,6 @@ char	*ft_strjoin_nf(char *s1, char *s2);
 char	*ft_substr(char *s, int start, int len);
 int		ft_check_pip(t_list *node, int c);
 void	ft_putstr_fd(char *s, int fd);
-int ft_check_pip2(t_list *node, int c);
+int		ft_check_pip2(t_list *node, int c);
+void	ft_getcwd(void);
 #endif

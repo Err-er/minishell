@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/29 04:02:56 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/30 06:15:36 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,7 @@ int	check_valid(char *s,char **env)
 	{
 		if ((t[0][i] < 65  && t[0][i] != 43 && t[0][i] != 61 && t[0][i] != 32)|| t[0][i] > 122 || (t[0][i] >= 91 && t[0][i] <=94) || t[0][i] == 96)
 		{
+			ds = 127;
 			printf("minishell: export: `%s': not a valid identifier\n",s);
 			return(0);
 		}

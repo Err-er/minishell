@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/29 16:57:49 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/30 04:42:59 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -499,7 +499,7 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 	char	*pat;
 	char	**cmd;
 	int		end[2];
-	char	hh[100];
+	// char	hh[1024];
 
 	cmd = ft_split_2(cmds, '\v');
 	if(ft_check_pip(node, input_h))
@@ -530,9 +530,9 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 	}
 	else if(!ft_strcmp(cmd[0], "pwd"))
 	{
-		printf("%s\n",getcwd(hh,100));
+		ft_getcwd();
+		// printf("%s\n",getcwd(hh,1024));
 		exit(0);
-		//return ;
 	}
 	pat = ft_path(cd->my_env, cmds);
 	if (access(cmd[0], X_OK) == 0)
@@ -692,6 +692,11 @@ void	ft_ex_sc(t_list *node, t_cd *cd)
 		ft_exprot(&node,cd);
 	else if (!ft_strcmp(cmd[0], "unset"))
 		ft_unset(&node,cd);
+	else if(!ft_strcmp(cmd[0], "pwd"))
+	{
+		ft_getcwd();
+		// printf("%s\n",getcwd(hh,1024));
+	}
 	free(str);
 	ft_fre(cmd);
 }
@@ -734,6 +739,11 @@ int	ft_sc(t_list *node, t_cd *cd)
 		return(1);
 	}
 	else if (!ft_strcmp(cmd[0], "unset"))
+	{
+		ft_fre(cmd);
+		return(1);
+	}
+	else if(!ft_strcmp(cmd[0], "pwd"))
 	{
 		ft_fre(cmd);
 		return(1);
