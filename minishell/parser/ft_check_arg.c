@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/30 04:42:59 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/30 11:54:25 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int check_str(char *str, int i)
 {
 	if(str[i] && str[i] != '|'  && str[i] != ' '
 		&& str[i] != '\'' && str[i] != '"'  && str[i] != '$'
-		&& str[i] != '>' && str[i] != '<')
+		&& str[i] != '>' && str[i] != '<' && str[i] != '.'&& str[i] != '-'&& str[i] != '+' && str[i] != '@')
 		{
 			return(1);
 		}
@@ -72,7 +72,6 @@ int check_str(char *str, int i)
 	}
 	return(0);
 }
-
 t_list	*ft_lstlast(t_list *lst)
 {
 	if (!lst)
@@ -253,7 +252,14 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			{
 				j = i + 1;
 				while(check_str(input, j))
+				{
+					if(ft_isdigit(input[j]))
+					{
+						j++;
+						break;
+					}
 					j++;
+				}
 				str = get_path(env, ft_substr(input, i + 1, j - (i + 1))); // free   ft_substr(input, i + 1, j - (i + 1));
 				if(str)
 					ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WR));
@@ -329,6 +335,8 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		}
 		else if (input[i] == '<')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), Iredi));
+		else if (input[i] == '.' || input[i] == '+' || input[i] == '-' || input[i] == ',' || input[i] == '+' || input[i] == '@')
+			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, 1), WR));
 		else
 		{
 			if(input[i] != ' ')
