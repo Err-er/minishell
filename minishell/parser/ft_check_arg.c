@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/30 11:54:25 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/30 14:52:22 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -449,8 +449,10 @@ int ft_check_pip2(t_list *node, int c)
 	t_list *head;
 
 	head = node;
-	while (head->tokn != PIPE && head->tokn != END_TOKN)
+	while (head)
 	{
+		if(head->tokn == PIPE)
+			break;
 		if(head->tokn == c)
 			return(1);
 		head = head->next;
@@ -649,6 +651,12 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 				return ;
 			}
 			fd = open(file_n, O_RDONLY);
+			if(fd == - 1)
+			{
+				printf("minishell: %s: No such file or directory/n", file_n);
+				return ;
+			}
+			printf("name   :   (%d)\n", fd);
 			free(file_n);
 			i = 0;
 		}

@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/29 19:07:10 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/30 14:53:19 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,12 +165,6 @@ void	ft_child2(char *cmds, t_cd *cd, t_list *node, int fd, int x, char *value)
 		dup2(fd, x);
 		close(fd);
 	}
-	else
-	{
-		dup2(end[1], 1);
-		close(end[0]);
-		close(end[1]);
-	}
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
 		ft_echo(node);
@@ -195,7 +189,6 @@ int	forkpipe(int *end)
 {
 	int	id;
 
-	pipe(end);
 	if (pipe(end) == -1)
 	{
 		printf("error pipe\n");
@@ -237,10 +230,14 @@ int	ft_cheak(int i, char **cmd)
 	return (0);
 }
 
-void ft_change_node(t_list **node, char *str)
+void ft_change_node(t_list **node)
 {
 	while((*node)->tokn != PIPE && (*node))
+	{
+		if((*node)->next->tokn == END_TOKN)
+			break ;
 		(*node) = (*node)->next;
+	}
 	(*node) = (*node)->next;
 		
 }
@@ -398,7 +395,7 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 			}
 			head = head->next;
 		}
-		if(ft_check_pip2(node, input_h))
+		if(ft_check_pip2(node, input_h) && value)
 		{
 			if(pipe(end) == -1)
 				perror("Error");
@@ -410,7 +407,7 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 		id[i] = forkpipe(end);
 		if (id[i] == -1)
 			exit(1);
-		else if (id[i] == 0)
+		if (id[i] == 0)
 		{
 			if (i == 0)
 				ft_child1(str[i], cd, end, node, fd, x, value);
@@ -419,9 +416,9 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 			else if (ft_cheak(i, str) == 3)
 				ft_child3(str[i], cd, end, node, fd, x, value);
 		}
-		if (i == 0)
+		if (i == 0 && !ft_check_pip2(node, input_h))
 			c = id[i];
-		ft_change_node(&node , str[i]);
+		ft_change_node(&node);
 		dup2(end[0], 0);
 		close(end[1]);
 		close(end[0]);
