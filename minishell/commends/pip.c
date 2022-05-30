@@ -361,8 +361,8 @@ void    c_pip(char **str, t_cd *cd, t_list *node)
 					head = head->next;
 				if(pipe(end) == -1)
 					perror("Error");
-				dup2(st_in, 0);
-				close(st_in);
+// 				dup2(st_in, 0);
+// 				close(st_in);
 				while (1)
 				{
 					p = readline("> ");
