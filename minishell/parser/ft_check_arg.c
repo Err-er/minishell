@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/31 16:16:54 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/31 17:37:27 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 					j++;
 				}
 				str = get_path(env, ft_substr(input, i + 1, j - (i + 1))); // free   ft_substr(input, i + 1, j - (i + 1));
+				str = ft_strtrim(str, "\"");
 				if(str)
 					ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WR));
 				i += (j - i);
@@ -547,8 +548,6 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 	int		end[2];
 	// char	hh[1024];
 
-	cmds = ft_strtrim(cmds, "\"");
-	cmd = ft_split_2(cmds, ' ');
 	cmd = ft_split_2(cmds, ' ');
 	if(ft_check_pip(node, input_h))
 	{
@@ -559,8 +558,11 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 		dup2(end[0], 0);
 		close(end[0]);
 	}
-	dup2(fd, i); // if not red fd = 0 / i = 0 so nathing change
-	close(fd);
+	else
+	{
+		dup2(fd, i); // if not red fd = 0 / i = 0 so nathing change
+		close(fd);
+	}
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
 		ft_echo(node);
@@ -664,8 +666,6 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 			head = head->next;
 			while(head->tokn == WS && head->tokn != END_TOKN)
 				head = head->next;
-			if(pipe(end) == -1)
-				perror("Error");
 			while (1)
 			{
 				p = readline("> ");
@@ -684,21 +684,15 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 				head = head->next;
 			while(head->tokn == WR && head->tokn != END_TOKN)
 			{
-				file_n = ft_strjoin_nf(file_n, head->data);
+				file_n = ft_strjoin(file_n, head->data);
 				head = head->next;
-			}
-			if(ft_strchr(file_n, '/'))
-			{
-				printf("minishell: %s: No such file or directory\n", file_n);
-				return ;
 			}
 			fd = open(file_n, O_RDONLY);
 			if(fd == - 1)
 			{
-				printf("minishell: %s: No such file or directory/n", file_n);
+				printf("minishell: %s: No such file or directory\n", file_n);
 				return ;
 			}
-			printf("name   :   (%d)\n", fd);
 			free(file_n);
 			i = 0;
 		}
