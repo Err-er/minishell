@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:51:33 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/29 17:20:19 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/31 00:26:54 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ int     ft_strlen1(char *s);
 char	*ft_strchr(char *s, int c);
 char	*ft_strchrr(char *str, int c);
 int		ft_strlcpy(char *dest, char *src, int size);
+char	*ft_itoa(int n);
 #endif

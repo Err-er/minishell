@@ -22,6 +22,7 @@ SRC =	minishell.c					\
 		commends/export.c			\
 		commends/unset.c			\
 		ft_strdup.c					\
+		ft_itoa.c					\
 
 OBJECTS = $(SRC:.c=.o)
 OBJECTSB = $(SRCB:.c=.o)

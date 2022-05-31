@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/30 06:12:56 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/30 19:40:47 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,14 @@ void ft_cd(t_list **node, t_cd *cd)
 				cd->my_env[i] = ft_strdup("PWD=");
 				cd->my_env[i] = ft_strjoin(cd->my_env[i],get_path(cd->my_env, "OLDPWD"));
 			}
-			printf("%s\n",get_path(cd->my_env, "OLDPWD"));
-			if (chdir(get_path(cd->my_env, "OLDPWD")))
-				printf("didn't work\n");
+			if (get_path(cd->my_env, "OLDPWD"))
+			{	
+				printf("%s\n",get_path(cd->my_env, "OLDPWD"));
+				if (chdir(get_path(cd->my_env, "OLDPWD")))
+					printf("didn't work\n");
+			}
+			else
+				printf("minishell: cd: OLDPWD not set\n");
 		}
 		else if (head->next->data[0] == '.' && head->next->data[1] == '.' && head->next->data[2] == '/')
 		{

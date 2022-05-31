@@ -6,11 +6,12 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/30 06:14:52 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/31 06:22:03 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
 
 int ds = 0;
 
@@ -29,14 +30,23 @@ void ft_new_env(char **env,t_cd *cd)
 		cd->my_env[i] = NULL;
 	}
 	cd->env_len = i;
-	// return(my_env);
+}
+
+void handle_sigs(int sig)
+{
+	// printf("\n");
 }
 
 int main(int ac, char **av, char **env)
 {
 	char	*input;
-	// char	**my_env;
 	t_cd *cd;
+	struct sigaction sa;
+	sa.sa_handler = &handle_sigs;
+	sa.sa_flags = SA_RESTART;
+	sa.sa_mask = SIGQUIT;
+	sigaction(SIGINT,&sa, NULL);
+
 
 	(void)av;
 	if(ac != 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/30 16:32:02 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/05/31 00:46:28 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,11 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		{
 			if(!input[i + 1] ||input[i + 1] == ' ')
 				ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WR));
+			else if(!input[i + 1] ||input[i + 1] == '?')
+			{
+				ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(ds)), WR));
+				i++;
+			}
 			else
 			{
 				j = i + 1;
