@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/31 09:27:05 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/31 16:16:54 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,9 @@ int	ft_parser_edit(t_list **node, char *input, int i)
 	}
 	if(input[j] == '\'')
 	{
-			i++;
-			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, j - i), WR));
-			return(j - i + 1);
+		i++;
+		ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, j - i), WR));
+		return(j - i + 1);
 	}
 	return(-1);
 }
@@ -174,8 +174,15 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 		{
 			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, c - i), WR));
 			n = c++;
-			while(check_str(input, c))
+			while(check_str(input, c))  //Errooooooor
+			{
+				if(ft_isdigit(input[c]))
+				{
+					c++;
+					break;
+				}
 				c++;
+			}
 			str = get_path(env, ft_substr(input, n + 1, c - (n + 1))); //free --->  ft_substr(input, n + 1, c - (n + 1))
 			if(str)
 				ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WR));
@@ -210,20 +217,23 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		i++;
 	while(i < ft_strlen(input))
 	{
-		if (!ft_check_sc(input[i]))
-		{
-			printf("Error  special characters\n");
-			return(0);
-		}
+		// if (!ft_check_sc(input[i]))
+		// {
+		// 	printf("Error  special characters\n");
+		// 	return(0);
+		// }
 		j = 0;
 		if (input[i] == ' ')
 		{
-			while(input[i] == ' ')
-				i++;
-			if(!input[i])
-				break;
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WS));
-			i--;
+			if (input[i + 1] != '|')
+			{	
+				while(input[i] == ' ')
+					i++;
+				if(!input[i])
+					break;
+				ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WS));
+				i--;
+			}
 		}
 		else if ((input[i] == '|' && input[i + 1] != '|' && input[i - 1] != '|'))
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("|"), PIPE));
@@ -246,8 +256,11 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		}
 		else if (input[i] == '$')
 		{
-			if(!input[i + 1] ||input[i + 1] == ' ')
+			if(!input[i + 1] || input[i + 1] == ' ' ||  input[i + 1] == '$')
+			{
 				ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WR));
+				i++;
+			}
 			else if(!input[i + 1] ||input[i + 1] == '?')
 			{
 				ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(ds)), WR));
@@ -273,8 +286,8 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		}
 		else if (input[i] == '>' && input[i + 1] == '>')
 		{
-			i++;
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), output_h));
+			i +=2;
+			ft_lstadd_back(node, ft_lstnew(ft_strdup(">>"), output_h));
 		}
 		else if (input[i] == '>')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), Oredi));
@@ -289,39 +302,57 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			{
 				if(input[i] == '"')
 				{
-					i++;
-					j = 0;
-					while(input[i] && input[i] !='"')
+					if(input[i] == '"' && input[i + 1] == '"')
 					{
-						j++;
-						i++;
+						str = ft_strdup("");
+						i +=2;
+						j = 1;
 					}
-					if(!input[i])
-						return(printf("double quotes not closed\n"),0);
 					else
 					{
-						str = ft_substr(input, i - j, j);
-						limiter = ft_strjoin(limiter, str);
+						i++;
+						j = 0;
+						while(input[i] && input[i] !='"')
+						{
+							j++;
+							i++;
+						}
+						if(!input[i])
+							return(printf("double quotes not closed\n"),0);
+						else
+						{
+							str = ft_substr(input, i - j, j);
+							limiter = ft_strjoin(limiter, str);
+						}
+						i++;
 					}
-					i++;
 				}
 				else if(input[i] == '\'')
 				{
-					i++;
-					j = 0;
-					while(input[i] && input[i] !='\'')
+					if(input[i] == '"' && input[i + 1] == '"')
 					{
-						j++;
-						i++;
+						str = ft_strdup("");
+						i +=2;
+						j = 1;
 					}
-					if(!input[i])
-						return(printf("single quotes not closed\n"),0);
 					else
 					{
-						str = ft_substr(input, i - j, j);
-						limiter = ft_strjoin(limiter, str);
+						i++;
+						j = 0;
+						while(input[i] && input[i] !='\'')
+						{
+							j++;
+							i++;
+						}
+						if(!input[i])
+							return(printf("single quotes not closed\n"),0);
+						else
+						{
+							str = ft_substr(input, i - j, j);
+							limiter = ft_strjoin(limiter, str);
+						}
+						i++;
 					}
-					i++;
 				}
 				else
 				{
@@ -498,7 +529,7 @@ void	ft_pip(t_list *node, t_cd *cd)
 				head = head->next;
 		}
 		else if(head->tokn == WS)
-			str = ft_strjoin(str, "\v");
+			str = ft_strjoin(str, " ");
 		else
 			str = ft_strjoin(str, head->data);
 		head = head->next;
@@ -516,7 +547,9 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 	int		end[2];
 	// char	hh[1024];
 
-	cmd = ft_split_2(cmds, '\v');
+	cmds = ft_strtrim(cmds, "\"");
+	cmd = ft_split_2(cmds, ' ');
+	cmd = ft_split_2(cmds, ' ');
 	if(ft_check_pip(node, input_h))
 	{
 		if(pipe(end) == -1)
@@ -556,8 +589,6 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 	pat = ft_path(cd->my_env, cmds);
 	if (access(cmd[0], X_OK) == 0)
 		pat = cmd[0];
-	if (access(cmd[0], X_OK) == 0)
-		pat = cmd[0];
 	if (execve(pat, cmd, cd->my_env) == -1)
 	{
 		perror("Error ");
@@ -586,7 +617,7 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	while (head)
 	{
 		if(head->tokn == WS)
-			str = ft_strjoin(str, "\v");
+			str = ft_strjoin(str, " ");
 		else if(head->tokn == Oredi)
 		{
 			file_n = ft_strdup("");
@@ -677,7 +708,7 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	}
 	if(!str[0])
 		return;
-	cmd = ft_split_2(str, '\v');
+	cmd = ft_split_2(str, ' ');
 	if (!ft_strcmp(cmd[0], "cd"))
 		ft_cd(&node,cd);
 	else
@@ -707,12 +738,12 @@ void	ft_ex_sc(t_list *node, t_cd *cd)
 	while (head->tokn != END_TOKN)
 	{
 		if(head->tokn == WS)
-			str = ft_strjoin(str, "\v");
+			str = ft_strjoin(str, " ");
 		else if (head->data)
 			str = ft_strjoin(str, head->data);
 		head = head->next;
 	}
-	cmd = ft_split_2(str, '\v');
+	cmd = ft_split_2(str, ' ');
 	if (!ft_strcmp(cmd[0], "cd"))
 		ft_cd(&node,cd);
 	else if (!ft_strcmp(cmd[0], "export"))
@@ -740,7 +771,7 @@ int	ft_sc(t_list *node, t_cd *cd)
 	while (head->tokn != END_TOKN)
 	{
 		if(head->tokn == WS)
-			str = ft_strjoin(str, "\v");
+			str = ft_strjoin(str, " ");
 		else if(head->tokn == Oredi)
 			return(0);
 		else if(head->tokn == Iredi)
@@ -751,7 +782,7 @@ int	ft_sc(t_list *node, t_cd *cd)
 	}
 	if(!str[0])
 		return 0;
-	cmd = ft_split_2(str, '\v');
+	cmd = ft_split_2(str, ' ');
 	free(str);
 	int i = -1;
 	if (!ft_strcmp(cmd[0], "cd"))
@@ -792,7 +823,6 @@ void	ft_parser(char *input, t_cd *cd)
 	if(input[0] == '\0')
 		return;
 	node = ft_lstnew(ft_strdup("->"), ST_TOKN);
-
 	if(!ft_tokinaizer(&node, input, cd->my_env))
 		return;
 	if(ft_check_pip(node, PIPE))

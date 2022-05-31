@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/31 09:43:15 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/31 12:52:47 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ char *ft_cpoy_content(char *s, char *f)
 	int i = 0;
 	char *t;
 
+	f = ft_strtrim(f,"+");
 	t = ft_strdup(f);
 	while(s[i] != '=')
 		i++;
@@ -229,6 +230,7 @@ int check_exist(char *s,char **env)
 int	check_valid(char *s,char **env)
 {
 	int i = 0;
+	int x = 0;
 	char *temp;
 	char **t;
 	
@@ -250,6 +252,20 @@ int	check_valid(char *s,char **env)
 		}
 		i++;
 	}
+	i = 0;
+	t = ft_split_2(s,'=');
+	while(t[0][i])
+	{
+		if(t[0][i] == '+')
+			x++;
+		i++;
+	}
+	if (x > 1 || (x == 1 && !t[1]))
+	{		
+		ds = 127;
+		printf("minishell: export: `%s': not a valid identifier\n",s);
+		return(0);
+	}
 	ft_fre(t);
 	return(1);
 }
@@ -257,6 +273,7 @@ int	check_valid(char *s,char **env)
 void	ft_exprot(t_list **node, t_cd *cd)
 {
 	t_list *head;
+	char *temp;
 
 	head = *node;
 	head = head->next;
@@ -282,22 +299,29 @@ void	ft_exprot(t_list **node, t_cd *cd)
 	{
 		while(head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN)
 		{
-			if (ft_check_addition(head->next->data))
+			temp = ft_strdup(head->next->data);
+			while(head->next->next->tokn == WR)
 			{
-				if (check_valid(head->next->data,cd->my_env))
-					add_this(cd, head->next->data);
+				head = head->next;
+				temp = ft_strjoin(temp,head->next->data);
 			}
-			else if (!check_exist(head->next->data,cd->my_env ) && head->next->tokn != WS)
+			if (ft_check_addition(temp) && check_exist(temp,cd->my_env))
 			{
-				if (check_valid(head->next->data,cd->my_env))
-					export_this(cd, head->next->data);
+				if (check_valid(temp,cd->my_env))
+					add_this(cd, temp);
 			}
-			else if (check_exist(head->next->data,cd->my_env) && head->next->tokn != WS)
+			else if (!check_exist(temp,cd->my_env ) && head->next->tokn != WS)
 			{
-				if (check_valid(head->next->data,cd->my_env))
-					replace_this(cd, head->next->data);
+				if (check_valid(temp,cd->my_env))
+					export_this(cd, temp);
+			}
+			else if (check_exist(temp,cd->my_env) && head->next->tokn != WS)
+			{
+				if (check_valid(temp,cd->my_env))
+					replace_this(cd, temp);
 			}
 			head = head->next;
+			free(temp); 
 		}
 	}
 }
