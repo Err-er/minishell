@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/30 19:40:47 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/31 09:33:13 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,13 @@ void ft_cd(t_list **node, t_cd *cd)
 	int x;
 	char hh[1024];
 
+	head = *node;
+	head = head->next;
 	i = get_pwd(cd->my_env);
 	if (i > 0)
 		x = get_prev_directory(cd->my_env[i]);
 	else
-	{
 		x = -1;
-		i = -1;
-	}
-	head = *node;
-	head = head->next;
 	if (i > 0)
 	{
 		cd->oldpwd = ft_strdup("OLD");
@@ -100,6 +97,7 @@ void ft_cd(t_list **node, t_cd *cd)
 	{	
 		if (head->next->data[0] == '/')
 		{
+			printf("here0\n");
 			if (head->next->data[0] == '/' && head->next->data[1] == '.' && head->next->data[2] == '.')
 			{
 				if (x > 0){
@@ -140,8 +138,7 @@ void ft_cd(t_list **node, t_cd *cd)
 		{
 			if (i > 0 && x > 0)
 				ft_strlcpy(cd->my_env[i],cd->my_env[i],x);
-			if (chdir(".."))
-				printf("didn't work\n");
+			chdir("..");
 			if (head->next->data[3])
 			{
 				chdir(&head->next->data[3]);
@@ -149,9 +146,10 @@ void ft_cd(t_list **node, t_cd *cd)
 				cd->my_env[i] = ft_strjoin(cd->my_env[i],&head->next->data[3]);	
 			}
 		}
-		else if (head->next->data[0] == '.' && head->next->data[1] == '.'){
-			if (x > 0)
-				ft_strlcpy(cd->my_env[i],cd->my_env[i],x);
+		else if (!ft_strcmp(head->next->data,".."))
+		{
+			if (x > 0 && i > 0)
+				ft_strlcpy(cd->my_env[i],cd->my_env[i],x+1);
 			chdir("..");
 		}
 		else
@@ -175,5 +173,10 @@ void ft_cd(t_list **node, t_cd *cd)
 	}
 	if (get_path(cd->my_env, "OLDPWD"))
 		cd->my_env[i+1] = ft_strdup(cd->oldpwd);
+	else if (!get_path(cd->my_env, "OLDPWD") && get_path(cd->my_env, "PWD"))
+	{
+		export_this(cd,"OLDPWD");
+		cd->my_env[i+1] = ft_strdup(cd->oldpwd);
+	}
 	return ;
 }

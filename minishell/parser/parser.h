@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/30 06:14:32 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/31 08:33:49 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,7 @@ int		ft_check_pip(t_list *node, int c);
 void	ft_putstr_fd(char *s, int fd);
 int		ft_check_pip2(t_list *node, int c);
 void	ft_getcwd(void);
+void 	ft_print_env(char **env);
+void	unset_this(t_cd *cd, char *s);
+void	export_this(t_cd *cd, char *s);
 #endif

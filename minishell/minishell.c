@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/31 06:22:03 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/31 08:26:01 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,31 @@ void ft_new_env(char **env,t_cd *cd)
 			cd->my_env[i] = ft_strdup(env[i]);
 		cd->my_env[i] = NULL;
 	}
-	cd->env_len = i;
+	if (get_path(cd->my_env, "OLDPWD"))
+	{
+		unset_this(cd, "OLDPWD");
+	}
 }
 
 void handle_sigs(int sig)
 {
-	// printf("\n");
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);	
+		rl_redisplay();
+	}	
 }
 
 int main(int ac, char **av, char **env)
 {
 	char	*input;
 	t_cd *cd;
-	struct sigaction sa;
-	sa.sa_handler = &handle_sigs;
-	sa.sa_flags = SA_RESTART;
-	sa.sa_mask = SIGQUIT;
-	sigaction(SIGINT,&sa, NULL);
+	signal(SIGINT, &handle_sigs);
+	signal(SIGQUIT, &handle_sigs);
 
-
+	rl_catch_signals = 0;
 	(void)av;
 	if(ac != 1)
 		return (printf("error in argm\n"),0);

@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/31 00:46:28 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/31 09:27:05 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int check_str(char *str, int i)
 {
 	if(str[i] && str[i] != '|'  && str[i] != ' '
 		&& str[i] != '\'' && str[i] != '"'  && str[i] != '$'
-		&& str[i] != '>' && str[i] != '<' && str[i] != '.'&& str[i] != '-'&& str[i] != '+' && str[i] != '@')
+		&& str[i] != '>' && str[i] != '<'&& str[i] != '-' && str[i] != '@')
 		{
 			return(1);
 		}
@@ -340,7 +340,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		}
 		else if (input[i] == '<')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), Iredi));
-		else if (input[i] == '.' || input[i] == '+' || input[i] == '-' || input[i] == ',' || input[i] == '+' || input[i] == '@')
+		else if (input[i] == '+' || input[i] == '-' || input[i] == ',' || input[i] == '@')
 			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, 1), WR));
 		else
 		{
@@ -546,7 +546,11 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 	else if(!ft_strcmp(cmd[0], "pwd"))
 	{
 		ft_getcwd();
-		// printf("%s\n",getcwd(hh,1024));
+		exit(0);
+	}
+	else if(!ft_strcmp(cmd[0], "env"))
+	{
+		ft_print_env(cd->my_env);
 		exit(0);
 	}
 	pat = ft_path(cd->my_env, cmds);
@@ -716,10 +720,9 @@ void	ft_ex_sc(t_list *node, t_cd *cd)
 	else if (!ft_strcmp(cmd[0], "unset"))
 		ft_unset(&node,cd);
 	else if(!ft_strcmp(cmd[0], "pwd"))
-	{
 		ft_getcwd();
-		// printf("%s\n",getcwd(hh,1024));
-	}
+	else if(!ft_strcmp(cmd[0], "env"))
+		ft_print_env(cd->my_env);
 	free(str);
 	ft_fre(cmd);
 }
@@ -767,6 +770,11 @@ int	ft_sc(t_list *node, t_cd *cd)
 		return(1);
 	}
 	else if(!ft_strcmp(cmd[0], "pwd"))
+	{
+		ft_fre(cmd);
+		return(1);
+	}
+	else if(!ft_strcmp(cmd[0], "env"))
 	{
 		ft_fre(cmd);
 		return(1);

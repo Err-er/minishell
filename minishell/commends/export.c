@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/30 06:15:36 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/05/31 09:43:15 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void add_this(t_cd *cd, char *s)
 	char *temp;
 	char **t;
 	char **t1;
+	char **t0;
 	
 	t1 = ft_split_2(s,'+');
 	while(cd->my_env[i])
@@ -83,7 +84,15 @@ void add_this(t_cd *cd, char *s)
 		t = ft_split_2(cd->my_env[i],'=');
 		if (t[0] && t1[0] && !ft_strcmp(t[0],t1[0]))
 		{
-			temp = ft_add_content(cd->my_env[i],s,t1[0]);
+			if (t[1])
+				temp = ft_add_content(cd->my_env[i],s,t1[0]);
+			else
+			{
+				temp = ft_strdup(cd->my_env[i]);
+				temp = ft_strjoin(temp,"=\"");
+				temp = ft_strjoin(temp,&t1[1][1]);
+				temp = ft_strjoin(temp,"\"");
+			}
 			cd->my_env[i] = temp;
 			ft_fre(t);
 			ft_fre(t1);
@@ -222,9 +231,6 @@ int	check_valid(char *s,char **env)
 	int i = 0;
 	char *temp;
 	char **t;
-
-	// if (!ft_strchr(s,'='))
-	// 	return(0);
 	
 	while(env[i])
 	{
@@ -278,19 +284,16 @@ void	ft_exprot(t_list **node, t_cd *cd)
 		{
 			if (ft_check_addition(head->next->data))
 			{
-				puts("here");
 				if (check_valid(head->next->data,cd->my_env))
 					add_this(cd, head->next->data);
 			}
 			else if (!check_exist(head->next->data,cd->my_env ) && head->next->tokn != WS)
 			{
-				puts("here1");
 				if (check_valid(head->next->data,cd->my_env))
 					export_this(cd, head->next->data);
 			}
 			else if (check_exist(head->next->data,cd->my_env) && head->next->tokn != WS)
 			{
-				puts("here2");
 				if (check_valid(head->next->data,cd->my_env))
 					replace_this(cd, head->next->data);
 			}
