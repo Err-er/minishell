@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 17:32:32 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:30:56 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,9 +174,9 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 		{
 			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, c - i), WR));
 			n = c++;
-			while(check_str(input, c))  //Errooooooor
+			while(check_str(input, c) || ft_isalpha(input[c]) || ft_isdigit(input[c]))  //Errooooooor
 			{
-				if(ft_isdigit(input[c]))
+				if(ft_isdigit(input[c]) && input[c-1] == '$')
 				{
 					c++;
 					break;
@@ -277,7 +277,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			else
 			{
 				j = i + 1;
-				while(check_str(input, j) && ft_isalpha(input[j]))
+				while(check_str(input, j)  || ft_isalpha(input[j]) || ft_isdigit(input[j]))
 				{
 					if(ft_isdigit(input[j]))
 					{
