@@ -6,11 +6,12 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/01 18:56:18 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/01 22:55:53 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 int get_pwd(char **env)
 {
@@ -171,7 +172,7 @@ void ft_cd(t_list **node, t_cd *cd)
 		}
 		else if (head->next->data[0] == '-')
 		{
-			if (i > 0)
+			if (i > 0 && get_path(cd->my_env, "OLDPWD"))
 			{
 				free(cd->my_env[i]);
 				cd->my_env[i] = ft_strdup("PWD=");

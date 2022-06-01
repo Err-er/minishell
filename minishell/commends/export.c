@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/31 12:52:47 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 22:21:59 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void ft_sort_expo(t_cd *cd)
 		j = 0;
 		while(cd->sorted[j])
 		{
-			if (cd->sorted[i][0] < cd->sorted[j][0])
+			if (cd->sorted[i][0] <= cd->sorted[j][0])
 			{
 				temp = cd->sorted[i];
 				cd->sorted[i] = cd->sorted[j];

@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 18:39:09 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/01 22:54:07 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_cd
 	int		env_len;
 	char	**sorted;
 	char	*oldpwd;
+	int		pwd;
 }	t_cd;
 
 // typedef struct s_gl
@@ -102,4 +103,5 @@ int		ft_isalpha(char c);
 void 	ft_print_env(char **env);
 void	unset_this(t_cd *cd, char *s);
 void	export_this(t_cd *cd, char *s);
+int		get_global(int i);
 #endif

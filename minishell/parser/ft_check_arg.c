@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 18:39:18 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/01 21:52:04 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -715,9 +715,12 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 		ft_cd(&node,cd);
 	else
 	{
+		get_global(1);
 		pid = fork();
 		if(pid == 0)
+		{
 			ft_ex(str, cd, node, fd, i, value);
+		}
 		waitpid(pid, NULL, 0);
 	}
 	if(!value[0])

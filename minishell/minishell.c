@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/31 16:37:49 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 22:00:33 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,38 @@ void ft_new_env(char **env,t_cd *cd)
 
 void handle_sigs(int sig)
 {
-	if (sig == SIGINT)
+	if (sig == SIGINT && !get_global(15))
 	{
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);	
 		rl_redisplay();
-	}	
+	}
+	else
+		printf("\n");
 }
 
+int get_global(int i)
+{
+	static int j;
+	if(i == 0)
+		j = 0;
+	else if(i == 1)
+		j = 1;
+	else
+		return (j);
+	return (j);
+}
+
+int check_exit(char *input)
+{
+	if (!ft_strcmp(input, "exit"))
+	{
+		printf("exit\n");
+		exit(0);
+	}
+	return(1);
+}
 int main(int ac, char **av, char **env)
 {
 	char	*input;
@@ -63,14 +86,15 @@ int main(int ac, char **av, char **env)
 	ds = 0;
 	while (1)
 	{
+		get_global(0);
 		input = readline("➜ minishell $ ");
-		if(!input || !ft_strcmp(input, "exit"))
+		if(!input || !check_exit(input))
 			break ;
 		ft_parser(input, cd);
 		if(input)
 			add_history(input);
 		free(input);
 	}
-	printf("exit\n");
+	write(1,"\033[1A\033[14Cexit\n",15);
 	return 0;
 }
