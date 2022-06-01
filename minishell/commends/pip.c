@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 15:09:53 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 16:41:57 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,23 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int *fd, int *x, cha
 	char	**cmds;
 	char	hh[100];
 
-	if((ft_check_pip2(node, Oredi) || ft_check_pip2(node, Iredi)) && !ft_check_pip(node, input_h))
+	if(ft_check_pip2(node, Iredi) && !ft_check_pip2(node, input_h))
 	{
 		dup2(st_in, 0);
 		close(st_in);
-		dup2(fd[1], x[1]);
-		close(fd[1]);
 		dup2(fd[0], x[0]);
 		close(fd[0]);
 	}
-	else if (!c)
+	if(!c)
 	{
 		dup2(end[1], 1);
 		close(end[0]);
 		close(end[1]);
+	}
+	if(fd[1])
+	{
+		dup2(fd[1], x[1]);
+		close(fd[1]);
 	}
 	cmds = ft_split_2(cmd, '\v');
 	if (!ft_strcmp(cmds[0], "export"))
@@ -137,10 +140,13 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_list *node, int *fd, int *x, cha
 	{
 		dup2(st_in, 0);
 		close(st_in);
-		dup2(fd[1], x[1]);
-		close(fd[1]);
 		dup2(fd[0], x[0]);
 		close(fd[0]);
+	}
+	else if(fd[1])
+	{
+		dup2(fd[1], x[1]);
+		close(fd[1]);
 	}
 	else
 	{
@@ -187,14 +193,17 @@ void	ft_child2(char *cmds, t_cd *cd, t_list *node, int *fd, int *x, char *value,
 	char	hh[100];
 	int		end[2];
 
-	if((ft_check_pip2(node, Oredi) || ft_check_pip2(node, Iredi)) && !ft_check_pip(node, input_h))
+	if(ft_check_pip2(node, Iredi) && !ft_check_pip2(node, input_h))
 	{
 		dup2(st_in, 0);
 		close(st_in);
-		dup2(fd[1], x[1]);
-		close(fd[1]);
 		dup2(fd[0], x[0]);
 		close(fd[0]);
+	}
+	if(fd[1])
+	{
+		dup2(fd[1], x[1]);
+		close(fd[1]);
 	}
 	cmd = ft_split_2(cmds, '\v');
 	if (!ft_strcmp(cmd[0], "export"))
@@ -332,7 +341,7 @@ void     c_pip(char **str, t_cd *cd, t_list *node)
 	int		end[2];
 	int		*id;
 	int		c;
-	int		c2;
+	int		c2 = 0;
 	int		i;
 	int		fd[2];
 	int		x[2];

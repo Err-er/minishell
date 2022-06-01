@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 15:17:53 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 17:32:32 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int check_str(char *str, int i)
 {
 	if(str[i] && str[i] != '|'  && str[i] != ' '
 		&& str[i] != '\'' && str[i] != '"'  && str[i] != '$'
-		&& str[i] != '>' && str[i] != '<'&& str[i] != '-' && str[i] != '@')
+		&& str[i] != '>' && str[i] != '<')
 		{
 			return(1);
 		}
@@ -203,7 +203,15 @@ int ft_check_sc(char c)
 		return (0);
 	return(1);
 }
-
+int	ft_isalpha(char c)
+{
+	if (c < 65 || c > 122 || (c < 97 && c > 90) )
+	{
+		if(c != '_')
+			return (0);
+	}
+	return (1);
+}
 int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 {
 	int		i;
@@ -269,7 +277,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			else
 			{
 				j = i + 1;
-				while(check_str(input, j))
+				while(check_str(input, j) && ft_isalpha(input[j]))
 				{
 					if(ft_isdigit(input[j]))
 					{
@@ -372,8 +380,6 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		}
 		else if (input[i] == '<')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), Iredi));
-		else if (input[i] == '+' || input[i] == '-' || input[i] == ',' || input[i] == '@')
-			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, 1), WR));
 		else
 		{
 			if(input[i] != ' ')
@@ -560,11 +566,11 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int *fd, int *i, char *value)
 	}
 	else
 	{
-		dup2(fd[1], i[1]); // if not red fd = 0 / i = 0 so nathing change
-		close(fd[1]);
 		dup2(fd[0], i[0]); // if not red fd = 0 / i = 0 so nathing change
 		close(fd[0]);
 	}
+	dup2(fd[1], i[1]); // if not red fd = 0 / i = 0 so nathing change
+	close(fd[1]);
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
 		ft_echo(node);
