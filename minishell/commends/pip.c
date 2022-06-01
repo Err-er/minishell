@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 16:41:57 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 19:33:26 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ void	ft_child2(char *cmds, t_cd *cd, t_list *node, int *fd, int *x, char *value,
 		ft_exprot(&node, cd);
 		exit(0);
 	}
-	else if (!ft_strcmp(cmd[0], "unset"))
+	if (!ft_strcmp(cmd[0], "unset"))
 	{
 		ft_unset(&node, cd);
 		exit(0);

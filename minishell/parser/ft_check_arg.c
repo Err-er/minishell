@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 18:30:56 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:39:18 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -588,7 +588,7 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int *fd, int *i, char *value)
 	}
 	else if(!ft_strcmp(cmd[0], "pwd"))
 	{
-		ft_getcwd();
+		ft_getcwd(cd);
 		exit(0);
 	}
 	else if(!ft_strcmp(cmd[0], "env"))
@@ -753,7 +753,7 @@ void	ft_ex_sc(t_list *node, t_cd *cd)
 	else if (!ft_strcmp(cmd[0], "unset"))
 		ft_unset(&node,cd);
 	else if(!ft_strcmp(cmd[0], "pwd"))
-		ft_getcwd();
+		ft_getcwd(cd);
 	else if(!ft_strcmp(cmd[0], "env"))
 		ft_print_env(cd->my_env);
 	free(str);

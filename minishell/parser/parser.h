@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 18:23:41 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:39:09 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*ft_substr(char *s, int start, int len);
 int		ft_check_pip(t_list *node, int c);
 void	ft_putstr_fd(char *s, int fd);
 int		ft_check_pip2(t_list *node, int c);
-void	ft_getcwd(void);
+void 	ft_getcwd(t_cd *cd);
 int		ft_isalpha(char c);
 void 	ft_print_env(char **env);
 void	unset_this(t_cd *cd, char *s);
