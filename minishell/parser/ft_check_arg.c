@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 15:09:43 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 15:17:53 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -776,7 +776,6 @@ int	ft_sc(t_list *node, t_cd *cd)
 			str = ft_strjoin(str, head->data);
 		head = head->next;
 	}
-	printf("%s\n", str);
 	if(!str[0])
 		return 0;
 	cmd = ft_split_2(str, '\v');
