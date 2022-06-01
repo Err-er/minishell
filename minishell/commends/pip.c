@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/31 17:42:22 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 13:59:23 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_path(char **env, char *cd)
 
 	str = get_path(env, "PATH");
 	p = ft_split(str, ':');
-    cmd = ft_split_2(cd, ' ');
+    cmd = ft_split_2(cd, '\v');
 	if(access(cmd[0], X_OK) == 0)
 	{
 		ft_fre(cmd);
@@ -78,10 +78,6 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x, char 
 	char	**cmds;
 	char	hh[100];
 
-	cmds = ft_split_2(cmd, ' ');
-	pat = ft_path(cd->my_env, cmd);
-	if (access(cmds[0], X_OK) == 0)
-		pat = cmds[0];
 	if((ft_check_pip2(node, Oredi) || ft_check_pip2(node, Iredi)) && !ft_check_pip(node, input_h))
 	{
 		dup2(fd, x);
@@ -93,6 +89,20 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x, char 
 		close(end[0]);
 		close(end[1]);
 	}
+	cmds = ft_split_2(cmd, '\v');
+	if (!ft_strcmp(cmds[0], "export"))
+	{
+		ft_exprot (&node, cd);
+		exit(0);
+	}
+	else if (!ft_strcmp(cmds[0], "unset"))
+	{
+		ft_unset (&node, cd);
+		exit(0);
+	}
+	pat = ft_path(cd->my_env, cmd);
+	if (access(cmds[0], X_OK) == 0)
+		pat = cmds[0];
 	if(!ft_strcmp(cmds[0], "echo"))
 	{
 		ft_echo(node);
@@ -119,10 +129,6 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x, char 
 	t_list *head = node;
 	int		p[2];
 
-    cmds = ft_split_2(cmd, ' ');
-	pat = ft_path(cd->my_env, cmd);
-	if (access(cmds[0], X_OK) == 0)
-		pat = cmds[0];
 	if(ft_check_pip2(node, Oredi) || ft_check_pip2(node, Iredi))
 	{
 		dup2(fd, x);
@@ -134,6 +140,20 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_list *node, int fd, int x, char 
 		close(end[0]);
 		close(end[1]);
 	}
+    cmds = ft_split_2(cmd, '\v');
+	if (!ft_strcmp(cmds[0], "export"))
+	{
+		ft_exprot (&node, cd);
+		exit(0);
+	}
+	else if (!ft_strcmp(cmds[0], "unset"))
+	{
+		ft_unset (&node, cd);
+		exit(0);
+	}
+	pat = ft_path(cd->my_env, cmd);
+	if (access(cmds[0], X_OK) == 0)
+		pat = cmds[0];
 	if(!ft_strcmp(cmds[0], "echo"))
 	{
 		puts("here");
@@ -159,15 +179,25 @@ void	ft_child2(char *cmds, t_cd *cd, t_list *node, int fd, int x, char *value)
 	char	hh[100];
 	int		end[2];
 
-	cmd = ft_split_2(cmds, ' ');
-	pat = ft_path(cd->my_env, cmds);
-	if (access(cmd[0], X_OK) == 0)
-		pat = cmd[0];
 	if((ft_check_pip2(node, Oredi) || ft_check_pip2(node, Iredi)) && !ft_check_pip(node, input_h))
 	{
 		dup2(fd, x);
 		close(fd);
 	}
+	cmd = ft_split_2(cmds, '\v');
+	if (!ft_strcmp(cmd[0], "export"))
+	{
+		ft_exprot(&node, cd);
+		exit(0);
+	}
+	else if (!ft_strcmp(cmd[0], "unset"))
+	{
+		ft_unset(&node, cd);
+		exit(0);
+	}
+	pat = ft_path(cd->my_env, cmds);
+	if (access(cmd[0], X_OK) == 0)
+		pat = cmd[0];
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
 		ft_echo(node);

@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/31 17:37:27 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 14:01:24 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -530,7 +530,7 @@ void	ft_pip(t_list *node, t_cd *cd)
 				head = head->next;
 		}
 		else if(head->tokn == WS)
-			str = ft_strjoin(str, " ");
+			str = ft_strjoin(str, "\v");
 		else
 			str = ft_strjoin(str, head->data);
 		head = head->next;
@@ -548,7 +548,7 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 	int		end[2];
 	// char	hh[1024];
 
-	cmd = ft_split_2(cmds, ' ');
+	cmd = ft_split_2(cmds, '\v');
 	if(ft_check_pip(node, input_h))
 	{
 		if(pipe(end) == -1)
@@ -619,7 +619,7 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	while (head)
 	{
 		if(head->tokn == WS)
-			str = ft_strjoin(str, " ");
+			str = ft_strjoin(str, "\v");
 		else if(head->tokn == Oredi)
 		{
 			file_n = ft_strdup("");
@@ -702,7 +702,7 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	}
 	if(!str[0])
 		return;
-	cmd = ft_split_2(str, ' ');
+	cmd = ft_split_2(str, '\v');
 	if (!ft_strcmp(cmd[0], "cd"))
 		ft_cd(&node,cd);
 	else
@@ -732,12 +732,12 @@ void	ft_ex_sc(t_list *node, t_cd *cd)
 	while (head->tokn != END_TOKN)
 	{
 		if(head->tokn == WS)
-			str = ft_strjoin(str, " ");
+			str = ft_strjoin(str, "\v");
 		else if (head->data)
 			str = ft_strjoin(str, head->data);
 		head = head->next;
 	}
-	cmd = ft_split_2(str, ' ');
+	cmd = ft_split_2(str, '\v');
 	if (!ft_strcmp(cmd[0], "cd"))
 		ft_cd(&node,cd);
 	else if (!ft_strcmp(cmd[0], "export"))
@@ -765,7 +765,7 @@ int	ft_sc(t_list *node, t_cd *cd)
 	while (head->tokn != END_TOKN)
 	{
 		if(head->tokn == WS)
-			str = ft_strjoin(str, " ");
+			str = ft_strjoin(str, "\v");
 		else if(head->tokn == Oredi)
 			return(0);
 		else if(head->tokn == Iredi)
@@ -776,7 +776,7 @@ int	ft_sc(t_list *node, t_cd *cd)
 	}
 	if(!str[0])
 		return 0;
-	cmd = ft_split_2(str, ' ');
+	cmd = ft_split_2(str, '\v');
 	free(str);
 	int i = -1;
 	if (!ft_strcmp(cmd[0], "cd"))
