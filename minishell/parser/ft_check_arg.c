@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 14:01:24 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/01 15:09:43 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -541,7 +541,7 @@ void	ft_pip(t_list *node, t_cd *cd)
 	exit(1);
 }
 
-void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
+void	ft_ex(char *cmds, t_cd *cd, t_list *node, int *fd, int *i, char *value)
 {
 	char	*pat;
 	char	**cmd;
@@ -560,8 +560,10 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value)
 	}
 	else
 	{
-		dup2(fd, i); // if not red fd = 0 / i = 0 so nathing change
-		close(fd);
+		dup2(fd[1], i[1]); // if not red fd = 0 / i = 0 so nathing change
+		close(fd[1]);
+		dup2(fd[0], i[0]); // if not red fd = 0 / i = 0 so nathing change
+		close(fd[0]);
 	}
 	if(!ft_strcmp(cmd[0], "echo"))
 	{
@@ -604,9 +606,9 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	char	*str;
 	char	**cmd;
 	int		pid;
-	int		fd;
+	int		fd[2];
 	int		end[2];
-	int		i;
+	int		i[2];
 	int		c;
 	char	*p;
 	char	*value;
@@ -636,9 +638,9 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 				printf("minishell: %s: No such file or directory\n", file_n);
 				return ;
 			}
-			fd = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0666);
+			fd[1] = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0666);
 			free(file_n);
-			i = 1;
+			i[1] = 1;
 		}
 		else if(head->tokn == output_h)
 		{
@@ -656,9 +658,9 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 				printf("minishell: %s: No such file or directory\n", file_n);
 				return ;
 			}
-			fd = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
+			fd[1] = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
 			free(file_n);
-			i = 1;
+			i[1] = 1;
 		}
 		else if(head->tokn == input_h)
 		{
@@ -687,14 +689,14 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 				file_n = ft_strjoin(file_n, head->data);
 				head = head->next;
 			}
-			fd = open(file_n, O_RDONLY);
-			if(fd == - 1)
+			fd[0] = open(file_n, O_RDONLY);
+			if(fd[0] == - 1 || !file_n)
 			{
 				printf("minishell: %s: No such file or directory\n", file_n);
 				return ;
 			}
 			free(file_n);
-			i = 0;
+			i[0] = 0;
 		}
 		else if (head->tokn == WR)
 			str = ft_strjoin(str, head->data);
@@ -774,6 +776,7 @@ int	ft_sc(t_list *node, t_cd *cd)
 			str = ft_strjoin(str, head->data);
 		head = head->next;
 	}
+	printf("%s\n", str);
 	if(!str[0])
 		return 0;
 	cmd = ft_split_2(str, '\v');

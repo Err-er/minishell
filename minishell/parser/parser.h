@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/31 08:33:49 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/01 14:40:00 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ char	**ft_split(char *s, char c);
 void    c_pip(char **str, t_cd *cd, t_list *node);
 void	ft_free(char **p, int a);
 char	*ft_path(char **env, char *cd);
-void	ft_child2(char *cmds, t_cd *cd, t_list *node, int fd, int x, char *value);
+void	ft_child2(char *cmds, t_cd *cd, t_list *node, int *fd, int *x, char *value, int st_in);
 void	printf_list(t_list *lst);
 void	ft_cd(t_list **node, t_cd *cd);
-void	ft_ex(char *cmds, t_cd *cd, t_list *node, int fd, int i, char *value);
+void	ft_ex(char *cmds, t_cd *cd, t_list *node, int *fd, int *i, char *value);
 void	ft_exprot(t_list **node, t_cd *cd);
 void	ft_unset(t_list **node, t_cd *cd);
 void	ft_fre(char **cmd);
