@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 14:05:50 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 16:12:19 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -453,6 +453,11 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 					return ;
 				}
 				fd[0] = open(file_n, O_RDONLY);
+				if (fd[0] == -1 || !file_n)
+				{
+					printf("minishell: %s: No such file or directory\n", file_n);
+					return ;
+				}
 				free(file_n);
 				x[0] = 0;
 			}

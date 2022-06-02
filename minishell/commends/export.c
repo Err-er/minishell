@@ -6,39 +6,39 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/02 14:10:47 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 16:10:57 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_dup_env(t_cd *cd)
+void ft_dup_env(t_cd *cd)
 {
-	int	i;
+	int i = 0;
 
-	i = 0;
-	while (cd->my_env[i])
+	while(cd->my_env[i])
 		i++;
-	cd->sorted = malloc(sizeof(char *) * (i + 1));
-	i = -1;
-	while (cd->my_env[++i])
+	cd->sorted = malloc(sizeof(char *) * (i+1));
+	i = 0;
+	while(cd->my_env[i])
+	{
 		cd->sorted[i] = ft_strdup(cd->my_env[i]);
+		i++;
+	}
 	cd->sorted[i] = NULL;
 }
 
-void	ft_sort_expo(t_cd *cd)
+void ft_sort_expo(t_cd *cd)
 {
-	int		i;
-	int		j;
-	char	*temp;
+	int i = 0;
+	int j = 0;
+	char *temp;
 
-	i = -1;
-	j = -1;
 	ft_dup_env(cd);
-	while (cd->sorted[++i])
+	while(cd->sorted[i])
 	{
 		j = 0;
-		while (cd->sorted[++j])
+		while(cd->sorted[j])
 		{
 			if (cd->sorted[i][0] <= cd->sorted[j][0])
 			{
@@ -46,51 +46,52 @@ void	ft_sort_expo(t_cd *cd)
 				cd->sorted[i] = cd->sorted[j];
 				cd->sorted[j] = temp;
 			}
+			j++;
 		}
+		i++;
 	}
 }
 
-char	*ft_add_content(char *old, char *new, char *n)
+char	*ft_add_content(char *old,char *new,char *n)
 {
-	int		i;
-	char	*t;
+	int i = 0;
+	char *t;
 
-	i = 0;
 	t = ft_strdup(n);
-	while (old[i] != '=')
+	while(old[i] != '=')
 		i++;
 	i++;
-	old = ft_strtrim(old, "\"=");
-	t = ft_strjoin(t, "=");
-	t = ft_strjoin(t, &old[i]);
-	t = ft_strjoin(t, &new[i + 1]);
-	t = ft_strjoin(t, "\"");
-	return (t);
+	old = ft_strtrim(old,"\"=");
+	t = ft_strjoin(t,"=");
+	t = ft_strjoin(t,&old[i]);
+	t = ft_strjoin(t,&new[i+1]);
+	t = ft_strjoin(t,"\"");
+	return(t);
 }
 
-void	add_this(t_cd *cd, char *s)
-{
-	int		i;
-	char	*temp;
-	char	**t;
-	char	**t1;
-	char	**t0;
 
-	i = 0;
-	t1 = ft_split_2(s, '+');
-	while (cd->my_env[i])
+void add_this(t_cd *cd, char *s)
+{
+	int i = 0;
+	char *temp;
+	char **t;
+	char **t1;
+	char **t0;
+	
+	t1 = ft_split_2(s,'+');
+	while(cd->my_env[i])
 	{
-		t = ft_split_2(cd->my_env[i], '=');
-		if (t[0] && t1[0] && !ft_strcmp(t[0], t1[0]))
+		t = ft_split_2(cd->my_env[i],'=');
+		if (t[0] && t1[0] && !ft_strcmp(t[0],t1[0]))
 		{
 			if (t[1])
-				temp = ft_add_content(cd->my_env[i], s, t1[0]);
+				temp = ft_add_content(cd->my_env[i],s,t1[0]);
 			else
 			{
 				temp = ft_strdup(cd->my_env[i]);
-				temp = ft_strjoin(temp, "=\"");
-				temp = ft_strjoin(temp, &t1[1][1]);
-				temp = ft_strjoin(temp, "\"");
+				temp = ft_strjoin(temp,"=\"");
+				temp = ft_strjoin(temp,&t1[1][1]);
+				temp = ft_strjoin(temp,"\"");
 			}
 			cd->my_env[i] = temp;
 			ft_fre(t);
@@ -102,73 +103,71 @@ void	add_this(t_cd *cd, char *s)
 	}
 }
 
-int	ft_check_addition(char *s)
+int ft_check_addition(char *s)
 {
-	int		i;
-	int		x;
-	char	**t;
+	int i = 0;
+	int x = 0;
+	char **t;
 
-	i = 0;
-	x = 0;
-	t = ft_split_2(s, '=');
-	while (t[0][i])
+	t = ft_split_2(s,'=');
+	while(t[0][i])
 	{
-		if (t[0][i] == '+')
+		if(t[0][i] == '+')
 			x++;
 		i++;
 	}
 	if (x != 1 || (x >= 1 && !t[1]))
-		return (0);
-	return (1);
+		return(0);
+	return(1);
 }
 
 void	ft_print_export(t_cd *cd)
 {
-	int	i;
+	int i = 0;
 
-	i = 0;
-	while (cd->sorted[i])
+	while(cd->sorted[i])
 	{
-		printf("declare -x %s\n", cd->sorted[i]);
+		printf("declare -x %s\n",cd->sorted[i]);
 		i++;
 	}
 }
 
 char *ft_cpoy_content(char *s, char *f)
 {
-	int		i;
-	char	*t;
+	int i = 0;
+	char *t;
 
-	i = 0;
-	f = ft_strtrim(f, "+");
+	f = ft_strtrim(f,"+");
 	t = ft_strdup(f);
-	while (s[i] != '=')
+	while(s[i] != '=')
 		i++;
 	if (!s[i])
-		return (s);
+		return(s);
 	i++;
-	t = ft_strjoin(t, "=\"");
-	t = ft_strjoin(t, &s[i]);
-	t = ft_strjoin(t, "\"");
-	return (t);
+	t = ft_strjoin(t,"=\"");
+	t = ft_strjoin(t,&s[i]);
+	t = ft_strjoin(t,"\"");
+	return(t);
 }
 
 void	export_this(t_cd *cd, char *s)
 {
-	char	**new_env;
-	char	**t;
-	int		i;
+	char **new_env;
+	char **t;
+	int i= 0;
 
-	i = 0;
-	while (cd->my_env[i])
+	while(cd->my_env[i])
 		i++;
 	new_env = malloc(sizeof(char *) * (i + 2));
-	i = -1;
-	while (cd->my_env[++i])
+	i = 0;
+	while(cd->my_env[i])
+	{
 		new_env[i] = ft_strdup(cd->my_env[i]);
-	t = ft_split_2(s, '=');
+		i++;
+	}
+	t = ft_split_2(s,'=');
 	if (t[1])
-		new_env[i] = ft_cpoy_content(s, t[0]);
+		new_env[i] = ft_cpoy_content(s,t[0]);
 	else
 		new_env[i] = ft_strdup(s);
 	i++;
@@ -176,6 +175,7 @@ void	export_this(t_cd *cd, char *s)
 	free(cd->my_env);
 	cd->my_env = new_env;
 }
+
 
 void	replace_this(t_cd *cd, char *s)
 {
