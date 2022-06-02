@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/02 17:30:09 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/02 17:51:02 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,7 @@ int	check_valid(char *s,char **env)
 	char *temp;
 	char **t;
 	
+
 	if (!ft_strcmp(s,"="))
 	{
 		ds = 127;
@@ -328,26 +329,31 @@ void	ft_exprot(t_list **node, t_cd *cd)
 	}
 	else
 	{
-		while(head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN)
+		while((head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN))
 		{
-			temp = ft_strdup(head->next->data);
-			temp = ft_strtrim(temp," ");
-			while(head->next->next->tokn == WR)
+			if (!head->next->data)
+				printf("minishell: export: `': not a valid identifier\n");
+			else
 			{
-				head = head->next;
-				temp = ft_strjoin(temp,head->next->data);
-			}
-			if (check_valid(temp,cd->my_env))
-			{	
-				if (ft_check_addition(temp) && check_exist(temp,cd->my_env))
-					add_this(cd, temp);
-				else if (!check_exist(temp,cd->my_env ) && head->next->tokn != WS)
-					export_this(cd, temp);
-				else if (check_exist(temp,cd->my_env) && head->next->tokn != WS)
-					replace_this(cd, temp);
+				temp = ft_strdup(head->next->data);
+				temp = ft_strtrim(temp," ");
+				while(head->next->next->tokn == WR)
+				{
+					head = head->next;
+					temp = ft_strjoin(temp,head->next->data);
+				}
+				if (check_valid(temp,cd->my_env))
+				{	
+					if (ft_check_addition(temp) && check_exist(temp,cd->my_env))
+						add_this(cd, temp);
+					else if (!check_exist(temp,cd->my_env ) && head->next->tokn != WS)
+						export_this(cd, temp);
+					else if (check_exist(temp,cd->my_env) && head->next->tokn != WS)
+						replace_this(cd, temp);
+				}
+				free(temp); 
 			}
 			head = head->next;
-			free(temp); 
 		}
 	}
 }

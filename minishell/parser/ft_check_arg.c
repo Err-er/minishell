@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 17:28:04 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 17:52:44 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 
 	j = i;
 	if (input[j] == '"' && input[j + 1] == '"')
-		return (ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WR)), 0);
+		return (ft_lstadd_back(node, ft_lstnew(NULL, WR)), 0);
 	while (input[++j])
 	{
 		if (input[j] == '"')
