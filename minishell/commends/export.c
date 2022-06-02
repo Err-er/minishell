@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/02 16:10:57 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 17:30:09 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,15 @@ int ft_check_addition(char *s)
 	char **t;
 
 	t = ft_split_2(s,'=');
+	if (!t)
+		return(0);
 	while(t[0][i])
 	{
 		if(t[0][i] == '+')
 			x++;
 		i++;
 	}
-	if (x != 1 || (x >= 1 && !t[1]))
+	if (x != 1 || (x >= 1 && !t[1]) || t[0][ft_strlen(t[0])-1] != '+')
 		return(0);
 	return(1);
 }
@@ -166,10 +168,20 @@ void	export_this(t_cd *cd, char *s)
 		i++;
 	}
 	t = ft_split_2(s,'=');
-	if (t[1])
+	if (t[1] && t[0])
 		new_env[i] = ft_cpoy_content(s,t[0]);
 	else
-		new_env[i] = ft_strdup(s);
+	{
+		if (ft_strchr(s,'=') && t[0])
+		{
+			new_env[i] = ft_strdup(t[0]);
+			new_env[i] = ft_strjoin(new_env[i],"=\"");
+			new_env[i] = ft_strjoin(new_env[i],ft_strchr(s,'='));
+			new_env[i] = ft_strjoin(new_env[i],"\"");
+		}
+		else
+			new_env[i] = ft_strdup(s);
+	}
 	i++;
 	new_env[i] = NULL;
 	free(cd->my_env);
@@ -194,6 +206,16 @@ void	replace_this(t_cd *cd, char *s)
 			{
 				temp = ft_cpoy_content(s,t1[0]);
 				cd->my_env[i] = temp;
+			}
+			else
+			{
+				if (ft_strchr(s,'='))
+				{
+					cd->my_env[i] = ft_strdup(t[0]);
+					cd->my_env[i] = ft_strjoin(cd->my_env[i],"=\"");
+					cd->my_env[i] = ft_strjoin(cd->my_env[i],ft_strchr(s,'='));
+					cd->my_env[i] = ft_strjoin(cd->my_env[i],"\"");
+				}
 			}
 			ft_fre(t);
 			ft_fre(t1);
@@ -234,15 +256,23 @@ int	check_valid(char *s,char **env)
 	char *temp;
 	char **t;
 	
+	if (!ft_strcmp(s,"="))
+	{
+		ds = 127;
+		printf("minishell: export: `%s': not a valid identifier\n",s);
+		return(0);
+	}
 	while(env[i])
 	{
 		if (!ft_strcmp(s, env[i]))
 			return(0);
 		i++;
 	}
-	i = 0;
 	t = ft_split_2(s,'=');
-	while(t[0][i])
+	if (!t)
+		return(0);
+	i = 0;
+	while(t && t[0][i])
 	{
 		if ((t[0][i] < 65  && t[0][i] != 43 && t[0][i] != 61 && t[0][i] != 32)|| t[0][i] > 122 || (t[0][i] >= 91 && t[0][i] <=94) || t[0][i] == 96)
 		{
@@ -260,8 +290,8 @@ int	check_valid(char *s,char **env)
 			x++;
 		i++;
 	}
-	if (x > 1 || (x == 1 && !t[1]))
-	{		
+	if (x > 1 || (x == 1 && !t[1]) || (t[0][ft_strlen(t[0])-1] != '+' && x == 1))
+	{
 		ds = 127;
 		printf("minishell: export: `%s': not a valid identifier\n",s);
 		return(0);
@@ -278,6 +308,7 @@ void	ft_exprot(t_list **node, t_cd *cd)
 	head = *node;
 	head = head->next;
 	ft_sort_expo(cd);
+
 	while(1)
 	{
 		if (head->next->tokn == WS)
@@ -300,24 +331,19 @@ void	ft_exprot(t_list **node, t_cd *cd)
 		while(head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN)
 		{
 			temp = ft_strdup(head->next->data);
+			temp = ft_strtrim(temp," ");
 			while(head->next->next->tokn == WR)
 			{
 				head = head->next;
 				temp = ft_strjoin(temp,head->next->data);
 			}
-			if (ft_check_addition(temp) && check_exist(temp,cd->my_env))
-			{
-				if (check_valid(temp,cd->my_env))
+			if (check_valid(temp,cd->my_env))
+			{	
+				if (ft_check_addition(temp) && check_exist(temp,cd->my_env))
 					add_this(cd, temp);
-			}
-			else if (!check_exist(temp,cd->my_env ) && head->next->tokn != WS)
-			{
-				if (check_valid(temp,cd->my_env))
+				else if (!check_exist(temp,cd->my_env ) && head->next->tokn != WS)
 					export_this(cd, temp);
-			}
-			else if (check_exist(temp,cd->my_env) && head->next->tokn != WS)
-			{
-				if (check_valid(temp,cd->my_env))
+				else if (check_exist(temp,cd->my_env) && head->next->tokn != WS)
 					replace_this(cd, temp);
 			}
 			head = head->next;
