@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 21:52:04 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/02 11:15:18 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 
 	j = i;
 	if(input[j] == '"' && input[j + 1] == '"')
-		return 0;
+		return (ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WR)), 0);
 	while(input[++j])
 	{
 		if(input[j] == '"')
@@ -172,7 +172,8 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 		}
 		if(input[c] == '$')
 		{
-			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, c - i), WR));
+			if(c - i)
+				ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, c - i), WR));
 			n = c++;
 			while(check_str(input, c) || ft_isalpha(input[c]) || ft_isdigit(input[c]))  //Errooooooor
 			{
@@ -183,13 +184,15 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 				}
 				c++;
 			}
-			str = get_path(env, ft_substr(input, n + 1, c - (n + 1))); //free --->  ft_substr(input, n + 1, c - (n + 1))
+			str = get_path(env, ft_substr(input, n + 1, c - (n + 1)));//free --->  ft_substr(input, n + 1, c - (n + 1))
+			str = ft_strtrim(str, "\"");
 			if(str)
 				ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WR));
 			n = c;
 			while(c < j)
 				c++;
-			ft_lstadd_back(node, ft_lstnew(ft_substr(input, n, c - n), WR));
+			if(c - n)
+				ft_lstadd_back(node, ft_lstnew(ft_substr(input, n, c - n), WR));
 		}
 		else
 			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, j - i), WR));
@@ -709,7 +712,10 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 		head = head->next;
 	}
 	if(!str[0])
+	{
+		printf("minishell : command not found: \n");
 		return;
+	}
 	cmd = ft_split_2(str, '\v');
 	if (!ft_strcmp(cmd[0], "cd"))
 		ft_cd(&node,cd);
@@ -830,6 +836,11 @@ void	ft_parser(char *input, t_cd *cd)
 	node = ft_lstnew(ft_strdup("->"), ST_TOKN);
 	if(!ft_tokinaizer(&node, input, cd->my_env))
 		return;
+	if(node->tokn == node->next->tokn)
+	{
+		ft_lstclear(&node);
+		return;
+	}
 	if(ft_check_pip(node, PIPE))
 	{
 		pid = fork();

@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 13:04:54 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/28 11:19:41 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 10:12:35 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	if (!s1)
-	{
-		s1 = (char *)malloc(1 * sizeof(char));
-		s1[0] = '\0';
-	}
+		s1 = ft_strdup("");
 	if (!s2)
 		return (NULL);
 	a = ft_strlen(s1);

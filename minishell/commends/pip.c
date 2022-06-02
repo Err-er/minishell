@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 19:33:26 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/02 11:16:59 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,12 @@ char	*ft_path(char **env, char *cd)
 	}
 	if (!cmd[0])
 	{
+		ft_putstr_fd("minishell : command not found: ", 2);
+		if(cmd[0])
+			ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd("\n", 2);
 		ft_fre(cmd);
-		ft_fre(p);
-		exit(0);
+		exit(1);
 	}
 	i = -1;
 	while (p[++i])
@@ -66,9 +69,10 @@ char	*ft_path(char **env, char *cd)
 		}
 		free(str2);
 	}
-	printf("minishell : command not found: ");
-	printf("%s", cmd[0]);
-	printf("\n");
+	ft_putstr_fd("minishell : command not found: ", 2);
+	if(cmd[0])
+		ft_putstr_fd(cmd[0], 2);
+	ft_putstr_fd("\n", 2);
 	ft_fre(cmd);
 	exit(1);
 }
@@ -97,6 +101,7 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int *fd, int *x, cha
 		close(fd[1]);
 	}
 	cmds = ft_split_2(cmd, '\v');
+
 	if (!ft_strcmp(cmds[0], "export"))
 	{
 		ft_exprot (&node, cd);

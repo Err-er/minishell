@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/01 22:00:33 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/02 09:44:01 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void handle_sigs(int sig)
 	{
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 0);	
+		//rl_replace_line("", 0);	
 		rl_redisplay();
 	}
 	else
@@ -76,7 +76,7 @@ int main(int ac, char **av, char **env)
 	signal(SIGINT, &handle_sigs);
 	signal(SIGQUIT, &handle_sigs);
 
-	rl_catch_signals = 0;
+	//rl_catch_signals = 0;
 	(void)av;
 	if(ac != 1)
 		return (printf("error in argm\n"),0);
