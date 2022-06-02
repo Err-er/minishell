@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 06:46:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/05/31 06:50:45 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/02 14:14:53 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void 	ft_print_env(char **env)
+void	ft_print_env(char **env)
 {
-	int i = 0;
+	int	i;
 
-	while(env[i])
+	i = 0;
+	while (env[i])
 	{
-		if(ft_strchr(env[i],'='))
-			printf("%s\n",env[i]);
+		if (ft_strchr(env[i], '='))
+			printf("%s\n", env[i]);
 		i++;
 	}
 }

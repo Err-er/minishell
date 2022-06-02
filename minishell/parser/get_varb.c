@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 09:49:04 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/21 09:41:06 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 13:52:27 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*get_path(char **str, char *to_find)
 		{
 			if (str[i][j + 1] == '=')
 			{
-				if(!ft_strncmp(str[i], to_find, ft_strlen(to_find)))
+				if (!ft_strncmp(str[i], to_find, ft_strlen(to_find)))
 					return (&str[i][j + 2]);
 			}
 			x++;

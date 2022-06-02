@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 13:06:37 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 09:55:03 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 13:45:23 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	*ft_strtrim(char *s1, char *set)
 	char	*s;
 
 	s = 0;
-	if(!s1)
-		return(NULL);
+	if (!s1)
+		return (NULL);
 	if (s1 != 0 && set != 0)
 	{
 		start = 0;
@@ -42,8 +42,8 @@ int	ft_strcmp(char *str1, char *str2)
 	int	i;
 
 	i = 0;
-	if(!str1 || !str1)
-		return(-1);
+	if (!str1 || !str1)
+		return (-1);
 	while (str1[i] && str2[i] && str1[i] == str2[i])
 		i++;
 	return (str1[i] - str2[i]);

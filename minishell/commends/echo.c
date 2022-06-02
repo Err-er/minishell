@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/05/29 16:58:53 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 14:19:00 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,67 +24,74 @@ void	ft_putstr(char	*c)
 	}
 }
 
-void    ft_echo_flag(t_list *node)
+void	ft_echo_flag(t_list *node)
 {
-	while(node->tokn != END_TOKN && node->tokn != PIPE && node->tokn != Iredi && node->tokn != Oredi)
+	while (node->tokn != END_TOKN
+		&& node->tokn != PIPE && node->tokn != Iredi && node->tokn != Oredi)
 	{
-		if(node->tokn == WS && (node->next->tokn == WS || node->next->tokn == PIPE || node->next->tokn == Iredi || node->next->tokn == Oredi))
+		if (node->tokn == WS && (node->next->tokn == WS
+				|| node->next->tokn == PIPE || node->next->tokn == Iredi
+				|| node->next->tokn == Oredi))
 			return ;
-		else if(node->data)
+		else if (node->data)
 			ft_putstr(node->data);
 		node = node->next;
 	}
 }
 
-void    ft_echo_utils(t_list *node ,int i)
+void	ft_echo_utils(t_list *node, int i)
 {
-	if(i == 1)
+	if (i == 1)
 	{
 		node = node->next; // skip node of echo
 		node = node->next;	//skip node of ' '
 	}
-	while(node->tokn != END_TOKN  && node->tokn != PIPE && node->tokn != Iredi && node->tokn != Oredi && node->tokn !=output_h && node->tokn != input_h)
+	while (node->tokn != END_TOKN && node->tokn != PIPE
+		&& node->tokn != Iredi && node->tokn != Oredi
+		&& node->tokn !=output_h && node->tokn != input_h)
 	{
-		if(node->data)
+		if (node->data)
 			ft_putstr(node->data);
 		node = node->next;
 	}
 	puts("");
 }
 
-int	skip_flags(t_list  *node)
+int	skip_flags(t_list *node)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(node->tokn == WS)
-		return(1);
-	if(node->data[i] == '-')
+	if (node->tokn == WS)
+		return (1);
+	if (node->data[i] == '-')
 		i++;
-	while(node->data[i] && node->data[i] == 'n')
+	while (node->data[i] && node->data[i] == 'n')
 		i++;
 	if (node->data[i] == 'n' || !node->data[i])
 		return (1);
 	return (0);
 }
-void    ft_echo(t_list *node)
+
+void	ft_echo(t_list *node)
 {
-	int     i;
-	t_list *head;
+	int		i;
+	t_list	*head;
 
 	head = node;
-	while(head)
+	while (head)
 	{
-		if(!ft_strcmp(head->data, "echo"))
+		if (!ft_strcmp(head->data, "echo"))
 		{
-			if(head->next->next->data && !ft_strncmp(head->next->next->data, "-n", 2))
+			if (head->next->next->data
+				&& !ft_strncmp(head->next->next->data, "-n", 2))
 			{
 				head = head->next->next;
-				if(head->next->tokn == WS || !head->next->tokn)
+				if (head->next->tokn == WS || !head->next->tokn)
 				{
-					while(skip_flags(head))
+					while (skip_flags(head))
 						head = head->next;
-					if(!head->tokn)	//edit if command (echo -n)
+					if (!head->tokn)	//edit if command (echo -n)
 						return ;
 					ft_echo_flag(head);
 				}

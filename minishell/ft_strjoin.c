@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 13:04:54 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 10:12:35 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 13:45:34 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	free(s1);
 	return (s);
 }
+
 char	*ft_strjoin_nf(char *s1, char *s2)
 {
 	int		a;
