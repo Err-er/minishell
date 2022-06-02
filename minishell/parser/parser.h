@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 13:46:31 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 18:46:03 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define UND		-1  // undefined
+# define NUL		-1  // undefined
 # define ST_TOKN	0	//	start
 # define PIPE		1	//	|  !
 # define CD			6	//	"
@@ -102,4 +102,5 @@ void		ft_print_env(char **env);
 void		unset_this(t_cd *cd, char *s);
 void		export_this(t_cd *cd, char *s);
 int			get_global(int i);
+int			ft_expand(t_list **node, char *input, char **env, int i);
 #endif

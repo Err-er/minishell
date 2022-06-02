@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/02 14:47:23 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 17:58:46 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	ft_cd(t_list **node, t_cd *cd)
 		else
 			break ;
 	}
+	if (!head->next->data)
+		return;
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
 	{
 		if (!get_path(cd->my_env, "HOME"))

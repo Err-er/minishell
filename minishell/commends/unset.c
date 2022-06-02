@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:01:24 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/02 14:01:50 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/02 18:11:05 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ void	ft_unset(t_list **node, t_cd *cd)
 			head = head->next;
 		else
 			break ;
+	}
+	if (!head->next->data)
+	{
+		printf("minishell: unset: `': not a valid identifier\n");
+		return ;
 	}
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
 		return ;

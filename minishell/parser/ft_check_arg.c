@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 17:52:44 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/02 20:54:48 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,74 +149,44 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 {
 	int		j;
 	int		c;
-	int		n;
 	int		x;
 	char	*str;
 
 	j = i;
-	if (input[j] == '"' && input[j + 1] == '"')
-		return (ft_lstadd_back(node, ft_lstnew(NULL, WR)), 0);
-	while (input[++j])
+	if(input[j] == '"' && input[j + 1] == '"')
+		return 0;
+	while(input[++j])
 	{
-		if (input[j] == '"')
+		if(input[j] == '"')
 			break ;
 	}
-	if (input[j] == '"')
+	if(input[j] == '"')
 	{
-		i++;
-		c = i - 1;
-		while (++c < j)
+		str = ft_substr(input, i, j - i);
+		x = i + 1;
+		if(ft_strchr(str, '$'))
 		{
-			if (input[c] == '$')
-				break ;
-		}
-		if (input[c] == '$')
-		{
-			if (c - i)
-				ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, c - i), WR));
-			if (ft_isalpha(input[c]) || ft_isdigit(input[c]))
+			i++;
+			c = i - 1;
+			while (++c < j)
 			{
-				ft_lstadd_back(node, ft_lstnew(ft_strdup(""), WR));
-				c++;
-			}
-			if (!input[c + 1] || input[c + 1] == ' ' || input[c + 1] == '$')
-			{
-				ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WR));
-				c++;
-			}
-			else if (!input[c + 1] || input[c + 1] == '?')
-			{
-				ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(ds)), WR));
-				c++;
-			}
-			else
-			{
-				while (ft_isalpha(input[c]) || ft_isdigit(input[c]))
+				if(input[c] == '$')
 				{
-					if (ft_isdigit(input[c]) && input[c - 1] == '$')
-					{
-						c++;
-						break ;
-					}
-					c++;
+					if(c - x)
+						ft_lstadd_back(node, ft_lstnew(ft_substr(input, x, c - x), WR));
+					c += ft_expand(node, input, env, c);
+					x = c;
 				}
-				str = get_path(env, ft_substr(input, n + 1, c - (n + 1)));//free --->  ft_substr(input, n + 1, c - (n + 1))
-				str = ft_strtrim(str, "\"");
-				if (str)
-					ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WR));
 			}
-			n = c++;
-			n = c;
-			while (c < j)
-				c++;
-			if (c - n)
-				ft_lstadd_back(node, ft_lstnew(ft_substr(input, n, c - n), WR));
+			if(j - x)
+				ft_lstadd_back(node, ft_lstnew(ft_substr(input, x, j - x), WR));
 		}
 		else
-			ft_lstadd_back(node, ft_lstnew(ft_substr(input, i, j - i), WR));
-		return (j - i + 1);
+			ft_lstadd_back(node, ft_lstnew(str, WR));
+		free(str);
+		return(j - i + 1);
 	}
-	return (printf("double quotes not closed\n"), -1);
+	return(printf("double quotes not closed\n"), -1);
 }
 
 int	ft_isalpha(char c)
@@ -227,6 +197,37 @@ int	ft_isalpha(char c)
 			return (0);
 	}
 	return (1);
+}
+
+int ft_expand(t_list **node, char *input, char **env, int i)
+{
+	int		j = 0;
+	char	*str;
+
+	if (!input[i + 1] || input[i + 1] == ' ' || input[i + 1] == '$')
+		return(ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WR)), 2);
+	else if (input[i + 1] == '?')
+		return(ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(ds)), WR)), 2);
+	else if (!ft_isalpha(input[i + 1]) && !ft_isdigit(input[i + 1]))
+		return(ft_lstadd_back(node, ft_lstnew(ft_strdup(""), WR)), 2);
+	else
+	{
+		j = i + 1;
+		while (ft_isalpha(input[j]) || ft_isdigit(input[j]))
+		{
+			if (ft_isdigit(input[j]))
+			{
+				j++;
+				break ;
+			}
+			j++;
+		}
+		str = get_path(env, ft_substr(input, i + 1, j - (i + 1))); // free   ft_substr(input, i + 1, j - (i + 1));
+		str = ft_strtrim(str, "\"");
+		if (str)
+			ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WR));
+		return (j - i);
+	}
 }
 
 int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
@@ -274,39 +275,8 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		}
 		else if (input[i] == '$')
 		{
-			if (!input[i + 1] || input[i + 1] == ' ' || input[i + 1] == '$')
-			{
-				ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WR));
-				i++;
-			}
-			else if (!ft_isalpha(input[j]) || !ft_isdigit(input[j]))
-			{
-				ft_lstadd_back(node, ft_lstnew(ft_strdup(""), WR));
-				i++;
-			}
-			else if (!input[i + 1] || input[i + 1] == '?')
-			{
-				ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(ds)), WR));
-				i++;
-			}
-			else
-			{
-				j = i + 1;
-				while (ft_isalpha(input[j]) || ft_isdigit(input[j]))
-				{
-					if (ft_isdigit(input[j]))
-					{
-						j++;
-						break ;
-					}
-					j++;
-				}
-				str = get_path(env, ft_substr(input, i + 1, j - (i + 1))); // free   ft_substr(input, i + 1, j - (i + 1));
-				str = ft_strtrim(str, "\"");
-				if (str)
-					ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WR));
-				i += (j - i);
-			}
+			i += ft_expand(node, input, env, i);
+			j = 2;
 		}
 		else if (input[i] == '>' && input[i + 1] == '>')
 		{
