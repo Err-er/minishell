@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/03 09:48:50 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/03 16:57:39 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int *fd, int *x, cha
 	char	**cmds;
 	char	hh[100];
 
-	if (ft_check_pip2(node, IREDI) && !ft_check_pip2(node, INPUT_H))
+	if (ft_check_pip2(node, IREDI) && ft_is_last(node, IREDI, INPUT_H, PIPE))
 	{
 		dup2(st_in, 0);
 		close(st_in);
@@ -96,7 +96,7 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int *fd, int *x, cha
 		close(end[0]);
 		close(end[1]);
 	}
-	if (ft_check_pip2(node, OREDI))
+	if (ft_check_pip2(node, OREDI) || ft_check_pip2(node, OUTPUT_H))
 	{
 		dup2(fd[1], x[1]);
 		close(fd[1]);
@@ -141,15 +141,14 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_list *node, int *fd, int *x, cha
 	t_list	*head = node;
 	int		p[2];
 
-	if ((ft_check_pip2(node, OREDI)
-			|| ft_check_pip2(node, IREDI)) && !ft_check_pip(node, INPUT_H))
+	if (ft_check_pip2(node, IREDI) && ft_is_last(node, IREDI, INPUT_H, PIPE))
 	{
 		dup2(st_in, 0);
 		close(st_in);
 		dup2(fd[0], x[0]);
 		close(fd[0]);
 	}
-	else if (ft_check_pip2(node, OREDI))
+	else if (ft_check_pip2(node, OREDI) || ft_check_pip2(node, OUTPUT_H))
 	{
 		dup2(fd[1], x[1]);
 		close(fd[1]);
@@ -199,14 +198,14 @@ void	ft_child2(char *cmds, t_cd *cd, t_list *node, int *fd, int *x, char *value,
 	char	hh[100];
 	int		end[2];
 
-	if (ft_check_pip2(node, IREDI) && !ft_check_pip2(node, INPUT_H))
+	if (ft_check_pip2(node, IREDI) && ft_is_last(node, IREDI, INPUT_H, PIPE))
 	{
 		dup2(st_in, 0);
 		close(st_in);
 		dup2(fd[0], x[0]);
 		close(fd[0]);
 	}
-	if (ft_check_pip2(node, OREDI))
+	if (ft_check_pip2(node, OREDI) || ft_check_pip2(node, OUTPUT_H))
 	{
 		dup2(fd[1], x[1]);
 		close(fd[1]);
@@ -382,12 +381,12 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 					file_n = ft_strjoin_nf(file_n, head->data);
 					head = head->next;
 				}
-				if (ft_strchr(file_n, '/'))
+				fd[1] = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0666);
+				if (fd[1] == -1)
 				{
-					printf("minishell: %s: No such file or directory\n", file_n);
+					perror("Error");
 					return ;
 				}
-				fd[1] = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0666);
 				free(file_n);
 				x[1] = 1;
 			}
@@ -395,19 +394,19 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 			{
 				file_n = ft_strdup("");
 				head = head->next;
-				if (head->tokn == WS)
+				if (head->tokn == WS && head->tokn != END_TOKN)
 					head = head->next;
 				while (head->tokn == WR && head->tokn != END_TOKN)
 				{
 					file_n = ft_strjoin_nf(file_n, head->data);
 					head = head->next;
 				}
-				if (ft_strchr(file_n, '/'))
+				fd[1] = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
+				if (fd[1] == -1)
 				{
-					printf("minishell: %s: No such file or directory\n", file_n);
+					perror("Error");
 					return ;
 				}
-				fd[1] = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
 				free(file_n);
 				x[1] = 1;
 			}
@@ -417,21 +416,12 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 				head = head->next;
 				while (head->tokn == WS && head->tokn != END_TOKN)
 					head = head->next;
-				if (pipe(end) == -1)
-					perror("Error");
-				if (!ft_check_pip(head, INPUT_H))
-				{
-					dup2(st_in, 0);
-					close(st_in);
-				}
+				dup2(st_in, 0);
 				while (1)
 				{
 					p = readline("> ");
-					if (!ft_strcmp(p, head->data))
-					{
-						free(p);
+					if (!ft_strcmp2(p, head->data))
 						break ;
-					}
 					p = ft_strjoin_nf(p, "\n");
 					value = ft_strjoin(value, p);
 					free(p);
@@ -445,13 +435,8 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 					head = head->next;
 				while (head->tokn == WR && head->tokn != END_TOKN)
 				{
-					file_n = ft_strjoin_nf(file_n, head->data);
+					file_n = ft_strjoin(file_n, head->data);
 					head = head->next;
-				}
-				if (ft_strchr(file_n, '/'))
-				{
-					printf("minishell: %s: No such file or directory\n", file_n);
-					return ;
 				}
 				fd[0] = open(file_n, O_RDONLY);
 				if (fd[0] == -1 || !file_n)
@@ -462,7 +447,8 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 				free(file_n);
 				x[0] = 0;
 			}
-			head = head->next;
+			else
+				head = head->next;
 		}
 		if (ft_check_pip2(node, INPUT_H) && value)
 		{

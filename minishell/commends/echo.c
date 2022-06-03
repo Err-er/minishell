@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/03 09:10:07 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/03 12:58:43 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,12 @@ void	ft_echo(t_list *node)
 				&& !ft_strncmp(head->next->next->data, "-n", 2))
 			{
 				head = head->next->next;
-				if (head->next->tokn == WS || !head->next->tokn)
+				if ((head->next->tokn == WS || !head->next->tokn)
+					&& !ft_strcmp(head->data, "-n"))
 				{
 					while (skip_flags(head))
 						head = head->next;
-					if (!head->tokn)	//edit if command (echo -n)
+					if (!head->tokn)
 						return ;
 					ft_echo_flag(head);
 				}

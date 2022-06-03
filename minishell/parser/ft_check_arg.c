@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/03 11:40:39 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/03 16:39:05 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	ft_parser_edit(t_list **node, char *input, int i)
 
 	j = i;
 	if (input[j] == '\'' && input[j + 1] == '\'')
-		return (0);
+		return (ft_lstadd_back(node, ft_lstnew(NULL, NUL)), 0);
 	while (input[++j])
 	{
 		if (input[j] == '\'')
@@ -280,7 +280,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		}
 		else if (input[i] == '>' && input[i + 1] == '>')
 		{
-			i += 2;
+			i += 1;
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">>"), OUTPUT_H));
 		}
 		else if (input[i] == '>')
@@ -365,6 +365,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			}
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(limiter), LIMITER));
 			free(limiter);
+			j = 5;
 		}
 		else if (input[i] == '<')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), IREDI));
@@ -431,7 +432,7 @@ int	ft_check_pip3(t_list *node, int c, int c2)
 	t_list	*head;
 
 	head = node;
-	while (head && head->tokn != c2)
+	while (head && head->tokn != c2 && head->tokn != PIPE)
 	{
 		if (head->tokn == c)
 			return (1);
@@ -454,6 +455,28 @@ int	ft_check_pip2(t_list *node, int c)
 		head = head->next;
 	}
 	return (0);
+}
+
+int	ft_is_last(t_list *node, int c, int c2, int end)
+{
+	t_list	*head;
+	int		nb;
+
+	nb = 1;
+	head = node;
+	if (head->next)
+		head = head->next;
+	while (head->tokn != end)
+	{
+		if (head->tokn == c)
+			nb = 1;
+		else if (head->tokn == c2)
+			nb = 0;
+		head = head->next;
+		if (!head)
+			break ;
+	}
+	return (nb);
 }
 
 void	ft_pip(t_list *node, t_cd *cd)
@@ -507,11 +530,12 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int *fd, int *i, char *value)
 	char	*pat;
 	char	**cmd;
 	int		end[2];
+	int		c;
 
 	cmd = ft_split_2(cmds, '\v');
 	if (ft_check_pip(node, INPUT_H))
 	{
-		if (ft_check_pip3(node, INPUT_H, IREDI) && ft_check_pip(node, IREDI))
+		if (!ft_is_last(node, INPUT_H, IREDI, END_TOKN))
 		{
 			dup2(fd[0], i[0]);
 			close(fd[0]);
@@ -586,7 +610,6 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	value = ft_strdup("");
 	head = node->next;
 	c = 0;
-	// printf_list(node);
 	while (head)
 	{
 		if (head->tokn == WS)

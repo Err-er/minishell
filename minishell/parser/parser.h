@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/03 11:21:44 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/03 16:30:45 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void		ft_print_env(char **env);
 void		unset_this(t_cd *cd, char *s);
 void		export_this(t_cd *cd, char *s);
 int			get_global(int i);
+int			ft_is_last(t_list *node, int c, int c2, int end);
 int			ft_strcmp2(char *str1, char *str2);
 int			ft_expand(t_list **node, char *input, char **env, int i);
 #endif
