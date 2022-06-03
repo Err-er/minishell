@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 15:48:41 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/03 09:10:07 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	ft_putstr(char	*c)
 void	ft_echo_flag(t_list *node)
 {
 	while (node->tokn != END_TOKN
-		&& node->tokn != PIPE && node->tokn != Iredi && node->tokn != Oredi)
+		&& node->tokn != PIPE && node->tokn != IREDI && node->tokn != OREDI)
 	{
 		if (node->tokn == WS && (node->next->tokn == WS
-				|| node->next->tokn == PIPE || node->next->tokn == Iredi
-				|| node->next->tokn == Oredi))
+				|| node->next->tokn == PIPE || node->next->tokn == IREDI
+				|| node->next->tokn == OREDI))
 			return ;
 		else if (node->data)
 			ft_putstr(node->data);
@@ -47,8 +47,8 @@ void	ft_echo_utils(t_list *node, int i)
 		node = node->next;	//skip node of ' '
 	}
 	while (node->tokn != END_TOKN && node->tokn != PIPE
-		&& node->tokn != Iredi && node->tokn != Oredi
-		&& node->tokn !=output_h && node->tokn != input_h)
+		&& node->tokn != IREDI && node->tokn != OREDI
+		&& node->tokn !=OUTPUT_H && node->tokn != INPUT_H)
 	{
 		if (node->data)
 			ft_putstr(node->data);

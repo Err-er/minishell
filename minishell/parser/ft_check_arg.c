@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 20:54:48 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/03 11:40:39 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,40 +153,40 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 	char	*str;
 
 	j = i;
-	if(input[j] == '"' && input[j + 1] == '"')
-		return 0;
-	while(input[++j])
+	if (input[j] == '"' && input[j + 1] == '"')
+		return (ft_lstadd_back(node, ft_lstnew(NULL, NUL)), 0);
+	while (input[++j])
 	{
-		if(input[j] == '"')
+		if (input[j] == '"')
 			break ;
 	}
-	if(input[j] == '"')
+	if (input[j] == '"')
 	{
+		i++;
 		str = ft_substr(input, i, j - i);
-		x = i + 1;
-		if(ft_strchr(str, '$'))
+		x = i;
+		if (ft_strchr(str, '$'))
 		{
-			i++;
 			c = i - 1;
 			while (++c < j)
 			{
-				if(input[c] == '$')
+				if (input[c] == '$')
 				{
-					if(c - x)
-						ft_lstadd_back(node, ft_lstnew(ft_substr(input, x, c - x), WR));
+					if (c - x)
+						ft_lstadd_back(node,
+							ft_lstnew(ft_substr(input, x, c - x), WR));
 					c += ft_expand(node, input, env, c);
 					x = c;
 				}
 			}
-			if(j - x)
+			if (j - x)
 				ft_lstadd_back(node, ft_lstnew(ft_substr(input, x, j - x), WR));
 		}
 		else
 			ft_lstadd_back(node, ft_lstnew(str, WR));
-		free(str);
-		return(j - i + 1);
+		return (j - i + 1);
 	}
-	return(printf("double quotes not closed\n"), -1);
+	return (printf("double quotes not closed\n"), -1);
 }
 
 int	ft_isalpha(char c)
@@ -281,15 +281,15 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 		else if (input[i] == '>' && input[i + 1] == '>')
 		{
 			i += 2;
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(">>"), output_h));
+			ft_lstadd_back(node, ft_lstnew(ft_strdup(">>"), OUTPUT_H));
 		}
 		else if (input[i] == '>')
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), Oredi));
+			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), OREDI));
 		else if (input[i] == '<' && input[i + 1] == '<')
 		{
 			limiter = ft_strdup("");
 			i += 2;
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("<<"), input_h));
+			ft_lstadd_back(node, ft_lstnew(ft_strdup("<<"), INPUT_H));
 			while (input[i] == ' ')
 				i++;
 			while (input[i] && input[i] != ' ' && input[i] != '<'
@@ -367,7 +367,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			free(limiter);
 		}
 		else if (input[i] == '<')
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), Iredi));
+			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), IREDI));
 		else
 		{
 			if (input[i] != ' ')
@@ -426,6 +426,20 @@ int	ft_check_pip(t_list *node, int c)
 	return (0);
 }
 
+int	ft_check_pip3(t_list *node, int c, int c2)
+{
+	t_list	*head;
+
+	head = node;
+	while (head && head->tokn != c2)
+	{
+		if (head->tokn == c)
+			return (1);
+		head = head->next;
+	}
+	return (0);
+}
+
 int	ft_check_pip2(t_list *node, int c)
 {
 	t_list	*head;
@@ -454,21 +468,21 @@ void	ft_pip(t_list *node, t_cd *cd)
 	{
 		if (head->tokn == PIPE)
 			str = ft_strjoin(str, "\t");
-		else if (head->tokn == Oredi)
+		else if (head->tokn == OREDI)
 		{
 				head = head->next;
 			while (head->tokn == WS && head->tokn != END_TOKN)
 				head = head->next;
 		}
-		else if (head->tokn == output_h)
+		else if (head->tokn == OUTPUT_H)
 		{
 				head = head->next;
 			while (head->tokn == WS && head->tokn != END_TOKN)
 				head = head->next;
 		}
-		else if (head->tokn == input_h)
+		else if (head->tokn == INPUT_H)
 			head = head->next;
-		else if (head->tokn == Iredi)
+		else if (head->tokn == IREDI)
 		{
 			head = head->next;
 			while (head->tokn == WS && head->tokn != END_TOKN)
@@ -476,6 +490,8 @@ void	ft_pip(t_list *node, t_cd *cd)
 		}
 		else if (head->tokn == WS)
 			str = ft_strjoin(str, "\v");
+		else if (head->tokn == NUL)
+			str = ft_strjoin(str, ft_strdup(" "));
 		else
 			str = ft_strjoin(str, head->data);
 		head = head->next;
@@ -493,14 +509,22 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int *fd, int *i, char *value)
 	int		end[2];
 
 	cmd = ft_split_2(cmds, '\v');
-	if (ft_check_pip(node, input_h))
+	if (ft_check_pip(node, INPUT_H))
 	{
-		if (pipe(end) == -1)
-			perror("Error");
-		ft_putstr_fd(value, end[1]);
-		close(end[1]);
-		dup2(end[0], 0);
-		close(end[0]);
+		if (ft_check_pip3(node, INPUT_H, IREDI) && ft_check_pip(node, IREDI))
+		{
+			dup2(fd[0], i[0]);
+			close(fd[0]);
+		}
+		else
+		{
+			if (pipe(end) == -1)
+				perror("Error");
+			ft_putstr_fd(value, end[1]);
+			close(end[1]);
+			dup2(end[0], 0);
+			close(end[0]);
+		}
 	}
 	else
 	{
@@ -562,11 +586,12 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	value = ft_strdup("");
 	head = node->next;
 	c = 0;
+	// printf_list(node);
 	while (head)
 	{
 		if (head->tokn == WS)
 			str = ft_strjoin(str, "\v");
-		else if (head->tokn == Oredi)
+		if (head->tokn == OREDI)
 		{
 			file_n = ft_strdup("");
 			head = head->next;
@@ -577,16 +602,16 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 				file_n = ft_strjoin_nf(file_n, head->data);
 				head = head->next;
 			}
-			if (ft_strchr(file_n, '/'))
+			fd[1] = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0666);
+			if (fd[1] == -1)
 			{
-				printf("minishell: %s: No such file or directory\n", file_n);
+				perror("Error");
 				return ;
 			}
-			fd[1] = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0666);
 			free(file_n);
 			i[1] = 1;
 		}
-		else if (head->tokn == output_h)
+		if (head->tokn == OUTPUT_H)
 		{
 			file_n = ft_strdup("");
 			head = head->next;
@@ -597,18 +622,17 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 				file_n = ft_strjoin_nf(file_n, head->data);
 				head = head->next;
 			}
-			if (ft_strchr(file_n, '/'))
+			fd[1] = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
+			if (fd[1] == -1)
 			{
-				printf("minishell: %s: No such file or directory\n", file_n);
+				perror("Error");
 				return ;
 			}
-			fd[1] = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
 			free(file_n);
 			i[1] = 1;
 		}
-		else if (head->tokn == input_h)
+		if (head->tokn == INPUT_H)
 		{
-			// puts("hhhhhhhhhhhh");
 			value = ft_strdup("");
 			head = head->next;
 			while (head->tokn == WS && head->tokn != END_TOKN)
@@ -616,14 +640,14 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 			while (1)
 			{
 				p = readline("> ");
-				if (!ft_strcmp(p, head->data))
+				if (!ft_strcmp2(p, head->data))
 					break ;
 				p = ft_strjoin_nf(p, "\n");
 				value = ft_strjoin(value, p);
 				free(p);
 			}
 		}
-		else if (head->tokn == Iredi)
+		if (head->tokn == IREDI)
 		{
 			file_n = ft_strdup("");
 			head = head->next;
@@ -643,7 +667,9 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 			free(file_n);
 			i[0] = 0;
 		}
-		else if (head->tokn == WR)
+		if (head->tokn == NUL)
+			str = ft_strjoin(str, ft_strdup(" "));
+		if (head->tokn == WR)
 			str = ft_strjoin(str, head->data);
 		head = head->next;
 	}
@@ -715,9 +741,9 @@ int	ft_sc(t_list *node, t_cd *cd)
 	{
 		if (head->tokn == WS)
 			str = ft_strjoin(str, "\v");
-		else if (head->tokn == Oredi)
+		else if (head->tokn == OREDI)
 			return (0);
-		else if (head->tokn == Iredi)
+		else if (head->tokn == IREDI)
 			return (0);
 		else if (head->data)
 			str = ft_strjoin(str, head->data);

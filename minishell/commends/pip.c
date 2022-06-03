@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 16:12:19 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/03 09:48:50 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_path(char **env, char *cd)
 		ft_fre(p);
 		return (cmd[0]);
 	}
-	if (!cmd[0])
+	if (!cmd)
 	{
 		ft_putstr_fd("minishell : command not found: ", 2);
 		if (cmd[0])
@@ -83,7 +83,7 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int *fd, int *x, cha
 	char	**cmds;
 	char	hh[100];
 
-	if (ft_check_pip2(node, Iredi) && !ft_check_pip2(node, input_h))
+	if (ft_check_pip2(node, IREDI) && !ft_check_pip2(node, INPUT_H))
 	{
 		dup2(st_in, 0);
 		close(st_in);
@@ -96,7 +96,7 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_list *node, int *fd, int *x, cha
 		close(end[0]);
 		close(end[1]);
 	}
-	if (fd[1])
+	if (ft_check_pip2(node, OREDI))
 	{
 		dup2(fd[1], x[1]);
 		close(fd[1]);
@@ -141,15 +141,15 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_list *node, int *fd, int *x, cha
 	t_list	*head = node;
 	int		p[2];
 
-	if ((ft_check_pip2(node, Oredi)
-			|| ft_check_pip2(node, Iredi)) && !ft_check_pip(node, input_h))
+	if ((ft_check_pip2(node, OREDI)
+			|| ft_check_pip2(node, IREDI)) && !ft_check_pip(node, INPUT_H))
 	{
 		dup2(st_in, 0);
 		close(st_in);
 		dup2(fd[0], x[0]);
 		close(fd[0]);
 	}
-	else if (fd[1])
+	else if (ft_check_pip2(node, OREDI))
 	{
 		dup2(fd[1], x[1]);
 		close(fd[1]);
@@ -199,14 +199,14 @@ void	ft_child2(char *cmds, t_cd *cd, t_list *node, int *fd, int *x, char *value,
 	char	hh[100];
 	int		end[2];
 
-	if (ft_check_pip2(node, Iredi) && !ft_check_pip2(node, input_h))
+	if (ft_check_pip2(node, IREDI) && !ft_check_pip2(node, INPUT_H))
 	{
 		dup2(st_in, 0);
 		close(st_in);
 		dup2(fd[0], x[0]);
 		close(fd[0]);
 	}
-	if (fd[1])
+	if (ft_check_pip2(node, OREDI))
 	{
 		dup2(fd[1], x[1]);
 		close(fd[1]);
@@ -305,13 +305,13 @@ int	ft_check_red(t_list *node, int fd)
 
 	while (node->tokn != PIPE)
 	{
-		if (node->tokn == Oredi)
+		if (node->tokn == OREDI)
 		{
 			node = node->next;
 			fd = open(node->data, O_CREAT | O_RDWR | O_TRUNC, 0666);
 				i = 1;
 		}
-		else if (node->tokn == Iredi)
+		else if (node->tokn == IREDI)
 		{
 			node = node->next;
 			fd = open(node->data, O_RDONLY);
@@ -326,12 +326,12 @@ int	ft_check_red2(t_list *node, int fd)
 {
 	while (node->tokn != PIPE && node)
 	{
-		if (node->tokn == Oredi)
+		if (node->tokn == OREDI)
 		{
 			node = node->next;
 			fd = open(node->data, O_CREAT | O_RDWR | O_TRUNC, 0666);
 		}
-		else if (node->tokn == Iredi)
+		else if (node->tokn == IREDI)
 		{
 			node = node->next;
 			fd = open(node->data, O_RDONLY);
@@ -356,10 +356,11 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 	char	*p;
 	int		st_in;
 
-	i = -1;
+	i = 0;
 	file_n = ft_strdup("");
 	value = ft_strdup("");
-	while (str[++i]);
+	while (str[i])
+		i++;
 	id = malloc(i * sizeof(int));
 	i = -1;
 	st_in = dup(0);
@@ -370,7 +371,7 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 		head = node;
 		while (head && head->tokn != PIPE)
 		{
-			if (head->tokn == Oredi)
+			if (head->tokn == OREDI)
 			{
 				file_n = ft_strdup("");
 				head = head->next;
@@ -390,7 +391,7 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 				free(file_n);
 				x[1] = 1;
 			}
-			else if (head->tokn == output_h)
+			else if (head->tokn == OUTPUT_H)
 			{
 				file_n = ft_strdup("");
 				head = head->next;
@@ -410,7 +411,7 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 				free(file_n);
 				x[1] = 1;
 			}
-			else if (head->tokn == input_h)
+			else if (head->tokn == INPUT_H)
 			{
 				value = ft_strdup("");
 				head = head->next;
@@ -418,7 +419,7 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 					head = head->next;
 				if (pipe(end) == -1)
 					perror("Error");
-				if (!ft_check_pip(head, input_h))
+				if (!ft_check_pip(head, INPUT_H))
 				{
 					dup2(st_in, 0);
 					close(st_in);
@@ -436,7 +437,7 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 					free(p);
 				}
 			}
-			else if (head->tokn == Iredi)
+			else if (head->tokn == IREDI)
 			{
 				file_n = ft_strdup("");
 				head = head->next;
@@ -463,7 +464,7 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 			}
 			head = head->next;
 		}
-		if (ft_check_pip2(node, input_h) && value)
+		if (ft_check_pip2(node, INPUT_H) && value)
 		{
 			if (pipe(end) == -1)
 				perror("Error");
@@ -486,7 +487,7 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 			else if (ft_cheak(i, str) == 3)
 				ft_child3(str[i], cd, end, node, fd, x, value, st_in);
 		}
-		if (i == 0 && !ft_check_pip2(node, input_h))
+		if (i == 0 && !ft_check_pip2(node, INPUT_H))
 			c = id[i];
 		ft_change_node(&node);
 		dup2(end[0], 0);

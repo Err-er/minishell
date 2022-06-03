@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 18:46:03 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/03 11:21:44 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@
 # define WR			11	//	Word
 # define WS			13	//	space ' '
 # define DOL		14	//	Dollar $ !
-# define Iredi		15	//	< !
-# define Oredi		16	//	> ! 
-# define input_h	17	//	<< !
-# define output_h	18	//	>> ! 
+# define IREDI		15	//	< !
+# define OREDI		16	//	> ! 
+# define INPUT_H	17	//	<< !
+# define OUTPUT_H	18	//	>> ! 
 # define file		19	//	file of input or output  {> , < , >> , <<}
 # define LIMITER	21	//	LIMITER of herdoc
 # define END_TOKN	0	//	End
@@ -102,5 +102,6 @@ void		ft_print_env(char **env);
 void		unset_this(t_cd *cd, char *s);
 void		export_this(t_cd *cd, char *s);
 int			get_global(int i);
+int			ft_strcmp2(char *str1, char *str2);
 int			ft_expand(t_list **node, char *input, char **env, int i);
 #endif

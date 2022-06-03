@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/02 17:51:02 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/03 09:10:07 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,7 +322,7 @@ void	ft_exprot(t_list **node, t_cd *cd)
 		ft_print_export(cd);
 		return ;
 	}
-	else if (head->next->tokn == Oredi || head->next->tokn == Iredi || head->next->tokn == output_h || head->next->tokn == input_h)
+	else if (head->next->tokn == OREDI || head->next->tokn == IREDI || head->next->tokn == OUTPUT_H || head->next->tokn == INPUT_H)
 	{
 		ft_print_export(cd);
 		return ;
