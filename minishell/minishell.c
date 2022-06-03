@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 13:44:51 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/03 17:20:36 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	ft_new_env(char **env, t_cd *cd)
 	cd->my_env[i] = NULL;
 	if (get_path(cd->my_env, "OLDPWD"))
 		unset_this(cd, "OLDPWD");
+	cd->pwd = ft_strdup("PWD=");
+	cd->pwd = ft_strjoin(cd->pwd,get_path(cd->my_env, "PWD"));
 }
 
 void	handle_sigs(int sig)
@@ -40,6 +42,10 @@ void	handle_sigs(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+	}
+	else if (sig == SIGQUIT)
+	{
+		
 	}
 	else
 		printf("\n");
