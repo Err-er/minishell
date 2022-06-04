@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/04 12:35:11 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/04 13:34:10 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,6 @@ int			ft_is_last(t_list *node, int c, int c2, int end);
 int			ft_strcmp2(char *str1, char *str2);
 int			ft_expand(t_list **node, char *input, char **env, int i);
 int			ft_check_syntax(t_list *node, char *input);
+void		ft_exit(t_list **node);
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/04 10:22:14 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/04 14:00:06 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,6 @@ int	get_global(int i)
 	return (j);
 }
 
-int	check_exit(char *input)
-{
-	if (!ft_strcmp(input, "exit"))
-	{
-		printf("exit\n");
-		exit(0);
-	}
-	return (1);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
@@ -89,7 +79,7 @@ int	main(int ac, char **av, char **env)
 	{
 		get_global(0);
 		input = readline("➜ minishell $ ");
-		if (!input || !check_exit(input))
+		if (!input)
 			break ;
 		ft_parser(input, cd);
 		if (input)

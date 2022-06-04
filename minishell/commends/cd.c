@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/03 17:19:16 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/04 13:57:19 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,11 @@ void	ft_cd(t_list **node, t_cd *cd)
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
 	{
 		if (!get_path(cd->my_env, "HOME"))
+		{
+			ds = 1;
 			printf("HOME not set\n");
+			return ;
+		}
 		cd->pwd = ft_strdup("PWD=");
 		cd->pwd = ft_strjoin(cd->pwd, get_path(cd->my_env, "HOME"));
 		if (i > 0)
@@ -122,16 +126,19 @@ void	ft_cd(t_list **node, t_cd *cd)
 		{
 			if (access(head->next->data, F_OK))
 			{
+				ds = 1;
 				printf("minishell: cd: %s: No such file or directory\n", head->next->data);
 				return ;
 			}
 			else if (access(head->next->data, X_OK))
 			{
+				ds = 1;
 				printf("minishell: cd: %s: Permission denied\n",head->next->data);
 				return ;
 			}
 			else if (access(head->next->data, F_OK))
 			{
+				ds = 1;
 				printf("minishell: cd: %s: No such file or directory\n",head->next->data);
 				return ;
 			}
@@ -224,7 +231,11 @@ void	ft_cd(t_list **node, t_cd *cd)
 					printf("didn't work\n");
 			}
 			else
+			{
+				ds = 1;
 				printf("minishell: cd: OLDPWD not set\n");
+				return ;
+			}
 		}
 		else if (!ft_strcmp(head->next->data, ".."))
 		{
@@ -251,12 +262,14 @@ void	ft_cd(t_list **node, t_cd *cd)
 			}
 			else if (access(head->next->data, X_OK))
 			{
+				ds = 1;
 				printf("minishell: cd: %s: Permission denied\n",
 					head->next->data);
 				return ;
 			}
 			else if (access(head->next->data, F_OK))
 			{
+				ds = 1;
 				printf("minishell: cd: %s: No such file or directory\n",
 					head->next->data);
 				return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/04 10:45:48 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/04 13:28:18 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,8 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_vars var)
 		ft_unset (&var.node, cd);
 		exit(0);
 	}
+	else if (!ft_strcmp(cmds[0], "exit"))
+		exit(0);
 	pat = ft_path(cd->my_env, cmd);
 	if (access(cmds[0], X_OK) == 0)
 		pat = cmds[0];
@@ -217,6 +219,10 @@ void	ft_child2(char *cmds, t_cd *cd, t_vars var)
 	if (!ft_strcmp(cmd[0], "unset"))
 	{
 		ft_unset(&var.node, cd);
+		exit(0);
+	}
+	if (!ft_strcmp(cmd[0], "exit"))
+	{
 		exit(0);
 	}
 	pat = ft_path(cd->my_env, cmds);
