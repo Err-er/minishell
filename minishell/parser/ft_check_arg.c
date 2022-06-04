@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/03 16:39:05 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/04 11:49:20 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -525,7 +525,7 @@ void	ft_pip(t_list *node, t_cd *cd)
 	exit(1);
 }
 
-void	ft_ex(char *cmds, t_cd *cd, t_list *node, int *fd, int *i, char *value)
+void	ft_ex(char *cmds, t_cd *cd, t_vars var)
 {
 	char	*pat;
 	char	**cmd;
@@ -533,43 +533,46 @@ void	ft_ex(char *cmds, t_cd *cd, t_list *node, int *fd, int *i, char *value)
 	int		c;
 
 	cmd = ft_split_2(cmds, '\v');
-	if (ft_check_pip(node, INPUT_H))
+	if (ft_check_pip(var.node, INPUT_H))
 	{
-		if (!ft_is_last(node, INPUT_H, IREDI, END_TOKN))
+		if (!ft_is_last(var.node, INPUT_H, IREDI, END_TOKN))
 		{
-			dup2(fd[0], i[0]);
-			close(fd[0]);
+			dup2(var.fd[0], var.x[0]);
+			close(var.fd[0]);
 		}
 		else
 		{
 			if (pipe(end) == -1)
 				perror("Error");
-			ft_putstr_fd(value, end[1]);
+			ft_putstr_fd(var.value, end[1]);
 			close(end[1]);
 			dup2(end[0], 0);
 			close(end[0]);
 		}
 	}
-	else
+	else if (var.fd[0])
 	{
-		dup2(fd[0], i[0]);
-		close(fd[0]);
+		dup2(var.fd[0], var.x[0]);
+		close(var.fd[0]);
 	}
-	dup2(fd[1], i[1]);
-	close(fd[1]);
+	if (var.fd[1])
+	{
+		dup2(var.fd[1], var.x[1]);
+		close(var.fd[1]);
+	}
 	if (!ft_strcmp(cmd[0], "echo"))
 	{
-		ft_echo(node);
+		ft_echo(var.node);
 		exit(0);
 	}
 	else if (!ft_strcmp(cmd[0], "export"))
 	{
-		ft_exprot(&node, cd);
+		ft_exprot(&var.node, cd);
 		exit(0);
 	}
 	else if (!ft_strcmp(cmd[0], "unset"))
 	{
-		ft_unset(&node, cd);
+		ft_unset(&var.node, cd);
 		exit(0);
 	}
 	else if (!ft_strcmp(cmd[0], "pwd"))
@@ -597,66 +600,65 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	t_list	*head;
 	char	*str;
 	char	**cmd;
-	int		pid;
-	int		fd[2];
-	int		end[2];
-	int		i[2];
-	int		c;
+	t_vars	var;
 	char	*p;
-	char	*value;
-	char	*file_n;
 
+	var.fd[1] = dup(1);
+	var.fd[0] = dup(0);
 	str = ft_strdup("");
-	value = ft_strdup("");
+	var.value = ft_strdup("");
 	head = node->next;
-	c = 0;
+	var.c = 0;
 	while (head)
 	{
 		if (head->tokn == WS)
-			str = ft_strjoin(str, "\v");
-		if (head->tokn == OREDI)
 		{
-			file_n = ft_strdup("");
+			str = ft_strjoin(str, "\v");
+			head = head->next;
+		}
+		else if (head->tokn == OREDI)
+		{
+			var.file_n = ft_strdup("");
 			head = head->next;
 			if (head->tokn == WS)
 				head = head->next;
 			while (head->tokn == WR && head->tokn != END_TOKN)
 			{
-				file_n = ft_strjoin_nf(file_n, head->data);
+				var.file_n = ft_strjoin_nf(var.file_n, head->data);
 				head = head->next;
 			}
-			fd[1] = open(file_n, O_CREAT | O_RDWR | O_TRUNC, 0666);
-			if (fd[1] == -1)
+			var.fd[1] = open(var.file_n, O_CREAT | O_RDWR | O_TRUNC, 0666);
+			if (var.fd[1] == -1)
 			{
 				perror("Error");
 				return ;
 			}
-			free(file_n);
-			i[1] = 1;
+			free(var.file_n);
+			var.x[1] = 1;
 		}
-		if (head->tokn == OUTPUT_H)
+		else if (head->tokn == OUTPUT_H)
 		{
-			file_n = ft_strdup("");
+			var.file_n = ft_strdup("");
 			head = head->next;
 			if (head->tokn == WS && head->tokn != END_TOKN)
 				head = head->next;
 			while (head->tokn == WR && head->tokn != END_TOKN)
 			{
-				file_n = ft_strjoin_nf(file_n, head->data);
+				var.file_n = ft_strjoin_nf(var.file_n, head->data);
 				head = head->next;
 			}
-			fd[1] = open(file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
-			if (fd[1] == -1)
+			var.fd[1] = open(var.file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
+			if (var.fd[1] == -1)
 			{
 				perror("Error");
 				return ;
 			}
-			free(file_n);
-			i[1] = 1;
+			free(var.file_n);
+			var.x[1] = 1;
 		}
-		if (head->tokn == INPUT_H)
+		else if (head->tokn == INPUT_H)
 		{
-			value = ft_strdup("");
+			var.value = ft_strdup("");
 			head = head->next;
 			while (head->tokn == WS && head->tokn != END_TOKN)
 				head = head->next;
@@ -666,35 +668,42 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 				if (!ft_strcmp2(p, head->data))
 					break ;
 				p = ft_strjoin_nf(p, "\n");
-				value = ft_strjoin(value, p);
+				var.value = ft_strjoin(var.value, p);
 				free(p);
 			}
 		}
-		if (head->tokn == IREDI)
+		else if (head->tokn == IREDI)
 		{
-			file_n = ft_strdup("");
+			var.file_n = ft_strdup("");
 			head = head->next;
 			if (head->tokn == WS)
 				head = head->next;
 			while (head->tokn == WR && head->tokn != END_TOKN)
 			{
-				file_n = ft_strjoin(file_n, head->data);
+				var.file_n = ft_strjoin(var.file_n, head->data);
 				head = head->next;
 			}
-			fd[0] = open(file_n, O_RDONLY);
-			if (fd[0] == -1 || !file_n)
+			var.fd[0] = open(var.file_n, O_RDONLY);
+			if ((var.fd[0] == -1 || !var.file_n) && head->tokn != 16)
 			{
-				printf("minishell: %s: No such file or directory\n", file_n);
+				perror("Error");
 				return ;
 			}
-			free(file_n);
-			i[0] = 0;
+			free(var.file_n);
+			var.x[0] = 0;
 		}
-		if (head->tokn == NUL)
+		else if (head->tokn == NUL)
+		{
 			str = ft_strjoin(str, ft_strdup(" "));
-		if (head->tokn == WR)
+			head = head->next;
+		}
+		else if (head->tokn == WR)
+		{
 			str = ft_strjoin(str, head->data);
-		head = head->next;
+			head = head->next;
+		}
+		else
+			head = head->next;
 	}
 	if (!str[0])
 		return ;
@@ -703,14 +712,15 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 		ft_cd(&node, cd);
 	else
 	{
+		var.node = node;
 		get_global(1);
-		pid = fork();
-		if (pid == 0)
-			ft_ex(str, cd, node, fd, i, value);
-		waitpid(pid, NULL, 0);
+		var.c2 = fork();
+		if (var.c2 == 0)
+			ft_ex(str, cd, var);
+		waitpid(var.c2, NULL, 0);
 	}
-	if (!value[0])
-		free(value);
+	if (!var.value[0])
+		free(var.value);
 	ft_fre(cmd);
 	free(str);
 }
@@ -756,17 +766,15 @@ int	ft_sc(t_list *node, t_cd *cd)
 	char	**cmd;
 	int		c;
 
-	str = malloc(1);
-	str[0] = '\0';
+	str = ft_strdup("");
 	head = node->next;
 	c = 0;
 	while (head->tokn != END_TOKN)
 	{
 		if (head->tokn == WS)
 			str = ft_strjoin(str, "\v");
-		else if (head->tokn == OREDI)
-			return (0);
-		else if (head->tokn == IREDI)
+		else if (head->tokn == OREDI || head->tokn == IREDI
+			|| head->tokn == INPUT_H || head->tokn == OUTPUT_H)
 			return (0);
 		else if (head->data)
 			str = ft_strjoin(str, head->data);
@@ -777,30 +785,15 @@ int	ft_sc(t_list *node, t_cd *cd)
 	cmd = ft_split_2(str, '\v');
 	free(str);
 	if (!ft_strcmp(cmd[0], "cd"))
-	{
-		ft_fre(cmd);
-		return (1);
-	}
+		return (ft_fre(cmd), 1);
 	else if (!ft_strcmp(cmd[0], "export"))
-	{
-		ft_fre(cmd);
-		return (1);
-	}
+		return (ft_fre(cmd), 1);
 	else if (!ft_strcmp(cmd[0], "unset"))
-	{
-		ft_fre(cmd);
-		return (1);
-	}
+		return (ft_fre(cmd), 1);
 	else if (!ft_strcmp(cmd[0], "pwd"))
-	{
-		ft_fre(cmd);
-		return (1);
-	}
+		return (ft_fre(cmd), 1);
 	else if (!ft_strcmp(cmd[0], "env"))
-	{
-		ft_fre(cmd);
-		return (1);
-	}
+		return (ft_fre(cmd), 1);
 	ft_fre(cmd);
 	return (0);
 }
@@ -817,6 +810,11 @@ void	ft_parser(char *input, t_cd *cd)
 	node = ft_lstnew(ft_strdup("->"), ST_TOKN);
 	if (!ft_tokinaizer(&node, input, cd->my_env))
 		return ;
+	if (!ft_check_syntax(node))
+	{
+		ft_lstclear(&node);
+		return ;
+	}
 	if (node->tokn == node->next->tokn)
 	{
 		ft_lstclear(&node);

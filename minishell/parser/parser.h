@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/03 17:19:42 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/04 11:33:33 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,19 @@ typedef struct s_cd
 // 	char	*oldpwd;
 // }	t_cd;
 
+typedef struct s_vars
+{
+	int		c;
+	int		c2;
+	int		fd[2];
+	int		x[2];
+	char	*file_n;
+	char	*value;
+	int		st_in;
+	t_list	*node;
+	int		*id;
+}	t_vars;
+
 long long	ft_atoi(const char *str);
 void		ft_parser(char *input, t_cd *cd);
 char		**ft_split(char *s, char c);
@@ -84,10 +97,10 @@ char		**ft_split(char *s, char c);
 void		c_pip(char **str, t_cd *cd, t_list *node);
 void		ft_free(char **p, int a);
 char		*ft_path(char **env, char *cd);
-void		ft_child2(char *cmds, t_cd *cd, t_list *node, int *fd, int *x, char *value, int st_in);
+void		ft_child2(char *cmds, t_cd *cd, t_vars var);
 void		printf_list(t_list *lst);
 void		ft_cd(t_list **node, t_cd *cd);
-void		ft_ex(char *cmds, t_cd *cd, t_list *node, int *fd, int *i, char *value);
+void		ft_ex(char *cmds, t_cd *cd, t_vars var);
 void		ft_exprot(t_list **node, t_cd *cd);
 void		ft_unset(t_list **node, t_cd *cd);
 void		ft_fre(char **cmd);
@@ -105,4 +118,5 @@ int			get_global(int i);
 int			ft_is_last(t_list *node, int c, int c2, int end);
 int			ft_strcmp2(char *str1, char *str2);
 int			ft_expand(t_list **node, char *input, char **env, int i);
+int			ft_check_syntax(t_list *node);
 #endif

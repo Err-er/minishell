@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/03 17:20:36 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/04 10:22:14 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_new_env(char **env, t_cd *cd)
 	if (get_path(cd->my_env, "OLDPWD"))
 		unset_this(cd, "OLDPWD");
 	cd->pwd = ft_strdup("PWD=");
-	cd->pwd = ft_strjoin(cd->pwd,get_path(cd->my_env, "PWD"));
+	cd->pwd = ft_strjoin(cd->pwd, get_path(cd->my_env, "PWD"));
 }
 
 void	handle_sigs(int sig)
@@ -42,10 +42,6 @@ void	handle_sigs(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-	}
-	else if (sig == SIGQUIT)
-	{
-		
 	}
 	else
 		printf("\n");
@@ -79,10 +75,10 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	t_cd	*cd;
 
+	(void)av;
 	signal(SIGINT, &handle_sigs);
 	signal(SIGQUIT, &handle_sigs);
 	rl_catch_signals = 0;
-	(void)av;
 	if (ac != 1)
 		return (printf("error in argm\n"), 0);
 	cd = malloc(sizeof(t_cd));

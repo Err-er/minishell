@@ -6,13 +6,13 @@ CC = cc
 
 INCLUDES = minishell.h
 
-RLFLAGS = -I/goinfre/zait-sli/.brew/opt/readline/include
+# RLFLAGS = -I/goinfre/zait-sli/.brew/opt/readline/include
 
-RLFLAGS2 = -L/goinfre/zait-sli/.brew/opt/readline/lib
+# RLFLAGS2 = -L/goinfre/zait-sli/.brew/opt/readline/lib
 
-# RLFLAGS = -I/goinfre/asabbar/.brew/opt/readline/include
+RLFLAGS = -I/goinfre/asabbar/.brew/opt/readline/include
 
-# RLFLAGS2 = -L/goinfre/asabbar/.brew/opt/readline/lib
+RLFLAGS2 = -L/goinfre/asabbar/.brew/opt/readline/lib
 
 SRC =	minishell.c					\
 		ft_strtrim.c				\
@@ -30,6 +30,7 @@ SRC =	minishell.c					\
 		commends/env.c 				\
 		ft_strdup.c					\
 		ft_itoa.c					\
+		syntax/check_syntax.c 		\
 
 OBJECTS = $(SRC:.c=.o)
 OBJECTSB = $(SRCB:.c=.o)

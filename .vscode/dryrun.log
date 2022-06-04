@@ -1,6 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory `/Users/zait-sli/Desktop/ll'
-make: Leaving directory `/Users/zait-sli/Desktop/ll'
- 
-make: *** No targets specified and no makefile found.  Stop.
-
