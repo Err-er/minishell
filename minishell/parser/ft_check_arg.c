@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/04 11:49:20 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/04 12:40:15 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -810,7 +810,7 @@ void	ft_parser(char *input, t_cd *cd)
 	node = ft_lstnew(ft_strdup("->"), ST_TOKN);
 	if (!ft_tokinaizer(&node, input, cd->my_env))
 		return ;
-	if (!ft_check_syntax(node))
+	if (!ft_check_syntax(node, input))
 	{
 		ft_lstclear(&node);
 		return ;
