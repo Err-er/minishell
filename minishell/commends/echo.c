@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/04 14:03:35 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/05 09:21:37 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,24 @@ void	ft_putstr(char	*c)
 
 void	ft_echo_flag(t_list *node)
 {
-	while (node->tokn != END_TOKN
-		&& node->tokn != PIPE && node->tokn != IREDI && node->tokn != OREDI)
+	while (node->tokn != END_TOKN && node->tokn != PIPE)
 	{
-		if (node->tokn == WS && (node->next->tokn == WS
-				|| node->next->tokn == PIPE || node->next->tokn == IREDI
-				|| node->next->tokn == OREDI))
-			return ;
-		else if (node->data)
+		if (node->tokn == WS && (node->next->tokn == IREDI
+				|| node->next->tokn == OREDI || node->next->tokn == OUTPUT_H
+				|| node->next->tokn == INPUT_H))
+			node = node->next;
+		if (node->tokn == IREDI || node->tokn == OREDI
+			|| node->tokn == OUTPUT_H || node->tokn == INPUT_H)
+		{
+			node = node->next;
+			while (node->tokn == WS)
+				node = node->next;
+			if (node->tokn == WR)
+				node = node->next;
+			if (node->tokn == LIMITER)
+				node = node->next;
+		}
+		if (node->data)
 			ft_putstr(node->data);
 		node = node->next;
 	}
@@ -46,10 +56,23 @@ void	ft_echo_utils(t_list *node, int i)
 		node = node->next; // skip node of echo
 		node = node->next;	//skip node of ' '
 	}
-	while (node->tokn != END_TOKN && node->tokn != PIPE
-		&& node->tokn != IREDI && node->tokn != OREDI
-		&& node->tokn !=OUTPUT_H && node->tokn != INPUT_H)
+	while (node->tokn != END_TOKN && node->tokn != PIPE)
 	{
+		if (node->tokn == WS && (node->next->tokn == IREDI
+				|| node->next->tokn == OREDI || node->next->tokn == OUTPUT_H
+				|| node->next->tokn == INPUT_H))
+			node = node->next;
+		if (node->tokn == IREDI || node->tokn == OREDI
+			|| node->tokn == OUTPUT_H || node->tokn == INPUT_H)
+		{
+			node = node->next;
+			while (node->tokn == WS)
+				node = node->next;
+			if (node->tokn == WR)
+				node = node->next;
+			if (node->tokn == LIMITER)
+				node = node->next;
+		}
 		if (node->data)
 			ft_putstr(node->data);
 		node = node->next;
