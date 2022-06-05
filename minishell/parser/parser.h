@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/04 13:34:10 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/05 09:57:50 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,20 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define NUL		-1  // undefined
-# define ST_TOKN	0	//	start
-# define PIPE		1	//	|  !
-# define CD			6	//	"
-# define SCD		7	//	'
-# define WR			11	//	Word
-# define WS			13	//	space ' '
-# define DOL		14	//	Dollar $ !
-# define IREDI		15	//	< !
-# define OREDI		16	//	> ! 
-# define INPUT_H	17	//	<< !
-# define OUTPUT_H	18	//	>> ! 
-# define file		19	//	file of input or output  {> , < , >> , <<}
-# define LIMITER	21	//	LIMITER of herdoc
-# define END_TOKN	0	//	End
+# define NUL		-1 
+# define ST_TOKN	0
+# define PIPE		1
+# define CD			6
+# define SCD		7
+# define WR			11
+# define WS			13
+# define DOL		14
+# define IREDI		15
+# define OREDI		16
+# define INPUT_H	17
+# define OUTPUT_H	18
+# define LIMITER	21
+# define END_TOKN	0
 
 extern int	ds;
 

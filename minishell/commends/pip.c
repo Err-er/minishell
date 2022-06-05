@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/04 13:28:18 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/05 13:08:54 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_vars var)
 		dup2(var.fd[0], var.x[0]);
 		close(var.fd[0]);
 	}
-	if (!var.c)
+	if (!var.c2)
 	{
 		dup2(end[1], 1);
 		close(end[0]);
@@ -478,6 +478,8 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 		dup2(end[0], 0);
 		close(end[1]);
 		close(end[0]);
+		var.fd[0] = 0;
+		var.fd[1] = 0;
 	}
 	waitpid(var.c, NULL, 0);
 	while (i)

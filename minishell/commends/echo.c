@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/05 09:21:37 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/05 12:16:54 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_echo_utils(t_list *node, int i)
 			if (node->tokn == LIMITER)
 				node = node->next;
 		}
-		if (node->data)
+		if (node->data && node->tokn != END_TOKN)
 			ft_putstr(node->data);
 		node = node->next;
 	}
