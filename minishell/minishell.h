@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:51:33 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/04 13:33:51 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/05 16:22:50 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ char	*ft_strchr(char *s, int c);
 char	*ft_strchrr(char *str, int c);
 int		ft_strlcpy(char *dest, char *src, int size);
 char	*ft_itoa(int n);
+int		ft_isdigit(int c);
 #endif

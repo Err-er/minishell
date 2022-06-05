@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/04 13:57:19 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/05 18:57:29 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	ft_getcwd(t_cd *cd)
 	char	*ret;
 	int		i;
 
-	if (cd->pwd)
-		printf("%s\n",&cd->pwd[3]);
 	i = get_pwd(cd->my_env);
 	ret = getcwd(s, 1024);
 	while (!ret)
@@ -59,9 +57,14 @@ int	get_prev_directory(char *s)
 {
 	int	len;
 
-	len = ft_strlen(s) + 1;
-	while (--len)
+	len = ft_strlen(s) -1;
+	if (s[len] == '/' && s[len - 1] != '=')
 	{
+		len -= 1;
+	}
+	while (len)
+	{
+		len--;
 		if (s[len] == '/' || s[len] == '=')
 			return (len);
 	}
@@ -161,7 +164,24 @@ void	ft_cd(t_list **node, t_cd *cd)
 					printf("%s\n",temp);
 					if (x > 0 && i > 0)
 					{
-						if (ft_strcmp(temp, ".."))
+						if (!ft_strcmp(temp, ".."))
+						{
+							x = get_prev_directory(cd->pwd);
+							printf("%d\n",x);
+							printf("%s\n",cd->pwd);
+							cd->pwd = ft_substr(cd->pwd, 0, x);
+							cd->pwd = ft_strjoin(cd->pwd, "/");
+							x = get_prev_directory(cd->my_env[i]);
+							if (x > 0 && i > 0)
+							{
+								x = get_prev_directory(cd->my_env[i]);
+								printf("%d\n",x);
+								cd->my_env[i] = ft_substr(cd->my_env[i], 0, x);
+								cd->my_env[i] = ft_strjoin(cd->my_env[i], "/");
+							}
+						}
+						else if (!ft_strcmp(temp, "."));
+						else
 						{
 							if (j == 0)
 								cd->pwd = ft_strdup("PWD=");
@@ -175,19 +195,6 @@ void	ft_cd(t_list **node, t_cd *cd)
 								cd->my_env[i] = ft_strtrim(cd->my_env[i], "/");
 								cd->my_env[i] = ft_strjoin(cd->my_env[i], "/");
 								cd->my_env[i] = ft_strjoin(cd->my_env[i], t[j]);
-							}
-						}
-						else
-						{
-							x = get_prev_directory(cd->pwd);
-							cd->pwd = ft_substr(cd->pwd, 0, x);
-							cd->pwd = ft_strjoin(cd->pwd, "/");
-							x = get_prev_directory(cd->my_env[i]);
-							if (x > 0 && i > 0)
-							{
-								x = get_prev_directory(cd->my_env[i]);
-								cd->my_env[i] = ft_substr(cd->my_env[i], 0, x);
-								cd->my_env[i] = ft_strjoin(cd->my_env[i], "/");
 							}
 						}
 					}

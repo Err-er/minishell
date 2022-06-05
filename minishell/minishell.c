@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/04 14:00:06 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/05 18:53:42 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	handle_sigs(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	else
-		printf("\n");
+	// else
+	// 	printf("\n");
 }
 
 int	get_global(int i)
