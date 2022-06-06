@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/06 13:28:34 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/06 14:07:35 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,16 +174,6 @@ void	ft_cd(t_list **node, t_cd *cd)
 		while (t[j])
 		{
 			temp = ft_strdup(t[j]);
-			if (j == 0)
-			{	
-				if (ft_strcmp(t[j], ".."))
-				{
-					temp = ft_strdup("/");
-					temp = ft_strjoin(temp, t[j]);
-				}
-				else
-					temp = ft_strdup(t[j]);
-			}
 			if (!ft_strcmp(temp, ".."))
 			{
 				x = get_prev_directory(cd->pwd);
@@ -192,28 +182,28 @@ void	ft_cd(t_list **node, t_cd *cd)
 				if (x > 0 && i > 0)
 				{
 					x = get_prev_directory(cd->my_env[i]);
-					printf("%d\n",x);
 					cd->my_env[i] = ft_substr(cd->my_env[i], 0, x);
 				}
 			}
 			else if (!ft_strcmp(temp, "."));
 			else
 			{
-				if (j == 0)
+				if (j == 0 && head->next->data[0] == '/')
 					cd->pwd = ft_strdup("PWD=");
-				cd->pwd = ft_strtrim(cd->pwd, "/");
+				cd->pwd = ft_strtrim(cd->pwd,"/");
 				cd->pwd = ft_strjoin(cd->pwd, "/");
 				cd->pwd = ft_strjoin(cd->pwd, t[j]);
 				if (i > 0)
 				{	
-					if (j == 0)
+					if (j == 0 && head->next->data[0] == '/')
 						cd->my_env[i] = ft_strdup("PWD=");
-					cd->my_env[i] = ft_strtrim(cd->my_env[i], "/");
+					cd->my_env[i] = ft_strtrim(cd->my_env[i],"/");
 					cd->my_env[i] = ft_strjoin(cd->my_env[i], "/");
 					cd->my_env[i] = ft_strjoin(cd->my_env[i], t[j]);
 				}
 			}
-			chdir(temp);
+			if (chdir(temp))
+				puts("hmmm");
 			free(temp);
 			j++;
 		}
