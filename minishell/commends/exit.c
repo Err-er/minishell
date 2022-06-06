@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 13:32:23 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/05 16:55:43 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/06 13:38:33 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,11 @@ void	ft_exit(t_list **node)
 		exit(ds);
 		return ;
 	}
-	if (head->next->tokn == WS)
-		head = head->next;
+	if (head->next->next->tokn != END_TOKN && head->next->next->tokn != ST_TOKN && head->next->next->tokn != PIPE)
+	{	
+		printf("minishell : exit: too many arguments\n");
+		return ;
+	}
 	if (head->next->data)
 	{
 		if (check_isdigit(head->next->data) && check_len(head->next->data) < 20 && check_near_max(head->next->data))
@@ -96,5 +99,5 @@ void	ft_exit(t_list **node)
 			printf("bash: exit: %s: numeric argument required\n",head->next->data);
 			exit(ds);
 		}
-	}	
+	}
 }

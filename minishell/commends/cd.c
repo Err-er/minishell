@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/05 18:57:29 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/06 13:28:34 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ void	ft_getcwd(t_cd *cd)
 	char	*ret;
 	int		i;
 
+	if (cd->pwd)
+	{
+		printf("%s\n",&cd->pwd[4]);
+		return ;
+	}
 	i = get_pwd(cd->my_env);
 	ret = getcwd(s, 1024);
 	while (!ret)
@@ -57,15 +62,19 @@ int	get_prev_directory(char *s)
 {
 	int	len;
 
-	len = ft_strlen(s) -1;
-	if (s[len] == '/' && s[len - 1] != '=')
+	len = ft_strlen(s);
+	if (s[len] == '/' && s[len - 1] == '=')
+		return(len);
+	else if (s[len] == '/' && s[len - 1] != '=')
 	{
 		len -= 1;
 	}
 	while (len)
 	{
 		len--;
-		if (s[len] == '/' || s[len] == '=')
+		if (s[len] == '/' && s[len -1] == '=') 
+			return (len+1);
+		else if (s[len] == '/' || s[len] == '=') 
 			return (len);
 	}
 	return (-1);
@@ -121,166 +130,92 @@ void	ft_cd(t_list **node, t_cd *cd)
 		}
 		chdir(get_path(cd->my_env, "HOME"));
 	}
-	else
-	{	
-		if (head->next->data[0] == '/'
-			|| (head->next->data[0] == '.' && head->next->data[1] == '.'
-				&& head->next->data[2] == '/'))
+	else if (head->next->data[0] == '-')
+	{
+		if (i > 0 && get_path(cd->my_env, "OLDPWD"))
 		{
-			if (access(head->next->data, F_OK))
-			{
-				ds = 1;
-				printf("minishell: cd: %s: No such file or directory\n", head->next->data);
-				return ;
-			}
-			else if (access(head->next->data, X_OK))
-			{
-				ds = 1;
-				printf("minishell: cd: %s: Permission denied\n",head->next->data);
-				return ;
-			}
-			else if (access(head->next->data, F_OK))
-			{
-				ds = 1;
-				printf("minishell: cd: %s: No such file or directory\n",head->next->data);
-				return ;
-			}
-			if (head->next->data[1])
-			{
-				t = ft_split_2(head->next->data, '/');
-				while (t[j])
-				{
-					temp = ft_strdup(t[j]);
-					if (j == 0)
-					{	
-						if (ft_strcmp(t[j], ".."))
-						{
-							temp = ft_strdup("/");
-							temp = ft_strjoin(temp, t[j]);
-						}
-						else
-							temp = ft_strdup(t[j]);
-					}
-					printf("%s\n",temp);
-					if (x > 0 && i > 0)
-					{
-						if (!ft_strcmp(temp, ".."))
-						{
-							x = get_prev_directory(cd->pwd);
-							printf("%d\n",x);
-							printf("%s\n",cd->pwd);
-							cd->pwd = ft_substr(cd->pwd, 0, x);
-							cd->pwd = ft_strjoin(cd->pwd, "/");
-							x = get_prev_directory(cd->my_env[i]);
-							if (x > 0 && i > 0)
-							{
-								x = get_prev_directory(cd->my_env[i]);
-								printf("%d\n",x);
-								cd->my_env[i] = ft_substr(cd->my_env[i], 0, x);
-								cd->my_env[i] = ft_strjoin(cd->my_env[i], "/");
-							}
-						}
-						else if (!ft_strcmp(temp, "."));
-						else
-						{
-							if (j == 0)
-								cd->pwd = ft_strdup("PWD=");
-							cd->pwd = ft_strtrim(cd->pwd, "/");
-							cd->pwd = ft_strjoin(cd->pwd, "/");
-							cd->pwd = ft_strjoin(cd->pwd, t[j]);
-							if (i > 0)
-							{	
-								if (j == 0)
-									cd->my_env[i] = ft_strdup("PWD=");
-								cd->my_env[i] = ft_strtrim(cd->my_env[i], "/");
-								cd->my_env[i] = ft_strjoin(cd->my_env[i], "/");
-								cd->my_env[i] = ft_strjoin(cd->my_env[i], t[j]);
-							}
-						}
-					}
-					if (chdir(temp))
-					{
-						printf("didn't work\n");
-					}
-					free(temp);
-					j++;
-				}
-			}
-			else
-			{
-				cd->pwd = ft_strdup("PWD=");
-				cd->pwd = ft_strjoin(cd->pwd, head->next->data);
-				if (i > 0)
-				{
-					cd->my_env[i] = ft_strdup("PWD=");
-					cd->my_env[i] = ft_strjoin(cd->my_env[i], head->next->data);
-				}
-				chdir(head->next->data);
-			}
+			free(cd->pwd);
+			cd->pwd = ft_strdup("PWD=");
+			cd->pwd = ft_strjoin(cd->pwd,
+					get_path(cd->my_env, "OLDPWD"));
+			free(cd->my_env[i]);
+			cd->my_env[i] = ft_strdup("PWD=");
+			cd->my_env[i] = ft_strjoin(cd->my_env[i],
+					get_path(cd->my_env, "OLDPWD"));
 		}
-		else if (head->next->data[0] == '-')
-		{
-			if (i > 0 && get_path(cd->my_env, "OLDPWD"))
-			{
-				free(cd->pwd);
-				cd->pwd = ft_strdup("PWD=");
-				cd->pwd = ft_strjoin(cd->pwd,
-						get_path(cd->my_env, "OLDPWD"));
-				free(cd->my_env[i]);
-				cd->my_env[i] = ft_strdup("PWD=");
-				cd->my_env[i] = ft_strjoin(cd->my_env[i],
-						get_path(cd->my_env, "OLDPWD"));
-			}
-			if (get_path(cd->my_env, "OLDPWD"))
-			{	
-				printf("%s\n", get_path(cd->my_env, "OLDPWD"));
-				if (chdir(get_path(cd->my_env, "OLDPWD")))
-					printf("didn't work\n");
-			}
-			else
-			{
-				ds = 1;
-				printf("minishell: cd: OLDPWD not set\n");
-				return ;
-			}
-		}
-		else if (!ft_strcmp(head->next->data, ".."))
-		{
-			if (x > 0 && i > 0 && ft_strcmp(cd->pwd, "PWD=/"))
-				ft_strlcpy(cd->pwd, cd->pwd, x + 1);
-			if (x > 0 && i > 0 && ft_strcmp(cd->my_env[i], "PWD=/"))
-				ft_strlcpy(cd->my_env[i], cd->my_env[i], x + 1);
-			chdir("..");
+		if (get_path(cd->my_env, "OLDPWD"))
+		{	
+			printf("%s\n", get_path(cd->my_env, "OLDPWD"));
+			if (chdir(get_path(cd->my_env, "OLDPWD")))
+				printf("didn't work\n");
 		}
 		else
 		{
-			if (!access(head->next->data, F_OK)
-				&& !access(head->next->data, X_OK))
-			{
-				cd->pwd = ft_strjoin(cd->pwd, "/");
-				cd->pwd = ft_strjoin(cd->pwd,ft_strtrim(head->next->data, "/"));
-				if (i > 0)
+			ds = 1;
+			printf("minishell: cd: OLDPWD not set\n");
+			return ;
+		}
+	}
+	else
+	{
+		if (access(head->next->data, F_OK))
+		{
+			ds = 1;
+			printf("minishell: cd: %s: No such file or directory\n", head->next->data);
+			return ;
+		}
+		else if (access(head->next->data, X_OK))
+		{
+			ds = 1;
+			printf("minishell: cd: %s: Permission denied\n",head->next->data);
+			return ;
+		}
+		t = ft_split_2(head->next->data, '/');
+		while (t[j])
+		{
+			temp = ft_strdup(t[j]);
+			if (j == 0)
+			{	
+				if (ft_strcmp(t[j], ".."))
 				{
-					cd->my_env[i] = ft_strjoin(cd->my_env[i], "/");
-					cd->my_env[i] = ft_strjoin(cd->my_env[i],
-							ft_strtrim(head->next->data, "/"));
+					temp = ft_strdup("/");
+					temp = ft_strjoin(temp, t[j]);
 				}
-				chdir(head->next->data);
+				else
+					temp = ft_strdup(t[j]);
 			}
-			else if (access(head->next->data, X_OK))
+			if (!ft_strcmp(temp, ".."))
 			{
-				ds = 1;
-				printf("minishell: cd: %s: Permission denied\n",
-					head->next->data);
-				return ;
+				x = get_prev_directory(cd->pwd);
+				cd->pwd = ft_substr(cd->pwd, 0, x);
+				x = get_prev_directory(cd->my_env[i]);
+				if (x > 0 && i > 0)
+				{
+					x = get_prev_directory(cd->my_env[i]);
+					printf("%d\n",x);
+					cd->my_env[i] = ft_substr(cd->my_env[i], 0, x);
+				}
 			}
-			else if (access(head->next->data, F_OK))
+			else if (!ft_strcmp(temp, "."));
+			else
 			{
-				ds = 1;
-				printf("minishell: cd: %s: No such file or directory\n",
-					head->next->data);
-				return ;
+				if (j == 0)
+					cd->pwd = ft_strdup("PWD=");
+				cd->pwd = ft_strtrim(cd->pwd, "/");
+				cd->pwd = ft_strjoin(cd->pwd, "/");
+				cd->pwd = ft_strjoin(cd->pwd, t[j]);
+				if (i > 0)
+				{	
+					if (j == 0)
+						cd->my_env[i] = ft_strdup("PWD=");
+					cd->my_env[i] = ft_strtrim(cd->my_env[i], "/");
+					cd->my_env[i] = ft_strjoin(cd->my_env[i], "/");
+					cd->my_env[i] = ft_strjoin(cd->my_env[i], t[j]);
+				}
 			}
+			chdir(temp);
+			free(temp);
+			j++;
 		}
 	}
 	if (get_path(cd->my_env, "OLDPWD"))

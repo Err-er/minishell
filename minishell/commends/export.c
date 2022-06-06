@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/05 19:05:48 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/06 09:46:34 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,13 @@ int check_exist(char *s,char **env)
 	return(0);
 }
 
+int check_char(char c)
+{
+	if ((c < 48 && c!=43) || (c >= 58 && c != 61 && c < 65) || (c >= 91 && c <=94) || c == 96 || c > 122)
+		return(0);
+	return(1);
+}
+
 int	check_valid(char *s,char **env)
 {
 	int i = 0;
@@ -275,8 +282,7 @@ int	check_valid(char *s,char **env)
 	i = 0;
 	while(t && t[0][i])
 	{
-		if ((t[0][i] < 48 && t[0][i] != 32 && t[0][i] != 45) || (t[0][i] >= 58 && t[0][i] != 61 && t[0][i] < 65) || (t[0][i] >= 91 && t[0][i] <=94) || t[0][i] == 96 || t[0][i] > 122)
-		// if ((t[0][i] < 65  && t[0][i] != 43 && t[0][i] != 61 && t[0][i] != 32)|| t[0][i] > 122 || (t[0][i] >= 91 && t[0][i] <=94) || t[0][i] == 96)
+		if (!check_char(t[0][i]))
 		{
 			ds = 127;
 			printf("minishell: export: `%s': not a valid identifier\n",s);
