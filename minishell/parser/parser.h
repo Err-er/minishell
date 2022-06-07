@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/05 09:57:50 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/06 15:49:22 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,9 @@ typedef struct s_cd
 	char	**sorted;
 	char	*oldpwd;
 	char	*pwd;
+	int		shlvl;
 }	t_cd;
 
-// typedef struct s_gl
-// {
-// 	char	**my_env;
-// 	int		env_len;
-// 	char	**exported;
-// 	char	*oldpwd;
-// }	t_cd;
 
 typedef struct s_vars
 {

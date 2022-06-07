@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/06 14:07:35 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/06 17:18:45 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,21 +114,51 @@ void	ft_cd(t_list **node, t_cd *cd)
 		return;
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
 	{
-		if (!get_path(cd->my_env, "HOME"))
+		temp = ft_strtrim(get_path(cd->my_env, "HOME"),"\"");
+		if (!temp)
 		{
 			ds = 1;
 			printf("HOME not set\n");
 			return ;
 		}
-		cd->pwd = ft_strdup("PWD=");
-		cd->pwd = ft_strjoin(cd->pwd, get_path(cd->my_env, "HOME"));
-		if (i > 0)
+		if (access(temp, F_OK))
 		{
-			free(cd->my_env[i]);
-			cd->my_env[i] = ft_strdup("PWD=");
-			cd->my_env[i] = ft_strjoin(cd->my_env[i], get_path(cd->my_env, "HOME"));
+			ds = 1;
+			printf("minishell: cd: %s: No such file or directory\n", temp);
+			return ;
 		}
-		chdir(get_path(cd->my_env, "HOME"));
+		else if (access(temp, X_OK))
+		{
+			ds = 1;
+			printf("minishell: cd: %s: Permission denied\n",temp);
+			return ;
+		}
+		if (!access(temp,F_OK))
+		{
+			if (temp[0] == '/')
+			{
+				cd->pwd = ft_strdup("PWD=");
+				cd->pwd = ft_strjoin(cd->pwd, temp);
+				if (i > 0)
+				{
+					free(cd->my_env[i]);
+					cd->my_env[i] = ft_strdup("PWD=");
+					cd->my_env[i] = ft_strjoin(cd->my_env[i], temp);
+				}
+				chdir(temp);
+			}
+			else
+			{
+				cd->pwd = ft_strjoin(cd->pwd, "/");
+				cd->pwd = ft_strjoin(cd->pwd, temp);
+				if (i > 0)
+				{
+					cd->my_env[i] = ft_strjoin(cd->my_env[i], "/");
+					cd->my_env[i] = ft_strjoin(cd->my_env[i], temp);
+				}
+				chdir(temp);
+			}
+		}
 	}
 	else if (head->next->data[0] == '-')
 	{
