@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/05 18:53:42 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/07 22:15:24 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	ft_new_env(char **env, t_cd *cd)
 		unset_this(cd, "OLDPWD");
 	cd->pwd = ft_strdup("PWD=");
 	cd->pwd = ft_strjoin(cd->pwd, get_path(cd->my_env, "PWD"));
+	cd->shlvl = ft_atoi(ft_strtrim(get_path(cd->my_env,"SHLVL"),"\""));
 }
 
 void	handle_sigs(int sig)

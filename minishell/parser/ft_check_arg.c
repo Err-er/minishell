@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/06 18:58:39 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/07 22:35:15 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -589,6 +589,11 @@ void	ft_ex(char *cmds, t_cd *cd, t_vars var)
 		ft_print_env(cd->my_env);
 		exit(0);
 	}
+	else if (!ft_strcmp(cmd[0], "minishell"))
+	{
+		write(2, "ssss\n",6);
+		increase_shelvl(cd);
+	}
 	pat = ft_path(cd->my_env, cmds);
 	if (access(cmd[0], X_OK) == 0)
 		pat = cmd[0];
@@ -763,6 +768,8 @@ void	ft_ex_sc(t_list *node, t_cd *cd)
 		ft_exit(&node);
 	else if (!ft_strcmp(cmd[0], "env"))
 		ft_print_env(cd->my_env);
+	// else if (!ft_strcmp(cmd[0], "minishell"))
+	// 	increase_shelvl(cd);
 	free(str);
 	ft_fre(cmd);
 }

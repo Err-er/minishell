@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/06 15:49:22 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/07 22:44:02 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,7 @@ int			ft_strcmp2(char *str1, char *str2);
 int			ft_expand(t_list **node, char *input, char **env, int i);
 int			ft_check_syntax(t_list *node, char *input);
 void		ft_exit(t_list **node);
+void		increase_shelvl(t_cd *cd);
+void		replace_this(t_cd *cd, char *s);
 
 #endif
