@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 06:46:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/08 03:36:54 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/10 05:20:22 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ void increase_shelvl(t_cd *cd)
 		temp = ft_strdup("SHLVL=");
 		temp = ft_strjoin(temp,ft_itoa(cd->shlvl));
 		replace_this(cd,temp);
-		write(2,temp, ft_strlen(temp));	
+		// write(2,temp, ft_strlen(temp));	
 	}
 }

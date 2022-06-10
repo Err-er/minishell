@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/06 09:46:34 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/10 05:25:03 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,8 +176,8 @@ void	export_this(t_cd *cd, char *s)
 		{
 			new_env[i] = ft_strdup(t[0]);
 			new_env[i] = ft_strjoin(new_env[i],"=\"");
-			new_env[i] = ft_strjoin(new_env[i],ft_strchr(s,'='));
 			new_env[i] = ft_strjoin(new_env[i],"\"");
+			printf("[%s]\n",new_env[i]);
 		}
 		else
 			new_env[i] = ft_strdup(s);
@@ -213,7 +213,6 @@ void	replace_this(t_cd *cd, char *s)
 				{
 					cd->my_env[i] = ft_strdup(t[0]);
 					cd->my_env[i] = ft_strjoin(cd->my_env[i],"=\"");
-					cd->my_env[i] = ft_strjoin(cd->my_env[i],ft_strchr(s,'='));
 					cd->my_env[i] = ft_strjoin(cd->my_env[i],"\"");
 				}
 			}
@@ -233,6 +232,7 @@ int check_exist(char *s,char **env)
 	char **t1;
 	
 	t1 = ft_split_2(s,'=');
+	t1[0]= ft_strtrim(t1[0],"+");
 	while(env[i])
 	{
 		t = ft_split_2(env[i],'=');

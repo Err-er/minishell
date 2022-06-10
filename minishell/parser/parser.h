@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/07 22:44:02 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/09 02:18:35 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_vars
 	int		*id;
 }	t_vars;
 
-long long	ft_atoi(const char *str);
+long double	ft_atoi(const char *str);
 void		ft_parser(char *input, t_cd *cd);
 char		**ft_split(char *s, char c);
 int			words_count(char *s, char c);

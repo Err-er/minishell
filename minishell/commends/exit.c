@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 13:32:23 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/07 13:30:12 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/10 05:21:33 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,24 @@ int	check_len(char *s)
 
 int check_near_max(char *s)
 {
+	char *min = "9223372036854775808";
+	char *max = "9223372036854775807";
 	if (check_len(s) == 19)
 	{
-		if (ft_strcmp(s,"9223372036854775807") > 0)
-			return(1);
+		if (s[0] == '-')
+		{
+			if (ft_strcmp(&s[1],min) > 0)
+				return(0);
+			else
+				return(1);
+		}
 		else
-			return(0);
+		{
+			if (ft_strcmp(s,max) > 0)
+				return(0);
+			else
+				return(1);
+		}
 	}
 	return(1);
 }
@@ -89,7 +101,7 @@ void	ft_exit(t_list **node)
 	}
 	if (head->next->data)
 	{
-		if (check_isdigit(head->next->data) && check_len(head->next->data) < 20 && check_near_max(head->next->data))
+		if (check_isdigit(head->next->data) && check_len(head->next->data) <=19 && check_near_max(head->next->data))
 		{
 			printf("exit\n");
 			exit(ds);	
