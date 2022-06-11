@@ -479,7 +479,7 @@ int	ft_is_last(t_list *node, int c, int c2, int end)
 	return (nb);
 }
 
-int	ft_pip(t_list *node, t_cd *cd)
+int	 ft_pip(t_list *node, t_cd *cd)
 {
 	t_list	*head;
 	char	*str;
@@ -487,38 +487,63 @@ int	ft_pip(t_list *node, t_cd *cd)
 
 	str = ft_strdup("");
 	head = node->next;
-	while (head->tokn != END_TOKN)
+	while (head)
 	{
 		if (head->tokn == PIPE)
+		{
 			str = ft_strjoin(str, "\t");
+			head = head->next;
+		}
+		else if (head->tokn == WS)
+		{
+			str = ft_strjoin(str, "\v");
+			head = head->next;
+		}
 		else if (head->tokn == OREDI)
 		{
+			head = head->next;
+			if (head->tokn == WS)
 				head = head->next;
-			while (head->tokn == WS && head->tokn != END_TOKN)
+			while (head->tokn == WR && head->tokn != END_TOKN)
 				head = head->next;
 		}
 		else if (head->tokn == OUTPUT_H)
 		{
+			head = head->next;
+			if (head->tokn == WS && head->tokn != END_TOKN)
 				head = head->next;
-			while (head->tokn == WS && head->tokn != END_TOKN)
+			while (head->tokn == WR && head->tokn != END_TOKN)
 				head = head->next;
 		}
 		else if (head->tokn == INPUT_H)
-			head = head->next;
-		else if (head->tokn == IREDI)
 		{
 			head = head->next;
 			while (head->tokn == WS && head->tokn != END_TOKN)
 				head = head->next;
 		}
-		else if (head->tokn == WS)
-			str = ft_strjoin(str, "\v");
+		else if (head->tokn == IREDI)
+		{
+			head = head->next;
+			if (head->tokn == WS)
+				head = head->next;
+			while (head->tokn == WR && head->tokn != END_TOKN)
+				head = head->next;
+		}
 		else if (head->tokn == NUL)
-			str = ft_strjoin(str, ft_strdup(" "));
-		else
+		{
+			str = ft_strjoin(str, "\v");
+			str = ft_strjoin_nf(str, ft_strdup(""));
+			head = head->next;
+		}
+		else if (head->tokn == WR)
+		{
 			str = ft_strjoin(str, head->data);
-		head = head->next;
+			head = head->next;
+		}
+		else
+			head = head->next;
 	}
+	str = ft_strjoin(str, "\v");
 	s = ft_split_2(str, '\t');
 	free(str);
 	int ex = c_pip(s, cd, node);
@@ -532,7 +557,9 @@ void	ft_ex(char *cmds, t_cd *cd, t_vars var)
 	int		end[2];
 	int		c;
 
-	cmd = ft_split_2(cmds, '\v');
+	cmd = ft_split_2(cmds, ' ');
+	if (!ft_cheak_is_expand(cd->my_env, cmds))
+		cmd = ft_split_2(cmds, '\v');
 	if (ft_check_pip(var.node, INPUT_H))
 	{
 		if (!ft_is_last(var.node, INPUT_H, IREDI, END_TOKN))
@@ -851,6 +878,7 @@ void	ft_parser(char *input, t_cd *cd)
 	}
 	if (ft_check_pip(node, PIPE))
 	{
+		get_global(1);
 		pid = fork();
 		if (pid == 0)
 		{

@@ -324,7 +324,7 @@ void	ft_exprot(t_list **node, t_cd *cd)
 		else
 			break  ;
 	}
-	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN || head->next->next->tokn != PIPE)
+	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN || head->next->tokn == PIPE)
 	{
 		ds = 1;
 		ft_print_export(cd);
@@ -338,7 +338,7 @@ void	ft_exprot(t_list **node, t_cd *cd)
 	}
 	else
 	{
-		while((head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN &&  head->next->tokn != PIPE))
+		while(head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN)
 		{
 			if (!head->next->data)
 			{

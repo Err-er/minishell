@@ -116,5 +116,6 @@ int			ft_check_syntax(t_list *node, char *input);
 void		ft_exit(t_list **node);
 void		increase_shelvl(t_cd *cd);
 void		replace_this(t_cd *cd, char *s);
+int			ft_cheak_is_expand(char **env, char *cd);
 
 #endif

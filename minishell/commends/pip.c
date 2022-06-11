@@ -42,7 +42,9 @@ char	*ft_path(char **env, char *cd)
 
 	str = get_path(env, "PATH");
 	p = ft_split(str, ':');
-	cmd = ft_split_2(cd, '\v');
+	cmd = ft_split_2(cd, ' ');
+	if (!ft_cheak_is_expand(env, cd))
+		cmd = ft_split_2(cd, '\v');
 	if (access(cmd[0], X_OK) == 0)
 	{
 		ft_fre(cmd);
@@ -76,6 +78,46 @@ char	*ft_path(char **env, char *cd)
 	ft_fre(cmd);
 	exit(127);
 }
+int	ft_cheak_is_expand(char **env, char *cd)
+{
+	int		i;
+	char	*str;
+	char	*str2;
+	char	**p;
+	char	**cmd;
+
+	str = get_path(env, "PATH");
+	p = ft_split(str, ':');
+	cmd = ft_split_2(cd, ' ');
+	if (!ft_strcmp(cmd[0], "echo"))
+		return(ft_fre(cmd), 1);
+	else if (!ft_strcmp(cmd[0], "export"))
+		return(ft_fre(cmd), 1);
+	else if (!ft_strcmp(cmd[0], "exit"))
+		return(ft_fre(cmd), 1);
+	else if (!ft_strcmp(cmd[0], "unset"))
+		return(ft_fre(cmd), 1);
+	else if (!ft_strcmp(cmd[0], "pwd"))
+		return(ft_fre(cmd), 1);
+	else if (!ft_strcmp(cmd[0], "env"))
+		return(ft_fre(cmd), 1);
+	else if (!ft_strcmp(cmd[0], "minishell"))
+		return(ft_fre(cmd), 1);
+	if (!cmd)
+		return(ft_fre(cmd), 0);
+	i = -1;
+	while (p[++i])
+	{
+		str2 = ft_strjoin(p[i], cmd[0]);
+		if (access(str2, X_OK) == 0)
+		{
+			ft_fre(cmd);
+			return (1);
+		}
+		free(str2);
+	}
+	return(ft_fre(cmd), 0);
+}
 
 void	ft_child1(char *cmd, t_cd *cd, int *end, t_vars var)
 {
@@ -101,7 +143,9 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_vars var)
 		dup2(var.fd[1], var.x[1]);
 		close(var.fd[1]);
 	}
-	cmds = ft_split_2(cmd, '\v');
+	cmds = ft_split_2(cmd, ' ');
+	if (!ft_cheak_is_expand(cd->my_env, cmd))
+		cmds = ft_split_2(cmd, '\v');
 	if (!ft_strcmp(cmds[0], "export"))
 	{
 		ft_exprot (&var.node, cd);
@@ -156,7 +200,9 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_vars var)
 		close(end[0]);
 		close(end[1]);
 	}
-	cmds = ft_split_2(cmd, '\v');
+	cmds = ft_split_2(cmd, ' ');
+	if (!ft_cheak_is_expand(cd->my_env, cmd))
+		cmds = ft_split_2(cmd, '\v');
 	if (!ft_strcmp(cmds[0], "export"))
 	{
 		ft_exprot (&var.node, cd);
@@ -186,7 +232,7 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_vars var)
 	if (execve(pat, cmds, cd->my_env) == -1)
 	{
 		perror("Error ");
-		exit (137);
+		exit (127);
 	}
 }
 
@@ -210,7 +256,9 @@ void	ft_child2(char *cmds, t_cd *cd, t_vars var)
 		dup2(var.fd[1], var.x[1]);
 		close(var.fd[1]);
 	}
-	cmd = ft_split_2(cmds, '\v');
+	cmd = ft_split_2(cmds, ' ');
+	if (!ft_cheak_is_expand(cd->my_env, cmds))
+		cmd = ft_split_2(cmds, '\v');
 	if (!ft_strcmp(cmd[0], "export"))
 	{
 		ft_exprot(&var.node, cd);
@@ -350,6 +398,7 @@ int	c_pip(char **str, t_cd *cd, t_list *node)
 	int		end[2];
 	char	*p;
 	int		i;
+	int		br;
 	t_list	*head;
 
 	i = 0;
@@ -363,6 +412,7 @@ int	c_pip(char **str, t_cd *cd, t_list *node)
 	var.st_out = dup(1);
 	while (str[++i])
 	{
+		br = 0;
 		var.node = node;
 		var.c = 0;
 		var.c2 = 0;
@@ -384,8 +434,11 @@ int	c_pip(char **str, t_cd *cd, t_list *node)
 				if (var.fd[1] == -1 || !var.file_n)
 				{
 					perror("Error");
+					br = 1;
 					break ;
 				}
+				if(!ft_strcmp(str[i], "\v\v"))
+					br = 1;
 				free(var.file_n);
 				var.x[1] = 1;
 			}
@@ -405,8 +458,11 @@ int	c_pip(char **str, t_cd *cd, t_list *node)
 				if (var.fd[1] == -1 || !var.file_n)
 				{
 					perror("Error");
+					br = 1;
 					break ;
 				}
+				if(!ft_strcmp(str[i], "\v\v"))
+					br = 1;
 				free(var.file_n);
 				var.x[1] = 1;
 			}
@@ -442,38 +498,44 @@ int	c_pip(char **str, t_cd *cd, t_list *node)
 				if (var.fd[0] == -1 || !var.file_n)
 				{
 					perror("Error");
+					br = 1;
 					break ;
 				}
+				if(!ft_strcmp(str[i], "\v\v"))
+					br = 1;
 				free(var.file_n);
 				var.x[0] = 0;
 			}
 			else
 				head = head->next;
 		}
-		if (ft_check_pip2(node, INPUT_H) && var. value)
+		if(!br)
 		{
-			if (pipe(end) == -1)
-				perror("Error");
-			ft_putstr_fd(var.value, end[1]);
-			close(end[1]);
-			dup2(end[0], 0);
-			close(end[0]);
+			if (ft_check_pip2(node, INPUT_H) && var. value)
+			{
+				if (pipe(end) == -1)
+					perror("Error");
+				ft_putstr_fd(var.value, end[1]);
+				close(end[1]);
+				dup2(end[0], 0);
+				close(end[0]);
+			}
+			var.id[i] = forkpipe(end);
+			if (var.id[i] == -1)
+				exit(127);
+			if (var.id[i] == 0)
+			{
+				if (!str[i + 1])
+					var.c2 = 1;
+				if (i == 0)
+					ft_child1(str[i], cd, end, var);
+				else if (ft_cheak(i, str) == 2)
+					ft_child2(str[i], cd, var);
+				else if (ft_cheak(i, str) == 3)
+					ft_child3(str[i], cd, end, var);
+			}
+			ft_change_node(&node);
 		}
-		var.id[i] = forkpipe(end);
-		if (var.id[i] == -1)
-			exit(127);
-		if (var.id[i] == 0)
-		{
-			if (!str[i + 1])
-				var.c2 = 1;
-			if (i == 0)
-				ft_child1(str[i], cd, end, var);
-			else if (ft_cheak(i, str) == 2)
-				ft_child2(str[i], cd, var);
-			else if (ft_cheak(i, str) == 3)
-				ft_child3(str[i], cd, end, var);
-		}
-		ft_change_node(&node);
 		if(str[i + 1])
 		{
 			dup2(end[0], 0);
