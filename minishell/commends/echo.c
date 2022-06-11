@@ -96,6 +96,20 @@ int	skip_flags(t_list *node)
 	return (0);
 }
 
+int	check_flags(t_list *node)
+{
+	int i;
+
+	i = 0;
+	if (node->data[i] == '-')
+		i++;
+	while (node->data[i] && node->data[i] == 'n')
+		i++;
+	if (node->data[i] == 'n' || !node->data[i])
+		return (1);
+	return (0);
+}
+
 void	ft_echo(t_list *node)
 {
 	int		i;
@@ -113,7 +127,7 @@ void	ft_echo(t_list *node)
 			{
 				head = head->next->next;
 				if ((head->next->tokn == WS || !head->next->tokn)
-					&& !ft_strcmp(head->data, "-n"))
+					&& (!ft_strcmp(head->data, "-n") || check_flags(head)))
 				{
 					while (skip_flags(head))
 						head = head->next;
