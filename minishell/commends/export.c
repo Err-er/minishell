@@ -338,21 +338,27 @@ void	ft_exprot(t_list **node, t_cd *cd)
 	}
 	else
 	{
-		while(head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN)
+		while(head && (head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN))
 		{
-			if (!head->next->data)
+			while(head->next->tokn == WS && head->next->tokn != END_TOKN)
+				head = head->next;
+			while(head->next->tokn == NUL && head->next->tokn != END_TOKN)
+				head = head->next;
+			if (!head->next->data || head->next->tokn == NUL || (head->tokn == NUL && head->next->tokn == END_TOKN))
 			{
 				ds = 1;
 				printf("minishell: export: `': not a valid identifier\n");
+				return ;
 			}
 			else
 			{
 				temp = ft_strdup(head->next->data);
 				temp = ft_strtrim(temp," ");
-				while(head->next->next->tokn == WR)
+				while(head->next->next->tokn == WR || head->next->next->tokn == NUL)
 				{
+					if(head->next->next->tokn == WR )
+						temp = ft_strjoin(temp,head->next->data);
 					head = head->next;
-					temp = ft_strjoin(temp,head->next->data);
 				}
 				if (check_valid(temp,cd->my_env))
 				{	
@@ -365,7 +371,8 @@ void	ft_exprot(t_list **node, t_cd *cd)
 				}
 				free(temp); 
 			}
-			head = head->next;
+			if(head->next)
+				head = head->next;
 		}
 	}
 }

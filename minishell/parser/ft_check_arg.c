@@ -154,7 +154,7 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 
 	j = i;
 	if (input[j] == '"' && input[j + 1] == '"')
-		return (ft_lstadd_back(node, ft_lstnew(NULL, NUL)), 0);
+		return (ft_lstadd_back(node, ft_lstnew(ft_strdup(""), NUL)), 0);
 	while (input[++j])
 	{
 		if (input[j] == '"')
@@ -866,6 +866,7 @@ void	ft_parser(char *input, t_cd *cd)
 	node = ft_lstnew(ft_strdup("->"), ST_TOKN);
 	if (!ft_tokinaizer(&node, input, cd->my_env))
 		return ;
+	// printf_list(node);
 	if (!ft_check_syntax(node, input))
 	{
 		ft_lstclear(&node);
