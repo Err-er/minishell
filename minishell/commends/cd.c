@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/06 17:18:45 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/11 10:04:10 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,11 +239,11 @@ void	ft_cd(t_list **node, t_cd *cd)
 		}
 	}
 	if (get_path(cd->my_env, "OLDPWD"))
-		cd->my_env[i + 1] = ft_strdup(cd->oldpwd);
+		replace_this(cd ,cd->oldpwd);
 	else if (!get_path(cd->my_env, "OLDPWD") && get_path(cd->my_env, "PWD"))
 	{
-		export_this(cd, "OLDPWD");
-		cd->my_env[i + 1] = ft_strdup(cd->oldpwd);
+		export_this(cd, cd->oldpwd);
 	}
+	ds = 0;
 	return ;
 }

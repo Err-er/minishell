@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/08 21:04:52 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/11 09:55:15 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -479,7 +479,7 @@ int	ft_is_last(t_list *node, int c, int c2, int end)
 	return (nb);
 }
 
-void	ft_pip(t_list *node, t_cd *cd)
+int	ft_pip(t_list *node, t_cd *cd)
 {
 	t_list	*head;
 	char	*str;
@@ -521,8 +521,8 @@ void	ft_pip(t_list *node, t_cd *cd)
 	}
 	s = ft_split_2(str, '\t');
 	free(str);
-	c_pip(s, cd, node);
-	exit(1);
+	int ex = c_pip(s, cd, node);
+	return (ex);
 }
 
 void	ft_ex(char *cmds, t_cd *cd, t_vars var)
@@ -608,6 +608,7 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	t_list	*head;
 	char	*str;
 	char	**cmd;
+	int		ex;
 	t_vars	var;
 	char	*p;
 
@@ -725,7 +726,18 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 		var.c2 = fork();
 		if (var.c2 == 0)
 			ft_ex(str, cd, var);
-		waitpid(var.c2, NULL, 0);
+		waitpid(var.c2, &ex, 0);
+		if (WIFEXITED(ex))
+		{
+			if (ex == 65280)
+				ds = 255;
+			else
+				ds = ex % 255;
+		}
+		else if (WIFSIGNALED(ex))
+		{
+			ds = ex + 128;
+		}
 	}
 	if (!var.value[0])
 		free(var.value);
@@ -818,6 +830,7 @@ void	ft_parser(char *input, t_cd *cd)
 {
 	int		i;
 	int		pid;
+	int		ex;
 	t_list	*node;
 
 	i = 0;
@@ -841,10 +854,32 @@ void	ft_parser(char *input, t_cd *cd)
 		pid = fork();
 		if (pid == 0)
 		{
-			ft_pip(node, cd);
-			exit(0);
+			ex = ft_pip(node, cd);
+			if (WIFEXITED(ex))
+			{
+				if (ex == 65280)
+					ds = 255;
+				else
+					ds = ex % 255;
+			}
+			else if (WIFSIGNALED(ex))
+			{
+				ds = ex + 128;
+			}
+			exit(ds);
 		}
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &ex, 0);
+		if (WIFEXITED(ex))
+		{
+			if (ex == 65280)
+				ds = 255;
+			else
+				ds = ex % 255;
+		}
+		else if (WIFSIGNALED(ex))
+		{
+			ds = ex + 128;
+		}
 	}
 	else if (ft_sc(node, cd) == 1)
 		ft_ex_sc(node, cd);

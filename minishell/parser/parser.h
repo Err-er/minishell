@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/09 02:18:35 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/11 09:22:57 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_vars
 	char	*file_n;
 	char	*value;
 	int		st_in;
+	int		st_out;
 	t_list	*node;
 	int		*id;
 }	t_vars;
@@ -87,7 +88,7 @@ int			ft_parser_edit1(t_list **node, char *input, int i, char **env);
 int			ft_strncmp(char *str1, char *str2, int n);
 char		**ft_split_2(char *s, char c);
 char		**ft_split(char *s, char c);
-void		c_pip(char **str, t_cd *cd, t_list *node);
+int			c_pip(char **str, t_cd *cd, t_list *node);
 void		ft_free(char **p, int a);
 char		*ft_path(char **env, char *cd);
 void		ft_child2(char *cmds, t_cd *cd, t_vars var);

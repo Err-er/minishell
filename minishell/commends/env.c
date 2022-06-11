@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 06:46:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/10 05:20:22 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/11 09:48:51 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	ft_print_env(char **env)
 {
 	int	i;
 	int j;
-	char *s;
+	char **s;
+	char *t;
 
 	i = 0;
 	j = 0;
@@ -24,20 +25,20 @@ void	ft_print_env(char **env)
 	{
 		if (ft_strchr(env[i],'='))
 		{
+			s = ft_split_2(env[i],'=');
 			if (ft_strchr(env[i],'"'))
 			{
-				s = ft_strchr(env[i],'=');
-				printf("%s",ft_substr(env[i],0, ft_strlen(env[i]) - (ft_strlen(s) - 1)));
-				s = ft_strtrim(&s[2],"\"");
+				printf("%s",s[0]);
 				printf("=");
-				printf("%s\n",s);
-				free(s);
+				t = ft_substr(env[i], ft_strlen(s[0])+1,ft_strlen(env[i]));
+				printf("%s\n",ft_strtrim(t,"\""));
 			}
 			else
 				printf("%s\n",env[i]);
 		}
 		i++;
 	}
+	ds = 0;
 }
 
 void increase_shelvl(t_cd *cd)
@@ -50,6 +51,5 @@ void increase_shelvl(t_cd *cd)
 		temp = ft_strdup("SHLVL=");
 		temp = ft_strjoin(temp,ft_itoa(cd->shlvl));
 		replace_this(cd,temp);
-		// write(2,temp, ft_strlen(temp));	
 	}
 }

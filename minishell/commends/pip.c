@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/05 13:08:54 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/11 09:24:34 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_vars var)
 	if (execve(pat, cmds, cd->my_env) == -1)
 	{
 		perror("Error ");
-		exit (127);
+		exit (137);
 	}
 }
 
@@ -344,7 +344,7 @@ int	ft_check_red2(t_list *node, int fd)
 	return (fd);
 }
 
-void	c_pip(char **str, t_cd *cd, t_list *node)
+int	c_pip(char **str, t_cd *cd, t_list *node)
 {
 	t_vars	var;
 	int		end[2];
@@ -360,6 +360,7 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 	var.id = malloc(i * sizeof(int));
 	i = -1;
 	var.st_in = dup(0);
+	var.st_out = dup(1);
 	while (str[++i])
 	{
 		var.node = node;
@@ -380,7 +381,7 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 					head = head->next;
 				}
 				var.fd[1] = open(var.file_n, O_CREAT | O_RDWR | O_TRUNC, 0666);
-				if (var.fd[1] == -1)
+				if (var.fd[1] == -1 || !var.file_n)
 				{
 					perror("Error");
 					break ;
@@ -401,7 +402,7 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 				}
 				var.fd[1] = open(var.file_n,
 						O_CREAT | O_WRONLY | O_APPEND, 0777);
-				if (var.fd[1] == -1)
+				if (var.fd[1] == -1 || !var.file_n)
 				{
 					perror("Error");
 					break ;
@@ -472,20 +473,27 @@ void	c_pip(char **str, t_cd *cd, t_list *node)
 			else if (ft_cheak(i, str) == 3)
 				ft_child3(str[i], cd, end, var);
 		}
-		if (i == 0 && !ft_check_pip2(node, INPUT_H))
-			var.c = var.id[i];
 		ft_change_node(&node);
-		dup2(end[0], 0);
-		close(end[1]);
-		close(end[0]);
+		if(str[i + 1])
+		{
+			dup2(end[0], 0);
+			close(end[0]);
+			close(end[1]);
+		}
+		else
+		{
+			dup2(var.st_in, 0);
+			dup2(var.st_out, 1);
+			close(end[0]);
+			close(end[1]);
+		}
 		var.fd[0] = 0;
 		var.fd[1] = 0;
 	}
-	waitpid(var.c, NULL, 0);
-	while (i)
-	{
-		waitpid(var.id[i], NULL, 0);
-		i--;
-	}
+	int j = -1;
+	int ex;
+	while(++j < i)
+		waitpid(var.id[j] , &ex, 0);
 	ft_fre(str);
+	return(ex);
 }

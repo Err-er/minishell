@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/08 21:13:03 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/11 09:37:47 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_echo_utils(t_list *node, int i)
 		node = node->next; // skip node of echo
 		node = node->next;	//skip node of ' '
 	}
-	while (node->tokn != END_TOKN && node->tokn != PIPE)
+	while (node && node->tokn != END_TOKN && node->tokn != PIPE)
 	{
 		if (node->tokn == WS && (node->next->tokn == IREDI
 				|| node->next->tokn == OREDI || node->next->tokn == OUTPUT_H
@@ -77,7 +77,7 @@ void	ft_echo_utils(t_list *node, int i)
 			ft_putstr(node->data);
 		node = node->next;
 	}
-	puts("");
+	printf("\n");
 }
 
 int	skip_flags(t_list *node)
@@ -106,7 +106,9 @@ void	ft_echo(t_list *node)
 	{
 		if (!ft_strcmp(head->data, "echo"))
 		{
-			if (head->next->next->data
+			if(head->next->tokn == END_TOKN || head->next->next->tokn == END_TOKN)
+				write(1, "\n", 1);
+			else if (head->next->next->data
 				&& !ft_strncmp(head->next->next->data, "-n", 2))
 			{
 				head = head->next->next;

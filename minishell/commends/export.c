@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/10 05:25:03 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/11 10:22:00 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,7 @@ int	check_valid(char *s,char **env)
 
 	if (!ft_strcmp(s,"="))
 	{
-		ds = 127;
+		ds = 1;
 		printf("minishell: export: `%s': not a valid identifier\n",s);
 		return(0);
 	}
@@ -284,7 +284,7 @@ int	check_valid(char *s,char **env)
 	{
 		if (!check_char(t[0][i]))
 		{
-			ds = 127;
+			ds = 1;
 			printf("minishell: export: `%s': not a valid identifier\n",s);
 			return(0);
 		}
@@ -300,7 +300,7 @@ int	check_valid(char *s,char **env)
 	}
 	if (x > 1 || (x == 1 && !t[1]) || (t[0][ft_strlen(t[0])-1] != '+' && x == 1))
 	{
-		ds = 127;
+		ds = 1;
 		printf("minishell: export: `%s': not a valid identifier\n",s);
 		return(0);
 	}
@@ -324,22 +324,27 @@ void	ft_exprot(t_list **node, t_cd *cd)
 		else
 			break  ;
 	}
-	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
+	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN || head->next->next->tokn != PIPE)
 	{
+		ds = 1;
 		ft_print_export(cd);
 		return ;
 	}
 	else if (head->next->tokn == OREDI || head->next->tokn == IREDI || head->next->tokn == OUTPUT_H || head->next->tokn == INPUT_H)
 	{
+		ds = 1;
 		ft_print_export(cd);
 		return ;
 	}
 	else
 	{
-		while((head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN))
+		while((head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN &&  head->next->tokn != PIPE))
 		{
 			if (!head->next->data)
+			{
+				ds = 1;
 				printf("minishell: export: `': not a valid identifier\n");
+			}
 			else
 			{
 				temp = ft_strdup(head->next->data);
