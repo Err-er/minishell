@@ -357,8 +357,12 @@ void	ft_exprot(t_list **node, t_cd *cd)
 				while(head->next->next->tokn == WR || head->next->next->tokn == NUL)
 				{
 					if(head->next->next->tokn == WR )
+					{
+						head = head->next;
 						temp = ft_strjoin(temp,head->next->data);
-					head = head->next;
+					}
+					else
+						head = head->next;
 				}
 				if (check_valid(temp,cd->my_env))
 				{	

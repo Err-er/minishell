@@ -866,7 +866,6 @@ void	ft_parser(char *input, t_cd *cd)
 	node = ft_lstnew(ft_strdup("->"), ST_TOKN);
 	if (!ft_tokinaizer(&node, input, cd->my_env))
 		return ;
-	// printf_list(node);
 	if (!ft_check_syntax(node, input))
 	{
 		ft_lstclear(&node);
