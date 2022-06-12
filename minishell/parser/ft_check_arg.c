@@ -181,6 +181,7 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 			}
 			if (j - x)
 				ft_lstadd_back(node, ft_lstnew(ft_substr(input, x, j - x), WR));
+			free(str);
 		}
 		else
 			ft_lstadd_back(node, ft_lstnew(str, WR));
@@ -203,6 +204,7 @@ int ft_expand(t_list **node, char *input, char **env, int i)
 {
 	int		j = 0;
 	char	*str;
+	char	*s;
 
 	if (!input[i + 1] || input[i + 1] == ' ' || input[i + 1] == '$')
 		return(ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WR)), 2);
@@ -222,10 +224,12 @@ int ft_expand(t_list **node, char *input, char **env, int i)
 			}
 			j++;
 		}
-		str = get_path(env, ft_substr(input, i + 1, j - (i + 1))); // free   ft_substr(input, i + 1, j - (i + 1));
+		s = ft_substr(input, i + 1, j - (i + 1));
+		str = get_path(env, s);
+		free(s);
 		str = ft_strtrim(str, "\"");
 		if (str)
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(str), WR));
+			ft_lstadd_back(node, ft_lstnew(str, WR));
 		return (j - i);
 	}
 }
@@ -287,7 +291,6 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), OREDI));
 		else if (input[i] == '<' && input[i + 1] == '<')
 		{
-			limiter = ft_strdup("");
 			i += 2;
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("<<"), INPUT_H));
 			while (input[i] == ' ')
@@ -318,6 +321,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 						{
 							str = ft_substr(input, i - j, j);
 							limiter = ft_strjoin(limiter, str);
+							free(str);
 						}
 						i++;
 					}
@@ -345,6 +349,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 						{
 							str = ft_substr(input, i - j, j);
 							limiter = ft_strjoin(limiter, str);
+							free(str);
 						}
 						i++;
 					}
@@ -361,10 +366,10 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 					}
 					str = ft_substr(input, i - j, j);
 					limiter = ft_strjoin(limiter, str);
+					free(str);
 				}
 			}
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(limiter), LIMITER));
-			free(limiter);
+			ft_lstadd_back(node, ft_lstnew(limiter, LIMITER));
 			j = 5;
 		}
 		else if (input[i] == '<')
@@ -559,7 +564,10 @@ void	ft_ex(char *cmds, t_cd *cd, t_vars var)
 
 	cmd = ft_split_2(cmds, ' ');
 	if (!ft_cheak_is_expand(cd->my_env, cmds))
+	{
+		ft_fre(cmd);
 		cmd = ft_split_2(cmds, '\v');
+	}
 	if (ft_check_pip(var.node, INPUT_H))
 	{
 		if (!ft_is_last(var.node, INPUT_H, IREDI, END_TOKN))
@@ -623,6 +631,8 @@ void	ft_ex(char *cmds, t_cd *cd, t_vars var)
 	pat = ft_path(cd->my_env, cmds);
 	if (access(cmd[0], X_OK) == 0)
 		pat = cmd[0];
+	free(cmd);
+	free(var.value);
 	if (execve(pat, cmd, cd->my_env) == -1)
 	{
 		perror("Error ");
@@ -642,7 +652,7 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 	var.fd[1] = dup(1);
 	var.fd[0] = dup(0);
 	str = ft_strdup("");
-	var.value = ft_strdup("");
+	var.value = NULL;
 	head = node->next;
 	var.c = 0;
 	while (head)
@@ -660,13 +670,14 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 				head = head->next;
 			while (head->tokn == WR && head->tokn != END_TOKN)
 			{
-				var.file_n = ft_strjoin_nf(var.file_n, head->data);
+				var.file_n = ft_strjoin(var.file_n, head->data);
 				head = head->next;
 			}
 			var.fd[1] = open(var.file_n, O_CREAT | O_RDWR | O_TRUNC, 0666);
 			if (var.fd[1] == -1)
 			{
 				perror("Error");
+				free(var.file_n);
 				return ;
 			}
 			free(var.file_n);
@@ -680,13 +691,14 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 				head = head->next;
 			while (head->tokn == WR && head->tokn != END_TOKN)
 			{
-				var.file_n = ft_strjoin_nf(var.file_n, head->data);
+				var.file_n = ft_strjoin(var.file_n, head->data);
 				head = head->next;
 			}
 			var.fd[1] = open(var.file_n, O_CREAT | O_WRONLY | O_APPEND, 0777);
 			if (var.fd[1] == -1)
 			{
 				perror("Error");
+				free(var.file_n);
 				return ;
 			}
 			free(var.file_n);
@@ -694,7 +706,7 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 		}
 		else if (head->tokn == INPUT_H)
 		{
-			var.value = ft_strdup("");
+			var.value = NULL;
 			head = head->next;
 			while (head->tokn == WS && head->tokn != END_TOKN)
 				head = head->next;
@@ -702,8 +714,11 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 			{
 				p = readline("> ");
 				if (!ft_strcmp2(p, head->data))
+				{
+					free(p);
 					break ;
-				p = ft_strjoin_nf(p, "\n");
+				}
+				p = ft_strjoin(p, "\n");
 				var.value = ft_strjoin(var.value, p);
 				free(p);
 			}
@@ -723,6 +738,7 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 			if ((var.fd[0] == -1 || !var.file_n) && head->tokn != 16)
 			{
 				perror("Error");
+				free(var.file_n);
 				return ;
 			}
 			free(var.file_n);
@@ -742,12 +758,17 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 			head = head->next;
 	}
 	if (!str[0])
+	{
+		free(var.value);
+		free(str);
 		return ;
+	}
 	cmd = ft_split_2(str, '\v');
 	if (!ft_strcmp(cmd[0], "cd"))
 		ft_cd(&node, cd);
 	else
 	{
+		ft_fre(cmd);
 		var.node = node;
 		get_global(1);
 		var.c2 = fork();
@@ -762,13 +783,9 @@ void	ft_ex_com(t_list *node, t_cd *cd)
 				ds = ex % 255;
 		}
 		else if (WIFSIGNALED(ex))
-		{
 			ds = ex + 128;
-		}
 	}
-	if (!var.value[0])
-		free(var.value);
-	ft_fre(cmd);
+	free(var.value);
 	free(str);
 }
 
@@ -828,7 +845,10 @@ int	ft_sc(t_list *node, t_cd *cd)
 			str = ft_strjoin(str, "\v");
 		else if (head->tokn == OREDI || head->tokn == IREDI
 			|| head->tokn == INPUT_H || head->tokn == OUTPUT_H)
+		{
+			free(str);
 			return (0);
+		}
 		else if (head->data)
 			str = ft_strjoin(str, head->data);
 		head = head->next;
@@ -891,9 +911,7 @@ void	ft_parser(char *input, t_cd *cd)
 					ds = ex % 255;
 			}
 			else if (WIFSIGNALED(ex))
-			{
 				ds = ex + 128;
-			}
 			exit(ds);
 		}
 		waitpid(pid, &ex, 0);
@@ -905,9 +923,7 @@ void	ft_parser(char *input, t_cd *cd)
 				ds = ex % 255;
 		}
 		else if (WIFSIGNALED(ex))
-		{
 			ds = ex + 128;
-		}
 	}
 	else if (ft_sc(node, cd) == 1)
 		ft_ex_sc(node, cd);

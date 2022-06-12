@@ -49,9 +49,6 @@ int	ft_check_syntax(t_list	*node, char *input)
 		if ((head->tokn == IREDI || head->tokn == OREDI)
 			&& head->next->tokn == END_TOKN)
 			return (print_error(1), 0);
-		if (head->tokn == INPUT_H
-			&& (head->next->next->tokn == END_TOKN || head->next->tokn == 0))
-			return (print_error(1), 0);
 		if (head->tokn == OUTPUT_H && head->next->tokn == 0)
 			return (print_error(1), 0);
 		head = head->next;

@@ -66,6 +66,7 @@ typedef struct s_cd
 typedef struct s_vars
 {
 	int		c;
+	int		br;
 	int		c2;
 	int		fd[2];
 	int		x[2];
@@ -75,7 +76,25 @@ typedef struct s_vars
 	int		st_out;
 	t_list	*node;
 	int		*id;
+	int		end[2];
+	char	**str;
+	int		i;
 }	t_vars;
+
+// typedef struct s_data
+// {
+// 	int		c;
+// 	int		br;
+// 	int		c2;
+// 	int		fd[2];
+// 	int		x[2];
+// 	char	*file_n;
+// 	char	*value;
+// 	int		st_in;
+// 	int		st_out;
+// 	t_list	*node;
+// 	int		end[2];
+// }	t_data;
 
 long double	ft_atoi(const char *str);
 void		ft_parser(char *input, t_cd *cd);
@@ -91,7 +110,7 @@ char		**ft_split(char *s, char c);
 int			c_pip(char **str, t_cd *cd, t_list *node);
 void		ft_free(char **p, int a);
 char		*ft_path(char **env, char *cd);
-void		ft_child2(char *cmds, t_cd *cd, t_vars var);
+void		ft_child2(char *cmds, t_cd *cd, t_vars *var);
 void		printf_list(t_list *lst);
 void		ft_cd(t_list **node, t_cd *cd);
 void		ft_ex(char *cmds, t_cd *cd, t_vars var);

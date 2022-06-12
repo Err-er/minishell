@@ -14,24 +14,24 @@ RLFLAGS = -I/goinfre/asabbar/.brew/opt/readline/include
 
 RLFLAGS2 = -L/goinfre/asabbar/.brew/opt/readline/lib
 
-SRC =	minishell.c					\
-		ft_strtrim.c				\
-		ft_strjoin.c				\
-		parser/ft_check_arg.c		\
-		parser/get_varb.c 			\
-		parser/ft_split.c	 		\
-		parser/ft_atoi.c	 		\
-		parser/ft_split_2.c	 		\
-		commends/echo.c 			\
-		commends/pip.c				\
-		commends/cd.c				\
-		commends/export.c			\
-		commends/unset.c			\
-		commends/env.c 				\
+SRC =	minishell.c						\
+		ft_strtrim.c					\
+		ft_strjoin.c					\
+		parser/ft_check_arg.c			\
+		parser/get_varb.c 				\
+		parser/ft_split.c	 			\
+		parser/ft_atoi.c	 			\
+		parser/ft_split_2.c	 			\
+		commends/echo.c 				\
+		commends/pip.c					\
+		commends/cd.c					\
+		commends/export.c				\
+		commends/unset.c				\
+		commends/env.c 					\
 		commends/exit.c 				\
-		ft_strdup.c					\
-		ft_itoa.c					\
-		syntax/check_syntax.c 		\
+		ft_strdup.c						\
+		ft_itoa.c						\
+		syntax/check_syntax.c 			\
 
 OBJECTS = $(SRC:.c=.o)
 OBJECTSB = $(SRCB:.c=.o)
