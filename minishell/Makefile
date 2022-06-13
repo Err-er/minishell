@@ -32,6 +32,7 @@ SRC =	minishell.c						\
 		ft_strdup.c						\
 		ft_itoa.c						\
 		syntax/check_syntax.c 			\
+		syntax/syntax_utils.c 			\
 
 OBJECTS = $(SRC:.c=.o)
 OBJECTSB = $(SRCB:.c=.o)
