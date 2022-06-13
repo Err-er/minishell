@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/11 10:22:00 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/12 16:33:14 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void ft_sort_expo(t_cd *cd)
 	char *temp;
 
 	ft_dup_env(cd);
-	while(cd->sorted[i])
+	while( cd->sorted[i])
 	{
 		j = 0;
-		while(cd->sorted[j])
+		while (cd->sorted[j])
 		{
 			if (cd->sorted[i][0] <= cd->sorted[j][0])
 			{

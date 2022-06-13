@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/11 09:55:15 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/13 10:19:57 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	check_str(char *str, int i)
 {
 	if (str[i] && str[i] != '|' && str[i] != ' '
 		&& str[i] != '\'' && str[i] != '"' && str[i] != '$'
-		&& str[i] != '>' && str[i] != '<' && str[i] != '/')
+		&& str[i] != '>' && str[i] != '<')
 		return (1);
 	else
 	{
@@ -177,6 +177,7 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 							ft_lstnew(ft_substr(input, x, c - x), WR));
 					c += ft_expand(node, input, env, c);
 					x = c;
+					c--;
 				}
 			}
 			if (j - x)
@@ -202,16 +203,17 @@ int	ft_isalpha(char c)
 
 int ft_expand(t_list **node, char *input, char **env, int i)
 {
-	int		j = 0;
+	int		j;
 	char	*str;
 	char	*s;
 
+	j = 0;
 	if (!input[i + 1] || input[i + 1] == ' ' || input[i + 1] == '$')
-		return(ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WR)), 2);
+		return (ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WR)), 2);
 	else if (input[i + 1] == '?')
-		return(ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(ds)), WR)), 2);
+		return (ft_lstadd_back(node, ft_lstnew(ft_strdup(ft_itoa(ds)), WR)), 2);
 	else if (!ft_isalpha(input[i + 1]) && !ft_isdigit(input[i + 1]))
-		return(ft_lstadd_back(node, ft_lstnew(ft_strdup(""), WR)), 2);
+		return (ft_lstadd_back(node, ft_lstnew(ft_strdup(""), WR)), 2);
 	else
 	{
 		j = i + 1;
@@ -260,8 +262,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 				i--;
 			}
 		}
-		else if ((input[i] == '|'
-				&& input[i + 1] != '|' && input[i - 1] != '|'))
+		else if (input[i] == '|')
 			ft_lstadd_back(node, ft_lstnew(ft_strdup("|"), PIPE));
 		else if (input[i] == '"')
 		{
@@ -379,7 +380,7 @@ int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
 			if (input[i] != ' ')
 			{
 				i--;
-				while (check_str(input, ++i) || input[i] == '/')
+				while (check_str(input, ++i) && input[i] != '|')
 					j++;
 				ft_lstadd_back(node, ft_lstnew(ft_substr(input, i - j, j), WR));
 			}
@@ -528,6 +529,7 @@ int	 ft_pip(t_list *node, t_cd *cd)
 		}
 		else if (head->tokn == IREDI)
 		{
+			str = ft_strjoin(str, "\v");
 			head = head->next;
 			if (head->tokn == WS)
 				head = head->next;

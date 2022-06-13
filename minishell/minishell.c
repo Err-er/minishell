@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/10 02:39:06 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/13 10:13:30 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ int	main(int ac, char **av, char **env)
 {
 	char	*input;
 	t_cd	*cd;
+	int		fd_his;
 
 	(void)av;
 	signal(SIGINT, &handle_sigs);
@@ -212,15 +213,16 @@ int	main(int ac, char **av, char **env)
 	ft_new_env(env, cd);
 	input = NULL;
 	ds = 0;
+	fd_his = open(HISTORY_COM, O_CREAT | O_RDWR, O_APPEND, 0666);
 	while (1)
 	{
 		get_global(0);
 		input = readline("➜ minishell $ ");
-		// input = get_next_line(0);
-		// input = ft_strtrim(input, "\n");
 		if (!input)
 			break ;
 		ft_parser(input, cd);
+		ft_putstr_fd(input, fd_his);
+		ft_putstr_fd("\n", fd_his);
 		if (input)
 			add_history(input);
 		free(input);

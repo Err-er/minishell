@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:51:33 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/05 16:22:50 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/13 09:48:48 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+# define HISTORY_COM    "$HOME/.minishell_history"
 
 char	*ft_strjoin(char *s1, char *s2);
 char	*get_next_line(int fd);

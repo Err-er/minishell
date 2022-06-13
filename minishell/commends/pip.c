@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/11 09:24:34 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/12 17:30:39 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*ft_path(char **env, char *cd)
 		free(str2);
 	}
 	print_error_p(cmd);
+	return (NULL);
 }
 
 int	ft_cheak_is_expand(char **env, char *cd)
@@ -426,7 +427,8 @@ int	ft_oredi_p(t_vars *var, t_list	**head, char *str)
 		var->br = 1;
 		return (0);
 	}
-	if (!ft_strcmp(str, "\v\v"))
+	if (!ft_strcmp(str, "\v\v")
+		|| !ft_strcmp(str, " \v\v") || !ft_strcmp(str, "\v"))
 		var->br = 1;
 	free(var->file_n);
 	var->x[1] = 1;
@@ -453,7 +455,8 @@ int	ft_outputh_p(t_vars *var, t_list	**head, char *str)
 		var->br = 1;
 		return (0);
 	}
-	if (!ft_strcmp(str, "\v\v"))
+	if (!ft_strcmp(str, "\v\v")
+		|| !ft_strcmp(str, " \v\v") || !ft_strcmp(str, "\v"))
 		var->br = 1;
 	free(var->file_n);
 	var->x[1] = 1;
@@ -506,7 +509,8 @@ int	ft_iredi_p(t_vars *var, t_list	**head, char *str)
 		free(var->file_n);
 		return (0);
 	}
-	if (!ft_strcmp(str, "\v\v"))
+	if (!ft_strcmp(str, "\v\v")
+		|| !ft_strcmp(str, " \v\v") || !ft_strcmp(str, "\v"))
 		var->br = 1;
 	free(var->file_n);
 	var->x[0] = 0;
@@ -600,9 +604,11 @@ int	ft_wait_p(t_vars *var)
 
 void	ft_dup_p(t_vars *var)
 {
-	var->br = 0;
-	var->c = 0;
-	var->c2 = 0;
+	if (var->br)
+	{
+		if (pipe(var->end) == -1)
+			perror("Error");
+	}
 	if (var->str[var->i + 1])
 	{
 		dup2(var->end[0], 0);
@@ -616,6 +622,9 @@ void	ft_dup_p(t_vars *var)
 		close(var->end[0]);
 		close(var->end[1]);
 	}
+	var->br = 0;
+	var->c = 0;
+	var->c2 = 0;
 }
 
 int	c_pip(char **str, t_cd *cd, t_list *node)
@@ -628,8 +637,8 @@ int	c_pip(char **str, t_cd *cd, t_list *node)
 		ft_check_redi_p(&var, var.str[var.i], node);
 		if (!var.br)
 			ft_ex_com_pipe(&var, cd, node);
-		ft_change_node(&node);
 		ft_dup_p(&var);
+		ft_change_node(&node);
 	}
 	ft_fre(str);
 	return (ft_wait_p(&var));
