@@ -1,3 +1,6 @@
 {
-    "makefile.extensionOutputFolder": "./.vscode"
+    "files.associations": {
+        "readline.h": "c",
+        "stdlib.h": "c"
+    }
 }

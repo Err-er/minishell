@@ -41,7 +41,7 @@ all: $(NAME)
 	@echo "------------------minishell-----------------\n\n\n"
 
 $(NAME): $(OBJECTS)
-	@$(CC) -lreadline $(SRC) -o $(NAME) $(RLFLAGS) $(RLFLAGS2) -g
+	@$(CC) -lreadline $(SRC) -o $(NAME) $(RLFLAGS) $(RLFLAGS2) 
 
 %.o : %.c $(INCLUDES)
 	@$(CC) $(RLFLAGS) -o $@ -c $<

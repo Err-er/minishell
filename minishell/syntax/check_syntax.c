@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:33:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/13 14:49:22 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/13 15:45:36 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_check_oredi(char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == '>')
+		if (input[i] == '>' && input[i + 1] != '>')
 		{
 			i++;
 			while (input[i] && input[i] == ' '
