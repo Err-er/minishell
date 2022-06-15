@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/13 20:28:57 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/15 13:18:18 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,12 @@
 # define NUL		-1 
 # define ST_TOKN	0
 # define PIPE		1
-# define CD			6
-# define SCD		7
 # define WR			11
 # define WS			13
-# define DOL		14
 # define IREDI		15
 # define OREDI		16
-# define INPUT_H	17
 # define OUTPUT_H	18
+# define INPUT_H	17
 # define LIMITER	21
 # define END_TOKN	0
 
@@ -80,20 +77,14 @@ typedef struct s_vars
 	int		i;
 }	t_vars;
 
-// typedef struct s_data
-// {
-// 	int		c;
-// 	int		br;
-// 	int		c2;
-// 	int		fd[2];
-// 	int		x[2];
-// 	char	*file_n;
-// 	char	*value;
-// 	int		st_in;
-// 	int		st_out;
-// 	t_list	*node;
-// 	int		end[2];
-// }	t_data;
+typedef struct s_data
+{
+	int		i;
+	int		j;
+	int		c;
+	int		x;
+	char	*str;
+}	t_data;
 
 long double	ft_atoi(const char *str);
 int			ft_parser(char *input, t_cd *cd);

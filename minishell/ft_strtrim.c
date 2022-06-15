@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 13:06:37 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/03 11:21:33 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/14 15:02:31 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_strcmp(char *str1, char *str2)
 	int	i;
 
 	i = 0;
-	if (!str1 || !str1)
+	if (!str1)
 		return (-1);
 	while (str1[i] && str2[i] && str1[i] == str2[i])
 		i++;
@@ -54,8 +54,14 @@ int	ft_strcmp2(char *str1, char *str2)
 	int	i;
 
 	i = 0;
-	if (!str1 || !str1)
+	if (!str1)
 		return (0);
+	if (!str2)
+	{
+		if (!str1[0])
+			return (0);
+		return (1);
+	}
 	while (str1[i] && str2[i] && str1[i] == str2[i])
 		i++;
 	return (str1[i] - str2[i]);

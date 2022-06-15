@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/13 10:13:30 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/15 13:06:55 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ char	*get_next_line(int fd)
 	static char	*rest;
 	char		*line;
 
-	if (fd < 0 )
+	if (fd < 0)
 		return (NULL);
 	rest = ft_read(rest, fd);
 	if (!rest)
@@ -218,6 +218,7 @@ int	main(int ac, char **av, char **env)
 	{
 		get_global(0);
 		input = readline("➜ minishell $ ");
+		/* system("leaks minishell"); leaks */
 		if (!input)
 			break ;
 		ft_parser(input, cd);

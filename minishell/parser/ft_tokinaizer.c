@@ -6,13 +6,116 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 15:36:41 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/13 15:37:08 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/14 18:37:48 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	ft_tokinaizer(struct s_list	**node, char *input, char **env)
+void	ft_tokinaizer_sp(va_list **node, char *input, char **env, int *i)
+{
+	{
+		if (input[(*i) + 1] != '|')
+		{	
+			while (input[i] == ' ')
+				i++;
+			if (!input[i])
+				return ;
+			ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WS));
+			i--;
+		}
+	}
+}
+
+int	ft_tokinaizer_sp(va_list **node, char *input, char **env, int i)
+{
+	char	*limiter;
+	char	*str;
+	int		j;
+
+	i += 2;
+	ft_lstadd_back(node, ft_lstnew(ft_strdup("<<"), INPUT_H));
+	while (input[i] == ' ')
+		i++;
+	while (input[i] && input[i] != ' ' && input[i] != '<'
+		&& input[i] != '>' && input[i] != '|')
+	{
+		if (input[i] == '"')
+		{
+			if (input[i] == '"' && input[i + 1] == '"')
+			{
+				str = ft_strdup("");
+				i += 2;
+				j = 1;
+			}
+			else
+			{
+				i++;
+				j = 0;
+				while (input[i] && input[i] != '"')
+				{
+					j++;
+					i++;
+				}
+				if (!input[i])
+					return (printf("double quotes not closed\n"), 0);
+				else
+				{
+					str = ft_substr(input, i - j, j);
+					limiter = ft_strjoin(limiter, str);
+					free(str);
+				}
+				i++;
+			}
+		}
+		else if (input[i] == '\'')
+		{
+			if (input[i] == '"' && input[i + 1] == '"')
+			{
+				str = ft_strdup("");
+				i += 2;
+				j = 1;
+			}
+			else
+			{
+				i++;
+				j = 0;
+				while (input[i] && input[i] != '\'')
+				{
+					j++;
+					i++;
+				}
+				if (!input[i])
+					return (printf("single quotes not closed\n"), 0);
+				else
+				{
+					str = ft_substr(input, i - j, j);
+					limiter = ft_strjoin(limiter, str);
+					free(str);
+				}
+				i++;
+			}
+		}
+		else
+		{
+			j = 0;
+			while (input[i] && input[i] != '\'' && input[i] != '"'
+				&& input[i] != ' ' && input[i] != '<'
+				&& input[i] != '>' && input[i] != '|')
+			{
+				j++;
+				i++;
+			}
+			str = ft_substr(input, i - j, j);
+			limiter = ft_strjoin(limiter, str);
+			free(str);
+		}
+	}
+	ft_lstadd_back(node, ft_lstnew(limiter, LIMITER));
+	j = 5;
+}
+
+int	ft_tokinaizer(va_list **node, char *input, char **env)
 {
 	int		i;
 	int		j;

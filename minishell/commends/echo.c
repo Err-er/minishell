@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/13 18:09:40 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:51:41 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	ft_echo_utils(t_list *node, int i)
 {
 	if (i == 1)
 	{
-		node = node->next; // skip node of echo
-		node = node->next;	//skip node of ' '
+		node = node->next;
+		node = node->next;
 	}
 	while (node && node->tokn != END_TOKN && node->tokn != PIPE)
 	{
@@ -120,7 +120,7 @@ void	ft_echo(t_list *node)
 	{
 		if (!ft_strcmp(head->data, "echo"))
 		{
-			if(head->next->tokn == END_TOKN || head->next->next->tokn == END_TOKN)
+			if (head->next->tokn == END_TOKN || head->next->next->tokn == END_TOKN)
 				write(1, "\n", 1);
 			else if (head->next->next->data
 				&& !ft_strncmp(head->next->next->data, "-n", 2))

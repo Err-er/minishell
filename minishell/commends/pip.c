@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/12 17:30:39 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/15 10:49:20 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	ft_fre(char **cmd)
 void	print_error_p(char **cmd)
 {
 	ft_putstr_fd("minishell : command not found: ", 2);
+	cmd[0] = ft_strtrim(cmd[0], " ");
 	if (cmd[0])
 		ft_putstr_fd(cmd[0], 2);
 	ft_putstr_fd("\n", 2);
@@ -53,9 +54,7 @@ char	*ft_path(char **env, char *cd)
 
 	str = get_path(env, "PATH");
 	p = ft_split(str, ':');
-	cmd = ft_split_2(cd, ' ');
-	if (!ft_cheak_is_expand(env, cd))
-		cmd = ft_split_2(cd, '\v');
+	cmd = ft_split_2(cd, '\v');
 	if (access(cmd[0], X_OK) == 0)
 		return (ft_f(p, cmd), cd);
 	if (!cmd)
@@ -157,12 +156,7 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_vars *var)
 	char	hh[100];
 
 	dup_chi1(var, end);
-	cmds = ft_split_2(cmd, ' ');
-	if (!ft_cheak_is_expand(cd->my_env, cmd))
-	{
-		ft_fre(cmds);
-		cmds = ft_split_2(cmd, '\v');
-	}
+	cmds = ft_split_2(cmd, '\v');
 	ft_check_c1(cmds, cd, var, hh);
 	pat = ft_path(cd->my_env, cmd);
 	if (access(cmds[0], X_OK) == 0)
@@ -237,9 +231,7 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_vars *var)
 	char	hh[100];
 
 	dup_chi3(var, end);
-	cmds = ft_split_2(cmd, ' ');
-	if (!ft_cheak_is_expand(cd->my_env, cmd))
-		cmds = ft_split_2(cmd, '\v');
+	cmds = ft_split_2(cmd, '\v');
 	ft_check_c3(cmds, cd, var, hh);
 	pat = ft_path(cd->my_env, cmd);
 	if (access(cmds[0], X_OK) == 0)
@@ -308,9 +300,7 @@ void	ft_child2(char *cmds, t_cd *cd, t_vars *var)
 	char	hh[100];
 
 	dup_chi2(var);
-	cmd = ft_split_2(cmds, ' ');
-	if (!ft_cheak_is_expand(cd->my_env, cmds))
-		cmd = ft_split_2(cmds, '\v');
+	cmd = ft_split_2(cmds, '\v');
 	ft_check_c2(cmd, cd, var, hh);
 	pat = ft_path(cd->my_env, cmds);
 	if (access(cmd[0], X_OK) == 0)
