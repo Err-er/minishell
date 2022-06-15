@@ -6,266 +6,215 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 15:36:41 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/14 18:37:48 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/15 16:29:32 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	ft_tokinaizer_sp(va_list **node, char *input, char **env, int *i)
-{
-	{
-		if (input[(*i) + 1] != '|')
-		{	
-			while (input[i] == ' ')
-				i++;
-			if (!input[i])
-				return ;
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WS));
-			i--;
-		}
-	}
-}
-
-int	ft_tokinaizer_sp(va_list **node, char *input, char **env, int i)
+int	ft_tok_input_h(t_list **node, char *input, char **env, t_data *var)
 {
 	char	*limiter;
-	char	*str;
-	int		j;
 
-	i += 2;
+	limiter = NULL;
+	var->i += 2;
 	ft_lstadd_back(node, ft_lstnew(ft_strdup("<<"), INPUT_H));
-	while (input[i] == ' ')
-		i++;
-	while (input[i] && input[i] != ' ' && input[i] != '<'
-		&& input[i] != '>' && input[i] != '|')
+	while (input[var->i] == ' ')
+		var->i++;
+	while (input[var->i] && input[var->i] != ' ' && input[var->i] != '<'
+		&& input[var->i] != '>' && input[var->i] != '|')
 	{
-		if (input[i] == '"')
+		if (input[var->i] == '"')
 		{
-			if (input[i] == '"' && input[i + 1] == '"')
+			if (input[var->i] == '"' && input[var->i + 1] == '"')
 			{
-				str = ft_strdup("");
-				i += 2;
-				j = 1;
+				var->str = ft_strdup("");
+				var->i += 2;
+				var->j = 1;
 			}
 			else
 			{
-				i++;
-				j = 0;
-				while (input[i] && input[i] != '"')
+				var->i++;
+				var->j = 0;
+				while (input[var->i] && input[var->i] != '"')
 				{
-					j++;
-					i++;
+					var->j++;
+					var->i++;
 				}
-				if (!input[i])
+				if (!input[var->i])
 					return (printf("double quotes not closed\n"), 0);
 				else
 				{
-					str = ft_substr(input, i - j, j);
-					limiter = ft_strjoin(limiter, str);
-					free(str);
+					var->str = ft_substr(input, var->i - var->j, var->j);
+					limiter = ft_strjoin(limiter, var->str);
 				}
-				i++;
+				var->i++;
 			}
 		}
-		else if (input[i] == '\'')
+		else if (input[var->i] == '\'')
 		{
-			if (input[i] == '"' && input[i + 1] == '"')
+			if (input[var->i] == '"' && input[var->i + 1] == '"')
 			{
-				str = ft_strdup("");
-				i += 2;
-				j = 1;
+				var->str = ft_strdup("");
+				var->i += 2;
+				var->j = 1;
 			}
 			else
 			{
-				i++;
-				j = 0;
-				while (input[i] && input[i] != '\'')
+				var->i++;
+				var->j = 0;
+				while (input[var->i] && input[var->i] != '\'')
 				{
-					j++;
-					i++;
+					var->j++;
+					var->i++;
 				}
-				if (!input[i])
+				if (!input[var->i])
 					return (printf("single quotes not closed\n"), 0);
 				else
 				{
-					str = ft_substr(input, i - j, j);
-					limiter = ft_strjoin(limiter, str);
-					free(str);
+					var->str = ft_substr(input, var->i - var->j, var->j);
+					limiter = ft_strjoin(limiter, var->str);
 				}
-				i++;
+				var->i++;
 			}
 		}
 		else
 		{
-			j = 0;
-			while (input[i] && input[i] != '\'' && input[i] != '"'
-				&& input[i] != ' ' && input[i] != '<'
-				&& input[i] != '>' && input[i] != '|')
+			var->j = 0;
+			while (input[var->i] && input[var->i] != '\''
+				&& input[var->i] != '"' && input[var->i] != ' '
+				&& input[var->i] != '<' && input[var->i] != '>'
+				&& input[var->i] != '|')
 			{
-				j++;
-				i++;
+				var->j++;
+				var->i++;
 			}
-			str = ft_substr(input, i - j, j);
-			limiter = ft_strjoin(limiter, str);
-			free(str);
+			var->str = ft_substr(input, var->i - var->j, var->j);
+			limiter = ft_strjoin(limiter, var->str);
 		}
+		free(var->str);
 	}
 	ft_lstadd_back(node, ft_lstnew(limiter, LIMITER));
-	j = 5;
+	var->j = 5;
+	return (1);
 }
 
-int	ft_tokinaizer(va_list **node, char *input, char **env)
+int	ft_tok_mini_utils1(t_list **node, char *input, char **env, t_data *var)
 {
-	int		i;
-	int		j;
-	char	*str;
+	if (input[var->i] == ' ')
+	{
+		if (input[var->i + 1] != '|')
+		{	
+			while (input[var->i] == ' ')
+				var->i++;
+			if (!input[var->i])
+				return (1);
+			ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WS));
+			var->i--;
+		}
+		return (1);
+	}
+	else if (input[var->i] == '|')
+		return (ft_lstadd_back(node, ft_lstnew(ft_strdup("|"), PIPE)), 1);
+	else if (input[var->i] == '"')
+	{
+		var->j = ft_parser_edit1(node, input, var->i, env);
+		if (var->j == -1)
+			return (var->x = 1, 0);
+		var->i += var->j + 1;
+		return (1);
+	}
+	return (-1);
+}
+
+int	ft_tok_mini_utils2(t_list **node, char *input, char **env, t_data *var)
+{
+	if (input[var->i] == '\'')
+	{
+		var->j = ft_parser_edit(node, input, var->i);
+		if (var->j == -1)
+			return (var->x = 1, 0);
+		var->i += var->j + 1;
+		return (1);
+	}
+	else if (input[var->i] == '$')
+	{
+		var->i += ft_expand(node, input, env, var->i);
+		var->j = 2;
+		return (1);
+	}
+	else if (input[var->i] == '>' && input[var->i + 1] == '>')
+	{
+		var->i += 1;
+		ft_lstadd_back(node, ft_lstnew(ft_strdup(">>"), OUTPUT_H));
+		return (1);
+	}
+	else if (input[var->i] == '>')
+		return (ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), OREDI)), 1);
+	return (-1);
+}
+
+int	ft_tok_mini_utils3(t_list **node, char *input, char **env, t_data *var)
+{
+	if (input[var->i] == '<' && input[var->i + 1] == '<')
+	{
+		if (!ft_tok_input_h(node, input, env, var))
+			return (var->x = 1, 0);
+		return (1);
+	}
+	else if (input[var->i] == '<')
+		ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), IREDI));
+	else
+	{
+		if (input[var->i] != ' ')
+		{
+			var->i--;
+			while (check_str(input, ++var->i) && input[var->i] != '|')
+				var->j++;
+			ft_lstadd_back(node,
+				ft_lstnew(ft_substr(input, var->i - var->j, var->j), WR));
+		}
+		return (1);
+	}
+	return (-1);
+}
+
+int	ft_check_tok(t_list **node, char *input, char **env, t_data *var)
+{
+	if (ft_tok_mini_utils1(node, input, env, var) != -1)
+	{
+		if (var->x == 1)
+			return (0);
+	}
+	else if (ft_tok_mini_utils2(node, input, env, var) != -1)
+	{
+		if (var->x == 1)
+			return (0);
+	}
+	else if (ft_tok_mini_utils3(node, input, env, var) != -1)
+	{
+		if (var->x == 1)
+			return (0);
+	}
+	return (1);
+}
+
+int	ft_tokinaizer(t_list **node, char *input, char **env)
+{
+	t_data	var;
 	char	*limiter;
 
-	j = 1;
-	i = 0 ;
-	while (input[i] == ' ')
-		i++;
-	while (i < ft_strlen(input))
+	var.j = 1;
+	var.i = 0 ;
+	while (input[var.i] == ' ')
+		var.i++;
+	while (var.i < ft_strlen(input))
 	{
-		j = 0;
-		if (input[i] == ' ')
-		{
-			if (input[i + 1] != '|')
-			{	
-				while (input[i] == ' ')
-					i++;
-				if (!input[i])
-					break ;
-				ft_lstadd_back(node, ft_lstnew(ft_strdup(" "), WS));
-				i--;
-			}
-		}
-		else if (input[i] == '|')
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("|"), PIPE));
-		else if (input[i] == '"')
-		{
-			j = ft_parser_edit1(node, input, i, env);
-			if (j == -1)
-				return (0);
-			i += j + 1;
-		}
-		else if (input[i] == '\'')
-		{
-			j = ft_parser_edit(node, input, i);
-			if (j == -1)
-				return (printf("single quotes not closed\n"), 0);
-			i += j + 1;
-		}
-		else if (input[i] == '$')
-		{
-			i += ft_expand(node, input, env, i);
-			j = 2;
-		}
-		else if (input[i] == '>' && input[i + 1] == '>')
-		{
-			i += 1;
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(">>"), OUTPUT_H));
-		}
-		else if (input[i] == '>')
-			ft_lstadd_back(node, ft_lstnew(ft_strdup(">"), OREDI));
-		else if (input[i] == '<' && input[i + 1] == '<')
-		{
-			i += 2;
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("<<"), INPUT_H));
-			while (input[i] == ' ')
-				i++;
-			while (input[i] && input[i] != ' ' && input[i] != '<'
-				&& input[i] != '>' && input[i] != '|')
-			{
-				if (input[i] == '"')
-				{
-					if (input[i] == '"' && input[i + 1] == '"')
-					{
-						str = ft_strdup("");
-						i += 2;
-						j = 1;
-					}
-					else
-					{
-						i++;
-						j = 0;
-						while (input[i] && input[i] != '"')
-						{
-							j++;
-							i++;
-						}
-						if (!input[i])
-							return (printf("double quotes not closed\n"), 0);
-						else
-						{
-							str = ft_substr(input, i - j, j);
-							limiter = ft_strjoin(limiter, str);
-							free(str);
-						}
-						i++;
-					}
-				}
-				else if (input[i] == '\'')
-				{
-					if (input[i] == '"' && input[i + 1] == '"')
-					{
-						str = ft_strdup("");
-						i += 2;
-						j = 1;
-					}
-					else
-					{
-						i++;
-						j = 0;
-						while (input[i] && input[i] != '\'')
-						{
-							j++;
-							i++;
-						}
-						if (!input[i])
-							return (printf("single quotes not closed\n"), 0);
-						else
-						{
-							str = ft_substr(input, i - j, j);
-							limiter = ft_strjoin(limiter, str);
-							free(str);
-						}
-						i++;
-					}
-				}
-				else
-				{
-					j = 0;
-					while (input[i] && input[i] != '\'' && input[i] != '"'
-						&& input[i] != ' ' && input[i] != '<'
-						&& input[i] != '>' && input[i] != '|')
-					{
-						j++;
-						i++;
-					}
-					str = ft_substr(input, i - j, j);
-					limiter = ft_strjoin(limiter, str);
-					free(str);
-				}
-			}
-			ft_lstadd_back(node, ft_lstnew(limiter, LIMITER));
-			j = 5;
-		}
-		else if (input[i] == '<')
-			ft_lstadd_back(node, ft_lstnew(ft_strdup("<"), IREDI));
-		else
-		{
-			if (input[i] != ' ')
-			{
-				i--;
-				while (check_str(input, ++i) && input[i] != '|')
-					j++;
-				ft_lstadd_back(node, ft_lstnew(ft_substr(input, i - j, j), WR));
-			}
-		}
-		if (!j)
-			i++;
+		var.j = 0;
+		if (!ft_check_tok(node, input, env, &var))
+			return (0);
+		if (!var.j)
+			var.i++;
 	}
 	ft_lstadd_back(node, ft_lstnew(strdup("<-"), END_TOKN));
 	return (1);

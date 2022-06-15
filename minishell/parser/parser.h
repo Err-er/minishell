@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/15 13:18:18 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/15 14:42:46 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ typedef struct s_data
 	char	*str;
 }	t_data;
 
+int			check_str(char *str, int i);
+int			ft_parser_edit1(t_list **node, char *input, int i, char **env);
+int			ft_parser_edit(t_list **node, char *input, int i);
+int			ft_tokinaizer(t_list **node, char *input, char **env);
 long double	ft_atoi(const char *str);
 int			ft_parser(char *input, t_cd *cd);
 char		**ft_split(char *s, char c);
@@ -126,5 +130,7 @@ void		ft_exit(t_list **node);
 void		increase_shelvl(t_cd *cd);
 void		replace_this(t_cd *cd, char *s);
 int			ft_cheak_is_expand(char **env, char *cd);
-
+t_list		*ft_lstlast(t_list *lst);
+void		ft_lstadd_back(t_list **lst, t_list *new);
+t_list		*ft_lstnew(char *value, int tokn);
 #endif
