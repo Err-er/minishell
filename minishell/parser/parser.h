@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/15 14:42:46 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/15 16:36:14 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,4 +133,5 @@ int			ft_cheak_is_expand(char **env, char *cd);
 t_list		*ft_lstlast(t_list *lst);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 t_list		*ft_lstnew(char *value, int tokn);
+void		utils_ex_ds(int ex);
 #endif

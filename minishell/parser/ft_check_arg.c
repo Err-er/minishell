@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/15 16:19:09 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/15 16:36:40 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -643,15 +643,7 @@ void	ft_ex_com_utils2(t_list *node, t_cd *cd, t_vars	var, char *str)
 	if (var.c2 == 0)
 		ft_ex(str, cd, var);
 	waitpid(var.c2, &ex, 0);
-	if (WIFEXITED(ex))
-	{
-		if (ex == 65280)
-			ds = 255;
-		else
-			ds = ex % 255;
-	}
-	else if (WIFSIGNALED(ex))
-		ds = ex + 128;
+	utils_ex_ds(ex);
 }
 
 int	ft_ex_com(t_list *node, t_cd *cd)
@@ -773,6 +765,19 @@ int	ft_sc(t_list *node, t_cd *cd)
 }
 /*********************************************************************/
 
+void	utils_ex_ds(int ex)
+{
+	if (WIFEXITED(ex))
+	{
+		if (ex == 65280)
+			ds = 255;
+		else
+			ds = ex % 255;
+	}
+	else if (WIFSIGNALED(ex))
+		ds = ex + 128;
+}
+
 void	ft_pipe_ex(t_list *node, t_cd *cd)
 {
 	int		pid;
@@ -795,15 +800,7 @@ void	ft_pipe_ex(t_list *node, t_cd *cd)
 		exit(ds);
 	}
 	waitpid(pid, &ex, 0);
-	if (WIFEXITED(ex))
-	{
-		if (ex == 65280)
-			ds = 255;
-		else
-			ds = ex % 255;
-	}
-	else if (WIFSIGNALED(ex))
-		ds = ex + 128;
+	utils_ex_ds(ex);
 }
 
 int	ft_parser(char *input, t_cd *cd)
