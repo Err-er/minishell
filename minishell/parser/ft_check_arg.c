@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/15 16:36:40 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/15 19:53:46 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -461,7 +461,7 @@ int	ft_ex_cmd(char *cmd, t_cd *cd, t_vars var)
 	else if (!ft_strcmp(cmd, "env"))
 		return (ft_print_env(cd->my_env), 0);
 	else if (!ft_strcmp(cmd, "minishell"))
-		return (increase_shelvl(cd), 0);
+		return (increase_shelvl(cd), 1);
 	return (1);
 }
 
@@ -476,10 +476,10 @@ void	ft_ex(char *cmds, t_cd *cd, t_vars var)
 	ft_dup_ex(cmds, cd, var, end);
 	if (!ft_ex_cmd(cmd[0], cd, var))
 		exit(0);
+	printf("%s\n", cmds);
 	pat = ft_path(cd->my_env, cmds);
 	if (access(cmd[0], X_OK) == 0)
 		pat = cmds;
-	free(var.value);
 	if (execve(pat, cmd, cd->my_env) == -1)
 	{
 		perror("Error ");

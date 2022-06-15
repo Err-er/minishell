@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/15 10:49:20 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/15 19:51:06 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_path(char **env, char *cd)
 	str = get_path(env, "PATH");
 	p = ft_split(str, ':');
 	cmd = ft_split_2(cd, '\v');
-	if (access(cmd[0], X_OK) == 0)
+	if (access(cd, X_OK) == 0)
 		return (ft_f(p, cmd), cd);
 	if (!cmd)
 		print_error_p(cmd);
