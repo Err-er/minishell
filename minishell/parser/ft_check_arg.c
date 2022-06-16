@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/16 10:01:32 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/16 15:20:38 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,6 +332,7 @@ int	ft_is_last(t_list *node, int c, int c2, int end)
 	return (nb);
 }
 /********************S******************/
+
 void ft_pip_utils_1(t_list **head, char **str)
 {
 	if ((*head)->tokn == PIPE)
@@ -345,15 +346,12 @@ void ft_pip_utils_1(t_list **head, char **str)
 		(*head) = (*head)->next;
 	}
 	if ((*head)->tokn == NUL)
-	{
-		(*str) = ft_strjoin((*str), "\v");
-		(*str) = ft_strjoin_nf((*str), ft_strdup(""));
-		(*head) = (*head)->next;
-	}
+		(*str) = mini_utils(head, (*str));
 	if ((*head)->tokn == WR)
 	{
 		(*str) = ft_strjoin((*str), (*head)->data);
 		(*head) = (*head)->next;
+		skip_nul(head, 0);
 	}
 }
 

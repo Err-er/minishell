@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/15 16:36:14 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/16 15:17:28 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_data
 	int		c;
 	int		x;
 	char	*str;
+	char	*limiter;
 }	t_data;
 
 int			check_str(char *str, int i);
@@ -134,4 +135,6 @@ t_list		*ft_lstlast(t_list *lst);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 t_list		*ft_lstnew(char *value, int tokn);
 void		utils_ex_ds(int ex);
+void		skip_nul(t_list **head, int i);
+char		*mini_utils(t_list **head, char *str);
 #endif

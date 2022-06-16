@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/15 19:51:06 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/16 15:30:58 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -417,9 +417,7 @@ int	ft_oredi_p(t_vars *var, t_list	**head, char *str)
 		var->br = 1;
 		return (0);
 	}
-	if (!ft_strcmp(str, "\v\v")
-		|| !ft_strcmp(str, " \v\v") || !ft_strcmp(str, "\v"))
-		var->br = 1;
+	var->br = ft_check_nul_cm(str);
 	free(var->file_n);
 	var->x[1] = 1;
 	return (1);
@@ -445,12 +443,20 @@ int	ft_outputh_p(t_vars *var, t_list	**head, char *str)
 		var->br = 1;
 		return (0);
 	}
-	if (!ft_strcmp(str, "\v\v")
-		|| !ft_strcmp(str, " \v\v") || !ft_strcmp(str, "\v"))
-		var->br = 1;
+	var->br = ft_check_nul_cm(str);
 	free(var->file_n);
 	var->x[1] = 1;
 	return (1);
+}
+
+int	ft_check_nul_cm(char *str)
+{
+	char	**s;
+
+	s = ft_split_2(str, '\v');
+	if (!s[0])
+		return (ft_fre(s), 1);
+	return (ft_fre(s), 0);
 }
 
 int	ft_inputh_p(t_vars *var, t_list	**head, char *str)
@@ -474,9 +480,7 @@ int	ft_inputh_p(t_vars *var, t_list	**head, char *str)
 		var->value = ft_strjoin(var->value, p);
 		free(p);
 	}
-	if (!ft_strcmp(str, "\v\v")
-		|| !ft_strcmp(str, " \v\v") || !ft_strcmp(str, "\v"))
-		var->br = 1;
+	var->br = ft_check_nul_cm(str);
 	return (1);
 }
 
@@ -499,9 +503,7 @@ int	ft_iredi_p(t_vars *var, t_list	**head, char *str)
 		free(var->file_n);
 		return (0);
 	}
-	if (!ft_strcmp(str, "\v\v")
-		|| !ft_strcmp(str, " \v\v") || !ft_strcmp(str, "\v"))
-		var->br = 1;
+	var->br = ft_check_nul_cm(str);
 	free(var->file_n);
 	var->x[0] = 0;
 	return (1);
