@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:51:33 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/15 11:40:06 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/16 10:07:21 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ int		ft_check_iredi(char *input);
 int		ft_check_output_h(char *input);
 int		ft_check_oredi(char *input);
 void	print_error_syntax(void);
+char	*ft_strtrim2(char *s1, char *set);
 #endif

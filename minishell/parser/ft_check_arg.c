@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/15 19:53:46 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/16 10:01:32 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -476,7 +476,6 @@ void	ft_ex(char *cmds, t_cd *cd, t_vars var)
 	ft_dup_ex(cmds, cd, var, end);
 	if (!ft_ex_cmd(cmd[0], cd, var))
 		exit(0);
-	printf("%s\n", cmds);
 	pat = ft_path(cd->my_env, cmds);
 	if (access(cmd[0], X_OK) == 0)
 		pat = cmds;

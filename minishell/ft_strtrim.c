@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 13:06:37 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/14 15:02:31 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/16 10:06:54 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,32 @@ char	*ft_strtrim(char *s1, char *set)
 			return (NULL);
 		ft_strlcpy(s, &s1[start], end - start + 1);
 	}
+	return (s);
+}
+
+char	*ft_strtrim2(char *s1, char *set)
+{
+	int		start;
+	int		end;
+	char	*s;
+
+	s = 0;
+	if (!s1)
+		return (NULL);
+	if (s1 != 0 && set != 0)
+	{
+		start = 0;
+		end = ft_strlen(s1);
+		while (s1[start] && ft_strchrr(set, s1[start]))
+			start++;
+		while (s1[end - 1] && ft_strchrr(set, s1[end - 1]) && end > start)
+			end--;
+		s = (char *)malloc(sizeof(char) * (end - start + 1));
+		if (!s)
+			return (NULL);
+		ft_strlcpy(s, &s1[start], end - start + 1);
+	}
+	free(s1);
 	return (s);
 }
 
