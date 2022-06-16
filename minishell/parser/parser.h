@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/16 15:17:28 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/16 17:33:47 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void		ft_ex(char *cmds, t_cd *cd, t_vars var);
 void		ft_exprot(t_list **node, t_cd *cd);
 void		ft_unset(t_list **node, t_cd *cd);
 void		ft_fre(char **cmd);
-char		*ft_strjoin_nf(char *s1, char *s2);
 char		*ft_substr(char *s, int start, int len);
 int			ft_check_pip(t_list *node, int c);
 void		ft_putstr_fd(char *s, int fd);
@@ -137,4 +136,9 @@ t_list		*ft_lstnew(char *value, int tokn);
 void		utils_ex_ds(int ex);
 void		skip_nul(t_list **head, int i);
 char		*mini_utils(t_list **head, char *str);
+int			ft_tok_input_h_ut1(char *input, t_data *var);
+int			ft_tok_input_h_ut2(char *input, t_data *var);
+void		ft_tok_input_h_ut3(char *input, t_data *var);
+int			ft_tok_input_h(t_list **node, char *input, char **env, t_data *var);
+
 #endif

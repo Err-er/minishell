@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 13:04:54 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/13 18:13:13 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/16 17:28:10 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,24 +100,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	if (!s1)
 		s1 = ft_strdup("");
-	if (!s2)
-		return (NULL);
-	a = ft_strlen(s1);
-	s = (char *)malloc(a + ft_strlen(s2) + 1);
-	if (s == NULL)
-		return (NULL);
-	s = move(s1, s2, s);
-	free(s1);
-	return (s);
-}
-
-char	*ft_strjoin_nf(char *s1, char *s2)
-{
-	int		a;
-	int		i;
-	char	*s;
-
-	i = 0;
 	if (!s2)
 		return (NULL);
 	a = ft_strlen(s1);

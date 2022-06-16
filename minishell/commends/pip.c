@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/16 15:30:58 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/16 17:32:47 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -476,7 +476,7 @@ int	ft_inputh_p(t_vars *var, t_list	**head, char *str)
 			free(p);
 			break ;
 		}
-		p = ft_strjoin_nf(p, "\n");
+		p = ft_strjoin(p, "\n");
 		var->value = ft_strjoin(var->value, p);
 		free(p);
 	}
