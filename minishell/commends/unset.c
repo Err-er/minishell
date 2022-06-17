@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:01:24 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/02 18:11:05 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/17 10:43:18 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	unset_this(t_cd *cd, char *s)
 		x++;
 	}
 	new_env[x] = NULL;
-	free(cd->my_env);
+	ft_fre(cd->my_env);
 	cd->my_env = new_env;
 }
 
@@ -53,7 +53,9 @@ int	check_valid_unset(char *s, char **env)
 	{
 		if ((s[i] < 65 && s[i] != 32)
 			|| s[i] > 122 || (s[i] >= 91 && s[i] <= 94) || s[i] == 96)
-			return (printf("minishell: unset: `%s': not a valid identifier\n", s), 1);
+			return (
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					s), 1);
 	}
 	i = -1;
 	while (env[++i])

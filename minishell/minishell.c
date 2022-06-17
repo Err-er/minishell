@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/16 10:07:00 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/17 13:53:40 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,9 @@ void	ft_new_env(char **env, t_cd *cd)
 		unset_this(cd, "OLDPWD");
 	cd->pwd = ft_strdup("PWD=");
 	cd->pwd = ft_strjoin(cd->pwd, get_path(cd->my_env, "PWD"));
-	cd->shlvl = ft_atoi(ft_strtrim(get_path(cd->my_env,"SHLVL"),"\""));
+	tmp = ft_strtrim(get_path(cd->my_env, "SHLVL"), "\"");
+	cd->shlvl = ft_atoi(tmp);
+	free(tmp);
 }
 
 void	handle_sigs(int sig)
@@ -227,7 +229,6 @@ int	main(int ac, char **av, char **env)
 	{
 		get_global(0);
 		input = readline("➜ minishell $ ");
-		/* system("leaks minishell"); leaks */
 		if (!input)
 			break ;
 		ft_parser(input, cd);
@@ -240,5 +241,8 @@ int	main(int ac, char **av, char **env)
 		free(input);
 	}
 	write(1, "\033[1A\033[14Cexit\n", 15);
+	ft_fre(cd->my_env);
+	free(cd->pwd);
+	free(cd);
 	return (0);
 }
