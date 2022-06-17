@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/17 15:10:51 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/17 17:19:15 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,22 @@ void	ft_putstr(char	*c)
 		write(1, &c[i], 1);
 		i++;
 	}
+}
+
+int	skip_flags(t_list *node, int j)
+{
+	int	i;
+
+	i = 0;
+	if (node->tokn == WS && j == 0)
+		return (1);
+	if (node->data[i] == '-')
+		i++;
+	while (node->data[i] && node->data[i] == 'n')
+		i++;
+	if (node->data[i] == 'n' || !node->data[i])
+		return (1);
+	return (0);
 }
 
 void	ft_skip_redi(t_list **node, int i)
@@ -49,11 +65,19 @@ void	ft_skip_redi(t_list **node, int i)
 
 void	ft_echo_flag(t_list *node)
 {
+	int	i;
+
+	i = 0;
 	if (node->tokn == WS)
 		node = node->next;
 	while (node->tokn != END_TOKN && node->tokn != PIPE)
 	{
 		ft_skip_redi(&node, 1);
+		if (i == 0)
+		{
+			while (skip_flags(node, 1))
+				node = node->next;
+		}
 		if (node->data)
 			ft_putstr(node->data);
 		node = node->next;
@@ -72,21 +96,6 @@ void	ft_echo_utils(t_list *node, int i)
 	printf("\n");
 }
 
-int	skip_flags(t_list *node)
-{
-	int	i;
-
-	i = 0;
-	if (node->tokn == WS)
-		return (1);
-	if (node->data[i] == '-')
-		i++;
-	while (node->data[i] && node->data[i] == 'n')
-		i++;
-	if (node->data[i] == 'n' || !node->data[i])
-		return (1);
-	return (0);
-}
 
 int	check_flags(t_list *node)
 {
@@ -107,7 +116,7 @@ void	ft_mini_utils(t_list *head)
 	if ((head->next->tokn == WS || !head->next->tokn)
 		&& (!ft_strcmp(head->data, "-n") || check_flags(head)))
 	{
-		while (skip_flags(head))
+		while (skip_flags(head, 0))
 			head = head->next;
 		if (!head->tokn)
 			return ;

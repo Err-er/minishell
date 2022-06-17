@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/16 15:20:38 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/17 16:33:37 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	ft_parser_edit(t_list **node, char *input, int i)
 	int		n;
 
 	j = i;
-	if (input[j] == '\'' && input[j + 1] == '\'')
+	if (input[j] == '\'' && input[j + 1] == '\'' && ft_isalpha(j - 1))
 		return (ft_lstadd_back(node, ft_lstnew(ft_strdup(""), NUL)), 0);
 	while (input[++j])
 	{
@@ -167,7 +167,7 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 
 	var.j = i;
 	var.i = i;
-	if (input[var.j] == '"' && input[var.j + 1] == '"')
+	if (input[var.j] == '"' && input[var.j + 1] == '"' && ft_isalpha(var.j - 1))
 		return (ft_lstadd_back(node, ft_lstnew(ft_strdup(""), NUL)), 0);
 	while (input[++var.j])
 	{
@@ -800,10 +800,38 @@ void	ft_pipe_ex(t_list *node, t_cd *cd)
 	utils_ex_ds(ex);
 }
 
+t_list	*new_node(t_list	*node)
+{
+	t_list	*n_node;
+	t_list	*tmp;
+	char	*str;
+
+	n_node = ft_lstnew(ft_strdup("->"), ST_TOKN);
+	tmp = node->next;
+	while (tmp)
+	{
+		if (tmp->tokn == WR)
+		{
+			str = ft_strdup("");
+			while (tmp->tokn == WR)
+			{
+				str = ft_strjoin(str, tmp->data);
+				tmp = tmp->next;
+			}
+			ft_lstadd_back(&n_node, ft_lstnew(ft_strdup(str), WR));
+			free (str);
+		}
+		ft_lstadd_back(&n_node, ft_lstnew(ft_strdup(tmp->data), tmp->tokn));
+		tmp = tmp->next;
+	}
+	return (n_node);
+}
+
 int	ft_parser(char *input, t_cd *cd)
 {
 	int		i;
 	t_list	*node;
+	t_list	*n_node;
 
 	i = 0;
 	if (input[0] == '\0')
@@ -815,12 +843,14 @@ int	ft_parser(char *input, t_cd *cd)
 		return (ft_lstclear(&node), 0);
 	if (node->tokn == node->next->tokn)
 		return (ft_lstclear(&node), 0);
-	if (ft_check_pip(node, PIPE))
-		ft_pipe_ex(node, cd);
-	else if (ft_sc(node, cd) == 1)
-		ft_ex_sc(node, cd);
-	else if (!ft_sc(node, cd))
-		ft_ex_com(node, cd);
+	n_node = new_node(node);
 	ft_lstclear(&node);
+	if (ft_check_pip(n_node, PIPE))
+		ft_pipe_ex(n_node, cd);
+	else if (ft_sc(n_node, cd) == 1)
+		ft_ex_sc(n_node, cd);
+	else if (!ft_sc(n_node, cd))
+		ft_ex_com(n_node, cd);
+	ft_lstclear(&n_node);
 	return (1);
 }
