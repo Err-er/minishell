@@ -1,6 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory `/Users/asabbar/Desktop/new'
-make: Leaving directory `/Users/asabbar/Desktop/new'
- 
-make: *** No targets specified and no makefile found.  Stop.
-
