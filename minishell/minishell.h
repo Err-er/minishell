@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:51:33 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/16 15:30:30 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/18 19:58:52 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strdup(char *src);
 int		ft_strlen(char *s);
 int		ft_strlen1(char *s);
 char	*ft_strchr(char *s, int c);
-char	*ft_strchrr(char *str, int c);
+char	*ft_strchr(char *str, int c);
 int		ft_strlcpy(char *dest, char *src, int size);
 char	*ft_itoa(int n);
 int		ft_isdigit(int c);
@@ -43,5 +43,6 @@ int		ft_check_output_h(char *input);
 int		ft_check_oredi(char *input);
 void	print_error_syntax(void);
 char	*ft_strtrim2(char *s1, char *set);
-int     ft_check_nul_cm(char *str);
+int		ft_check_nul_cm(char *str);
+
 #endif

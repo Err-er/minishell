@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 13:04:54 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/16 17:28:10 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/18 19:59:08 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,7 @@ int	ft_strlen1(char *s)
 	return (i);
 }
 
-char	*ft_strchr(char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	while (s[i] != (char)c)
-	{
-		if (s[i] == '\0')
-			return (NULL);
-		i++;
-	}
-	return ((char *)s);
-}
-
-char	*ft_strchrr(char *str, int c)
+char	*ft_strchr(char *str, int c)
 {
 	int	i;
 

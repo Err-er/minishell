@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 15:25:01 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/18 19:57:17 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,21 +149,37 @@ int			ft_check_pip3(t_list *node, int c, int c2);
 void		ft_ex(char *cmds, t_cd *cd, t_vars var);
 int			ft_ex_cmd(char *cmd, t_cd *cd, t_vars var);
 int			ft_dup_ex(char *cmds, t_cd *cd, t_vars var, int *end);
+void		inisial(t_vars	*var, char **str);
+void		ft_check_redi_p(t_vars *var, char *str, t_list *head);
+int			ft_iredi_p(t_vars *var, t_list	**head, char *str);
+int			ft_inputh_p(t_vars *var, t_list	**head, char *str);
+int			ft_check_nul_cm(char *str);
+void		ft_change_node(t_list **node);
+int			ft_check_red(t_list *node, int fd);
+int			ft_check_red2(t_list *node, int fd);
+int			ft_oredi_p(t_vars *var, t_list	**head, char *str);
+int			ft_outputh_p(t_vars *var, t_list	**head, char *str);
+void		dup_chi2(t_vars *var);
+void		ft_check_c2(char **cmd, t_cd *cd, t_vars *var, char *hh);
+void		ft_child2(char *cmds, t_cd *cd, t_vars *var);
+int			forkpipe(int *end);
+int			ft_cheak(int i, char **cmd);
+void		ft_check_c1(char **cmds, t_cd *cd, t_vars *var, char *hh);
+void		ft_child1(char *cmd, t_cd *cd, int *end, t_vars *var);
+void		dup_chi3(t_vars *var, int *end);
+void		ft_check_c3(char **cmds, t_cd *cd, t_vars *var, char *hh);
+void		ft_child3(char *cmd, t_cd *cd, int *end, t_vars *var);
+void		ft_fre(char **cmd);
+void		print_error_p(char **cmd);
+void		ft_f(char **p, char **cmd);
+char		*ft_path(char **env, char *cd);
+void		dup_chi1(t_vars *var, int *end);
+char		*ft_sc_utils(t_list *node);
 int			ft_pip(t_list *node, t_cd *cd);
-char		*ft_pip_utils(t_list *head, char *str);
+void		ft_ex_sc(t_list *node, t_cd *cd);
+int			ft_ex_com(t_list *node, t_cd *cd);
 int			ft_ex_com_utils1(t_list **head, t_cd *cd, t_vars *var);
-int			ft_ex_iredi(t_list **head, t_vars	*var);
-int			ft_ex_input_h(t_list **head, t_vars	*var);
-int			ft_ex_output_h(t_list **head, t_vars	*var);
-int			ft_ex_oredi(t_list **head, t_vars	*var);
-t_list		*new_node_export(t_list	*node);
 void		ft_ex_com_utils2(t_list *node, t_cd *cd, t_vars	var, char *str);
 char		*ft_ex_com_utils(t_list *head, t_cd *cd, t_vars	*var, char *str);
-void		skip_nul(t_list **head, int i);
-char		*ft_sc_utils(t_list *node);
-void		ft_ex_sc(t_list *node, t_cd *cd);
-void		ft_ex_sc_utils(t_list *node, t_cd *cd, char *cmd);
-int			ft_ex_com(t_list *node, t_cd *cd);
-void		ft_ex_export(t_list *head, t_cd *cd, t_vars var);
-
+t_list		*new_node_export(t_list	*node);
 #endif

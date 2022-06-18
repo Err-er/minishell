@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 13:06:37 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/16 10:06:54 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/18 19:58:59 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ char	*ft_strtrim(char *s1, char *set)
 	{
 		start = 0;
 		end = ft_strlen(s1);
-		while (s1[start] && ft_strchrr(set, s1[start]))
+		while (s1[start] && ft_strchr(set, s1[start]))
 			start++;
-		while (s1[end - 1] && ft_strchrr(set, s1[end - 1]) && end > start)
+		while (s1[end - 1] && ft_strchr(set, s1[end - 1]) && end > start)
 			end--;
 		s = (char *)malloc(sizeof(char) * (end - start + 1));
 		if (!s)
@@ -50,9 +50,9 @@ char	*ft_strtrim2(char *s1, char *set)
 	{
 		start = 0;
 		end = ft_strlen(s1);
-		while (s1[start] && ft_strchrr(set, s1[start]))
+		while (s1[start] && ft_strchr(set, s1[start]))
 			start++;
-		while (s1[end - 1] && ft_strchrr(set, s1[end - 1]) && end > start)
+		while (s1[end - 1] && ft_strchr(set, s1[end - 1]) && end > start)
 			end--;
 		s = (char *)malloc(sizeof(char) * (end - start + 1));
 		if (!s)

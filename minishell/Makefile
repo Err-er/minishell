@@ -43,6 +43,11 @@ SRC =	minishell.c						\
 		ft_itoa.c						\
 		syntax/check_syntax.c 			\
 		syntax/syntax_utils.c 			\
+		commends/pip_utils.c			\
+		commends/pip_utils1.c			\
+		commends/pip_utils3.c			\
+		commends/pip_utils4.c			\
+		commends/pip_utils2.c			\
 
 OBJECTS = $(SRC:.c=.o)
 OBJECTSB = $(SRCB:.c=.o)
