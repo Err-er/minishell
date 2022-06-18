@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 15:50:48 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/18 16:05:04 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	ft_ex_sc(t_list *node, t_cd *cd)
 	free(str);
 	ft_fre(cmd);
 }
-
 
 char	*ft_sc_utils(t_list *node)
 {
