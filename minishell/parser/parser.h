@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/16 17:33:47 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/18 15:25:01 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int			words_count(char *s, char c);
 void		ft_lstclear(t_list **lst);
 void		ft_echo(t_list *node);
 char		*get_path(char **str, char *to_find);
-int			ft_parser_edit1(t_list **node, char *input, int i, char **env);
 int			ft_strncmp(char *str1, char *str2, int n);
 char		**ft_split_2(char *s, char c);
 char		**ft_split(char *s, char c);
@@ -140,5 +139,31 @@ int			ft_tok_input_h_ut1(char *input, t_data *var);
 int			ft_tok_input_h_ut2(char *input, t_data *var);
 void		ft_tok_input_h_ut3(char *input, t_data *var);
 int			ft_tok_input_h(t_list **node, char *input, char **env, t_data *var);
+int			ft_isdigit(int c);
+int			ft_parser_edit1_utils(t_list **node,
+				char *input, t_data *var, char **env);
+int			ft_expand_utils(t_list **node, char *input, char **env, int i);
+void		ft_pip_utils_2(t_list **head);
+void		ft_pip_utils_1(t_list **head, char **str);
+int			ft_check_pip3(t_list *node, int c, int c2);
+void		ft_ex(char *cmds, t_cd *cd, t_vars var);
+int			ft_ex_cmd(char *cmd, t_cd *cd, t_vars var);
+int			ft_dup_ex(char *cmds, t_cd *cd, t_vars var, int *end);
+int			ft_pip(t_list *node, t_cd *cd);
+char		*ft_pip_utils(t_list *head, char *str);
+int			ft_ex_com_utils1(t_list **head, t_cd *cd, t_vars *var);
+int			ft_ex_iredi(t_list **head, t_vars	*var);
+int			ft_ex_input_h(t_list **head, t_vars	*var);
+int			ft_ex_output_h(t_list **head, t_vars	*var);
+int			ft_ex_oredi(t_list **head, t_vars	*var);
+t_list		*new_node_export(t_list	*node);
+void		ft_ex_com_utils2(t_list *node, t_cd *cd, t_vars	var, char *str);
+char		*ft_ex_com_utils(t_list *head, t_cd *cd, t_vars	*var, char *str);
+void		skip_nul(t_list **head, int i);
+char		*ft_sc_utils(t_list *node);
+void		ft_ex_sc(t_list *node, t_cd *cd);
+void		ft_ex_sc_utils(t_list *node, t_cd *cd, char *cmd);
+int			ft_ex_com(t_list *node, t_cd *cd);
+void		ft_ex_export(t_list *head, t_cd *cd, t_vars var);
 
 #endif

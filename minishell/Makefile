@@ -23,6 +23,14 @@ SRC =	minishell.c						\
 		parser/ft_atoi.c	 			\
 		parser/ft_split_2.c	 			\
 		parser/ft_tokinaizer.c  		\
+		parser/ft_check_arg_utils1.c   	\
+		parser/ft_check_arg_utils2.c   	\
+		parser/ft_check_arg_utils3.c   	\
+		parser/ft_check_arg_utils4.c   	\
+		parser/ft_check_arg_utils5.c   	\
+		parser/ft_check_arg_utils6.c   	\
+		parser/ft_check_arg_utils7.c   	\
+		parser/ft_check_arg_utils8.c   	\
 		parser/ft_tokinaizer_utils.c    \
 		commends/echo.c 				\
 		commends/pip.c					\
