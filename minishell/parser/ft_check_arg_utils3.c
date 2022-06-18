@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 15:27:17 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/18 15:51:11 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ int	ft_expand(t_list **node, char *input, char **env, int i)
 	else
 		return (ft_expand_utils(node, input, env, i));
 }
-
-/***-----*****/
 
 void	ft_lstclear(t_list **lst)
 {

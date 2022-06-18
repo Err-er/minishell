@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 15:15:15 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/18 15:51:07 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	ft_is_last(t_list *node, int c, int c2, int end)
 	}
 	return (nb);
 }
-/********************S******************/
 
 void	ft_pip_utils_1(t_list **head, char **str)
 {

@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 15:12:08 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/18 15:51:16 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	ft_parser_edit(t_list **node, char *input, int i)
 	}
 	return (printf("single quotes not closed\n"), -1);
 }
-/**********************************/
 
 int	ft_parser_edit1_utils(t_list **node, char *input, t_data *var, char **env)
 {
