@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 19:46:20 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 11:08:07 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	c_pip(char **str, t_cd *cd, t_list *node)
 	inisial(&var, str);
 	while (var.str[++var.i])
 	{
+		var.fd[1] = 0;
+		var.fd[0] = 0;
 		ft_check_redi_p(&var, var.str[var.i], node);
 		if (!var.br)
 			ft_ex_com_pipe(&var, cd, node);

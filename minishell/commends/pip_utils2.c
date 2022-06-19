@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:39:30 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 19:43:50 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 11:07:26 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	dup_chi3(t_vars *var, int *end)
 		dup2(var->fd[0], var->x[0]);
 		close(var->fd[0]);
 	}
-	if (ft_check_pip2(var->node, OREDI) || ft_check_pip2(var->node, OUTPUT_H))
+	if (var->fd[1])
 	{
 		dup2(var->fd[1], var->x[1]);
 		close(var->fd[1]);
