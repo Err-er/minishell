@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 16:56:52 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:53:09 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	run_minishell(t_cd	*cd, int fd_his)
 			ft_putstr_fd("\n", fd_his);
 			add_history(input);
 		}
-		system("leaks minishell");
 		free(input);
 	}
 }
