@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 16:05:04 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 14:22:13 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	ft_ex_com(t_list *node, t_cd *cd)
 	var.fd[1] = 0;
 	str = ft_strdup("");
 	var.value = NULL;
-	var.c = 0;
 	str = ft_ex_com_utils(node->next, cd, &var, str);
 	if (!str)
 		return (free(str), free(var.value), 0);
@@ -53,7 +52,11 @@ int	ft_ex_com(t_list *node, t_cd *cd)
 	else if (!ft_strcmp(cmd[0], "export"))
 		ft_ex_export(node, cd, var);
 	else
+	{
+		if (!ft_strcmp(cmd[0], MINI) || !ft_strcmp(cmd[0], MINIS))
+			increase_shelvl(cd);
 		ft_ex_com_utils2(node, cd, var, str);
+	}
 	return (free(str), free(var.value), ft_fre(cmd), 1);
 }
 

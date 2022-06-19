@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 16:05:19 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 14:28:02 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ int	ft_ex_cmd(char *cmd, t_cd *cd, t_vars var)
 		return (ft_getcwd(cd), 0);
 	else if (!ft_strcmp(cmd, "env"))
 		return (ft_print_env(cd->my_env), 0);
-	else if (!ft_strcmp(cmd, "minishell"))
-		return (increase_shelvl(cd), 1);
 	return (1);
 }
 

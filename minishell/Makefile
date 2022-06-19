@@ -15,6 +15,8 @@ RLFLAGS = -I/goinfre/asabbar/.brew/opt/readline/include
 RLFLAGS2 = -L/goinfre/asabbar/.brew/opt/readline/lib
 
 SRC =	minishell.c						\
+		minishell_utils.c				\
+		minishell_utils1.c 				\
 		ft_strtrim.c					\
 		ft_strjoin.c					\
 		parser/ft_check_arg.c			\

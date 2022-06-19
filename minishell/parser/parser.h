@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 19:57:17 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 16:59:15 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 # define INPUT_H	17
 # define LIMITER	21
 # define END_TOKN	0
+# define MINI		"minishell"
+# define MINIS		"./minishell"
 
 extern int	ds;
 
@@ -182,4 +184,6 @@ int			ft_ex_com_utils1(t_list **head, t_cd *cd, t_vars *var);
 void		ft_ex_com_utils2(t_list *node, t_cd *cd, t_vars	var, char *str);
 char		*ft_ex_com_utils(t_list *head, t_cd *cd, t_vars	*var, char *str);
 t_list		*new_node_export(t_list	*node);
+void		run_minishell(t_cd	*cd, int fd_his);
+void		ft_new_env(char **env, t_cd *cd);
 #endif

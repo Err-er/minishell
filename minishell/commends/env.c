@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 06:46:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/15 11:44:45 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 14:26:54 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ void	increase_shelvl(t_cd *cd)
 {
 	char	*temp;
 
-	cd->shlvl += 1;
+	// if (cd->shlvl < 0)
+	// 	cd->shlvl = 0;
+	// else
+		cd->shlvl += 1;
 	if (get_path(cd->my_env, "SHLVL"))
 	{
 		temp = ft_strdup("SHLVL=");
