@@ -58,10 +58,10 @@ all: $(NAME)
 	@echo "------------------minishell-----------------\n\n\n"
 
 $(NAME): $(OBJECTS)
-	@$(CC) -lreadline $(SRC) -o $(NAME) $(RLFLAGS) $(RLFLAGS2) 
+	@$(CC) -Wall -Wextra -Werror -lreadline $(SRC) -o $(NAME) $(RLFLAGS) $(RLFLAGS2) 
 
 %.o : %.c $(INCLUDES)
-	@$(CC) $(RLFLAGS) -o $@ -c $<
+	@$(CC) -Wall -Wextra -Werror $(RLFLAGS) -o $@ -c $<
 clean:
 	@rm -rf $(OBJECTS) $(OBJECTSB) 
 

@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/17 17:19:15 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:34:58 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_echo_flag(t_list *node)
 	}
 }
 
-void	ft_echo_utils(t_list *node, int i)
+void	ft_echo_utils(t_list *node)
 {
 	while (node && node->tokn != END_TOKN && node->tokn != PIPE)
 	{
@@ -123,12 +123,11 @@ void	ft_mini_utils(t_list *head)
 		ft_echo_flag(head);
 	}
 	else
-		ft_echo_utils(head, 0);
+		ft_echo_utils(head);
 }
 
 void	ft_echo(t_list *node)
 {
-	int		i;
 	t_list	*head;
 
 	head = node;
@@ -144,7 +143,7 @@ void	ft_echo(t_list *node)
 				&& !ft_strncmp(head->data, "-n", 2))
 				ft_mini_utils(head);
 			else
-				ft_echo_utils(head, 0);
+				ft_echo_utils(head);
 			ft_lstclear(&node);
 			return ;
 		}

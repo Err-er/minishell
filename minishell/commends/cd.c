@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/15 11:52:52 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:35:19 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_getcwd(t_cd *cd)
 
 	if (cd->pwd)
 	{
-		printf("%s\n",&cd->pwd[4]);
+		printf("%s\n", &cd->pwd[4]);
 		return ;
 	}
 	i = get_pwd(cd->my_env);
@@ -86,7 +86,6 @@ void	ft_cd(t_list **node, t_cd *cd)
 	int		i;
 	int		x;
 	int		j;
-	char	hh[1024];
 	char	**t;
 	char	*temp;
 

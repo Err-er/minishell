@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 15:21:26 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:30:50 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*mini_utils(t_list **head, char *str)
 	return (str);
 }
 
-char	*ft_ex_com_utils(t_list *head, t_cd *cd, t_vars	*var, char *str)
+char	*ft_ex_com_utils(t_list *head, t_vars *var, char *str)
 {
 	while (head)
 	{
@@ -46,7 +46,7 @@ char	*ft_ex_com_utils(t_list *head, t_cd *cd, t_vars	*var, char *str)
 			head = head->next;
 			skip_nul(&head, 0);
 		}
-		else if (!ft_ex_com_utils1(&head, cd, var))
+		else if (!ft_ex_com_utils1(&head, var))
 			return (free(str), free(var->file_n), perror("Error"), NULL);
 	}
 	if (!str[0])
@@ -71,7 +71,6 @@ t_list	*new_node_export(t_list	*node)
 {
 	t_list	*n_node;
 	t_list	*tmp;
-	char	*str;
 
 	n_node = ft_lstnew(ft_strdup("->"), ST_TOKN);
 	tmp = node->next;

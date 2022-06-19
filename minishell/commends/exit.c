@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 13:32:23 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/15 11:51:15 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:36:48 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int	check_near_max(char *s)
 void	ft_exit(t_list **node)
 {
 	t_list		*head;
-	long long	nb;
 
 	head = *node;
 	head = head->next;

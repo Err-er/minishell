@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 14:28:02 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:29:10 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ char	*ft_pip_utils(t_list *head, char *str)
 
 int	ft_pip(t_list *node, t_cd *cd)
 {
-	t_list	*head;
 	char	*str;
 	char	**s;
 
@@ -47,7 +46,7 @@ int	ft_pip(t_list *node, t_cd *cd)
 	return (c_pip(s, cd, node));
 }
 
-int	ft_dup_ex(char *cmds, t_cd *cd, t_vars var, int *end)
+int	ft_dup_ex(t_vars var, int *end)
 {
 	if (ft_check_pip(var.node, INPUT_H))
 	{
@@ -94,11 +93,10 @@ void	ft_ex(char *cmds, t_cd *cd, t_vars var)
 {
 	char	*pat;
 	char	**cmd;
-	int		c;
 	int		end[2];
 
 	cmd = ft_split_2(cmds, '\v');
-	ft_dup_ex(cmds, cd, var, end);
+	ft_dup_ex(var, end);
 	if (!ft_ex_cmd(cmd[0], cd, var))
 		exit(0);
 	pat = ft_path(cd->my_env, cmds);

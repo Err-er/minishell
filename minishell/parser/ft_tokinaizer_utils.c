@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 15:36:41 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/16 17:31:45 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:32:07 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ft_tok_input_h_ut3(char *input, t_data *var)
 	var->limiter = ft_strjoin(var->limiter, var->str);
 }
 
-int	ft_tok_input_h(t_list **node, char *input, char **env, t_data *var)
+int	ft_tok_input_h(t_list **node, char *input, t_data *var)
 {
 	var->limiter = NULL;
 	var->str = NULL;

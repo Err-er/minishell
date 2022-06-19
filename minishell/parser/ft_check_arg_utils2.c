@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 15:51:16 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:26:43 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_list	*ft_lstnew(char *value, int tokn)
 int	ft_parser_edit(t_list **node, char *input, int i)
 {
 	int		j;
-	int		n;
 
 	j = i;
 	if (input[j] == '\'' && input[j + 1] == '\'' && ft_isalpha(j - 1))
@@ -93,7 +92,6 @@ int	ft_parser_edit1_utils(t_list **node, char *input, t_data *var, char **env)
 int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 {
 	t_data	var;
-	char	*str;
 
 	var.j = i;
 	var.i = i;

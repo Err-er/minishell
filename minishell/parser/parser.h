@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 16:59:15 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:37:37 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int			get_global(int i);
 int			ft_is_last(t_list *node, int c, int c2, int end);
 int			ft_strcmp2(char *str1, char *str2);
 int			ft_expand(t_list **node, char *input, char **env, int i);
-int			ft_check_syntax(t_list *node, char *input);
+int			ft_check_syntax(char *input);
 void		ft_exit(t_list **node);
 void		increase_shelvl(t_cd *cd);
 void		replace_this(t_cd *cd, char *s);
@@ -140,7 +140,7 @@ char		*mini_utils(t_list **head, char *str);
 int			ft_tok_input_h_ut1(char *input, t_data *var);
 int			ft_tok_input_h_ut2(char *input, t_data *var);
 void		ft_tok_input_h_ut3(char *input, t_data *var);
-int			ft_tok_input_h(t_list **node, char *input, char **env, t_data *var);
+int			ft_tok_input_h(t_list **node, char *input, t_data *var);
 int			ft_isdigit(int c);
 int			ft_parser_edit1_utils(t_list **node,
 				char *input, t_data *var, char **env);
@@ -150,7 +150,7 @@ void		ft_pip_utils_1(t_list **head, char **str);
 int			ft_check_pip3(t_list *node, int c, int c2);
 void		ft_ex(char *cmds, t_cd *cd, t_vars var);
 int			ft_ex_cmd(char *cmd, t_cd *cd, t_vars var);
-int			ft_dup_ex(char *cmds, t_cd *cd, t_vars var, int *end);
+int			ft_dup_ex(t_vars var, int *end);
 void		inisial(t_vars	*var, char **str);
 void		ft_check_redi_p(t_vars *var, char *str, t_list *head);
 int			ft_iredi_p(t_vars *var, t_list	**head, char *str);
@@ -180,9 +180,9 @@ char		*ft_sc_utils(t_list *node);
 int			ft_pip(t_list *node, t_cd *cd);
 void		ft_ex_sc(t_list *node, t_cd *cd);
 int			ft_ex_com(t_list *node, t_cd *cd);
-int			ft_ex_com_utils1(t_list **head, t_cd *cd, t_vars *var);
+int			ft_ex_com_utils1(t_list **head, t_vars *var);
 void		ft_ex_com_utils2(t_list *node, t_cd *cd, t_vars	var, char *str);
-char		*ft_ex_com_utils(t_list *head, t_cd *cd, t_vars	*var, char *str);
+char		*ft_ex_com_utils(t_list *head, t_vars	*var, char *str);
 t_list		*new_node_export(t_list	*node);
 void		run_minishell(t_cd	*cd, int fd_his);
 void		ft_new_env(char **env, t_cd *cd);

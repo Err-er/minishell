@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 17:01:41 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:29:36 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	ft_ex_iredi(t_list **head, t_vars	*var)
 	return (1);
 }
 
-int	ft_ex_com_utils1(t_list **head, t_cd *cd, t_vars *var)
+int	ft_ex_com_utils1(t_list **head, t_vars *var)
 {
 	if ((*head)->tokn == OREDI)
 	{

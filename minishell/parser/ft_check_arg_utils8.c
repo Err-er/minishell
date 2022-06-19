@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 14:22:13 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:31:24 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_ex_com(t_list *node, t_cd *cd)
 	var.fd[1] = 0;
 	str = ft_strdup("");
 	var.value = NULL;
-	str = ft_ex_com_utils(node->next, cd, &var, str);
+	str = ft_ex_com_utils(node->next, &var, str);
 	if (!str)
 		return (free(str), free(var.value), 0);
 	cmd = ft_split_2(str, '\v');

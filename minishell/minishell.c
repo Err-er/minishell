@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 16:57:12 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:24:16 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	main(int ac, char **av, char **env)
 	int		fd_his;
 
 	(void)av;
+	input = NULL;
+	fd_his = 0;
 	signal(SIGINT, &handle_sigs);
 	signal(SIGQUIT, &handle_sigs);
 	rl_catch_signals = 0;

@@ -6,13 +6,14 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 16:55:05 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:24:48 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
-static char	*mover(char *s1, char *s2, char *s)
+
+char	*mover(char *s1, char *s2, char *s)
 {
 	int		a;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:41:10 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 19:44:42 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:38:10 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	ft_change_node(t_list **node)
 
 int	ft_check_red(t_list *node, int fd)
 {
-	int	c;
 	int	i;
 
 	while (node->tokn != PIPE)

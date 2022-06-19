@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/15 11:50:25 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:35:56 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	add_this(t_cd *cd, char *s)
 	char	*temp;
 	char	**t;
 	char	**t1;
-	char	**t0;
 
 	t1 = ft_split_2(s, '+');
 	while (cd->my_env[i])
@@ -258,7 +257,6 @@ int	check_valid(char *s,char **env)
 {
 	int		i = 0;
 	int		x = 0;
-	char	*temp;
 	char	**t;
 
 	if (!ft_strcmp(s, "="))

@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:33:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/13 15:45:36 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:37:16 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,8 @@ int	ft_check_oredi(char *input)
 	return (1);
 }
 
-int	ft_check_syntax(t_list	*node, char *input)
+int	ft_check_syntax(char *input)
 {
-	int		i;
-	t_list	*head;
-
 	if (!ft_check_pipe(input))
 		return (0);
 	if (!ft_check_input_h(input))

@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:01:24 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/17 10:43:18 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:36:28 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	unset_this(t_cd *cd, char *s)
 	int		x;
 	char	**t;
 
+	i = 0;
 	while (cd->my_env[i])
 		i++;
 	new_env = malloc(sizeof(char *) * i);

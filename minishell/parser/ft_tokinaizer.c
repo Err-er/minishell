@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 15:36:41 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/16 17:33:35 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/19 17:34:15 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ int	ft_tok_mini_utils2(t_list **node, char *input, char **env, t_data *var)
 	return (-1);
 }
 
-int	ft_tok_mini_utils3(t_list **node, char *input, char **env, t_data *var)
+int	ft_tok_mini_utils3(t_list **node, char *input, t_data *var)
 {
 	if (input[var->i] == '<' && input[var->i + 1] == '<')
 	{
-		if (!ft_tok_input_h(node, input, env, var))
+		if (!ft_tok_input_h(node, input, var))
 			return (var->x = 1, 0);
 		return (1);
 	}
@@ -104,7 +104,7 @@ int	ft_check_tok(t_list **node, char *input, char **env, t_data *var)
 		if (var->x == 1)
 			return (0);
 	}
-	else if (ft_tok_mini_utils3(node, input, env, var) != -1)
+	else if (ft_tok_mini_utils3(node, input, var) != -1)
 	{
 		if (var->x == 1)
 			return (0);
@@ -115,7 +115,6 @@ int	ft_check_tok(t_list **node, char *input, char **env, t_data *var)
 int	ft_tokinaizer(t_list **node, char *input, char **env)
 {
 	t_data	var;
-	char	*limiter;
 
 	var.j = 1;
 	var.i = 0 ;
