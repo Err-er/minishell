@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 17:31:24 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/20 10:54:28 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_ex_export(t_list *head, t_cd *cd, t_vars var)
 	t_list	*node;
 
 	node = new_node_export(head);
-	if (ft_check_pip(node, OUTPUT_H) || ft_check_pip(node, OREDI))
+	if (ft_check_pip(head, OUTPUT_H) || ft_check_pip(head, OREDI))
 	{
 		var.st_out = dup(1);
 		dup2(var.fd[1], var.x[1]);

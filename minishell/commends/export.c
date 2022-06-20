@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/20 10:27:15 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/20 10:55:19 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,12 +307,8 @@ void	ft_exprot(t_list **node, t_cd *cd)
 {
 	t_list	*head;
 	char	*temp;
-	t_list	**n_node;
 
-	n_node = NULL;
-	(*n_node) = new_node_export((*node));
-	ft_lstclear(node);
-	head = *n_node;
+	head = (*node);
 	head = head->next;
 	ft_sort_expo(cd);
 	while (1)
