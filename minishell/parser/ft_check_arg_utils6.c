@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 17:29:36 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/20 17:23:23 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	ft_ex_input_h(t_list **head, t_vars	*var)
 	(*head) = (*head)->next;
 	while ((*head)->tokn == WS && (*head)->tokn != END_TOKN)
 		(*head) = (*head)->next;
+	get_global(1);
 	while (1)
 	{
 		p = readline("> ");
