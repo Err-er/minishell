@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 17:26:43 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/20 11:07:27 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_parser_edit(t_list **node, char *input, int i)
 	int		j;
 
 	j = i;
-	if (input[j] == '\'' && input[j + 1] == '\'' && ft_isalpha(j - 1))
+	if (input[j] == '\'' && input[j + 1] == '\'')
 		return (ft_lstadd_back(node, ft_lstnew(ft_strdup(""), NUL)), 0);
 	while (input[++j])
 	{
@@ -95,7 +95,7 @@ int	ft_parser_edit1(t_list **node, char *input, int i, char **env)
 
 	var.j = i;
 	var.i = i;
-	if (input[var.j] == '"' && input[var.j + 1] == '"' && ft_isalpha(var.j - 1))
+	if (input[var.j] == '"' && input[var.j + 1] == '"')
 		return (ft_lstadd_back(node, ft_lstnew(ft_strdup(""), NUL)), 0);
 	while (input[++var.j])
 	{

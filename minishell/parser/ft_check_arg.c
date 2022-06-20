@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 17:37:53 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/20 11:08:30 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,16 @@ t_list	*new_node(t_list	*node)
 		tmp = tmp->next;
 	}
 	return (n_node);
+}
+
+void	printf_list(t_list *lst)
+{
+	while (lst)
+	{
+		printf("(%s - %d)\n", lst->data, lst->tokn);
+		lst = lst->next;
+	}
+	puts("");
 }
 
 int	ft_parser(char *input, t_cd *cd)
