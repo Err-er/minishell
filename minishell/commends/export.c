@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/19 17:35:56 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/20 10:27:15 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ int	check_exist(char *s,char **env)
 
 int check_char(char c)
 {
-	if ((c < 48 && c != 43) || (c >= 58 && c != 61 && c < 65) || (c >= 91 && c <= 94) || c == 96 || c > 122)
+	if (((c < 48 && c != 43) || (c >= 58 && c != 61 && c < 65) || (c >= 91 && c <= 94) || c == 96 || c > 122) && c != 124)
 		return (0);
 	return (1);
 }
@@ -307,8 +307,12 @@ void	ft_exprot(t_list **node, t_cd *cd)
 {
 	t_list	*head;
 	char	*temp;
+	t_list	**n_node;
 
-	head = *node;
+	n_node = NULL;
+	(*n_node) = new_node_export((*node));
+	ft_lstclear(node);
+	head = *n_node;
 	head = head->next;
 	ft_sort_expo(cd);
 	while (1)

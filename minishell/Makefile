@@ -61,7 +61,7 @@ $(NAME): $(OBJECTS)
 	@$(CC) -Wall -Wextra -Werror -lreadline $(SRC) -o $(NAME) $(RLFLAGS) $(RLFLAGS2) 
 
 %.o : %.c $(INCLUDES)
-	@$(CC) -Wall -Wextra -Werror $(RLFLAGS) -o $@ -c $<
+	$(CC) -Wall -Wextra -Werror $(RLFLAGS) -o $@ -c $<
 clean:
 	@rm -rf $(OBJECTS) $(OBJECTSB) 
 
