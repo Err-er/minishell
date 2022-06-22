@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 10:46:17 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/22 12:41:01 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_vars
 	int		x[2];
 	char	*file_n;
 	char	*value;
+	char	*cmd;
 	int		st_in;
 	int		st_out;
 	t_list	*node;

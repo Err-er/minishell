@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg_utils8.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/21 21:33:09 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/22 12:36:24 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ int	ft_ex_com(t_list *node, t_cd *cd)
 		ft_ex_export(node, cd, var);
 	else
 	{
-		if (!ft_strcmp(cmd[0], MINI) || !ft_strcmp(cmd[0], MINIS))
-			increase_shelvl(cd);
+		var.cmd = cmd[0];
 		ft_ex_com_utils2(node, cd, var, str);
 	}
 	return (free(str), free(var.value), ft_fre(cmd), 1);
