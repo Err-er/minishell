@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/20 11:08:30 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/22 00:52:08 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,16 @@ void	utils_ex_ds(int ex)
 	if (WIFEXITED(ex))
 	{
 		if (ex == 65280)
-			ds = 255;
+			g_ds = 255;
 		else
-			ds = ex % 255;
+			g_ds = ex % 255;
 	}
 	else if (WIFSIGNALED(ex))
-		ds = ex + 128;
+		g_ds = ex + 128;
+	if(g_ds == 130)
+		write(1,"\n",1);
+	else if(g_ds == 131)
+		write(1,"Quit: 3\n",9);
 }
 
 void	ft_pipe_ex(t_list *node, t_cd *cd)
@@ -64,13 +68,17 @@ void	ft_pipe_ex(t_list *node, t_cd *cd)
 		if (WIFEXITED(ex))
 		{
 			if (ex == 65280)
-				ds = 255;
+				g_ds = 255;
 			else
-				ds = ex % 255;
+				g_ds = ex % 255;
 		}
 		else if (WIFSIGNALED(ex))
-			ds = ex + 128;
-		exit(ds);
+			g_ds = ex + 128;
+		if(g_ds == 130)
+			write(1,"\n",1);
+		else if(g_ds == 131)
+			write(1,"Quit: 3\n",9);
+		exit(g_ds);
 	}
 	waitpid(pid, &ex, 0);
 	utils_ex_ds(ex);

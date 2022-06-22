@@ -6,13 +6,9 @@ CC = cc
 
 INCLUDES = minishell.h
 
-# RLFLAGS = -I/goinfre/zait-sli/.brew/opt/readline/include
+RLFLAGS = -I/goinfre/zait-sli/.brew/opt/readline/include
 
-# RLFLAGS2 = -L/goinfre/zait-sli/.brew/opt/readline/lib
-
-RLFLAGS = -I/goinfre/asabbar/.brew/opt/readline/include
-
-RLFLAGS2 = -L/goinfre/asabbar/.brew/opt/readline/lib
+RLFLAGS2 = -L/goinfre/zait-sli/.brew/opt/readline/lib
 
 SRC =	minishell.c						\
 		minishell_utils.c				\
@@ -38,6 +34,7 @@ SRC =	minishell.c						\
 		commends/pip.c					\
 		commends/cd.c					\
 		commends/export.c				\
+		commends/export_utils.c			\
 		commends/unset.c				\
 		commends/env.c 					\
 		commends/exit.c 				\
@@ -58,7 +55,7 @@ all: $(NAME)
 	@echo "------------------minishell-----------------\n\n\n"
 
 $(NAME): $(OBJECTS)
-	@$(CC) -Wall -Wextra -Werror -lreadline $(SRC) -o $(NAME) $(RLFLAGS) $(RLFLAGS2) 
+	@$(CC) -Wall -Wextra -Werror -lreadline $(SRC) -o $(NAME) $(RLFLAGS) $(RLFLAGS2) -g
 
 %.o : %.c $(INCLUDES)
 	$(CC) -Wall -Wextra -Werror $(RLFLAGS) -o $@ -c $<

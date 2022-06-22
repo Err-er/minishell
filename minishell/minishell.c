@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 20:44:28 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/21 22:44:04 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
 
-int	ds = 0;
+int	g_ds = 0;
 
 int	add_hist(int fd_his)
 {
@@ -48,7 +48,7 @@ int	main(int ac, char **av, char **env)
 		return (printf("error in argm\n"), 0);
 	cd = malloc(sizeof(t_cd));
 	ft_new_env(env, cd);
-	ds = 0;
+	g_ds = 0;
 	fd_his = add_hist(fd_his);
 	run_minishell(cd, fd_his);
 	write(1, "\033[1A\033[14Cexit\n", 15);

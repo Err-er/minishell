@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg_utils5.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 17:29:10 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/21 21:32:48 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	ft_ex_cmd(char *cmd, t_cd *cd, t_vars var)
 	else if (!ft_strcmp(cmd, "pwd"))
 		return (ft_getcwd(cd), 0);
 	else if (!ft_strcmp(cmd, "env"))
-		return (ft_print_env(cd->my_env), 0);
+		return (ft_env(&var.node, cd), 0);
 	return (1);
 }
 

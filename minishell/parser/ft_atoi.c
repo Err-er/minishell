@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 14:46:11 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 15:59:18 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/21 21:15:25 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-long double	ft_atoi(const char *str)
+long long	ft_atoi(const char *str)
 {
 	size_t		i;
 	size_t		sign;
-	long double	result;
+	long long	result;
 
 	i = 0;
 	sign = 1;

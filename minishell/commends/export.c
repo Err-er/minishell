@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/20 11:08:45 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/22 05:17:25 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	ft_dup_env(t_cd *cd)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (cd->my_env[i])
 		i++;
-	cd->sorted = malloc(sizeof(char *) * (i+1));
+	cd->sorted = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	while (cd->my_env[i])
 	{
@@ -30,10 +31,12 @@ void	ft_dup_env(t_cd *cd)
 
 void	ft_sort_expo(t_cd *cd)
 {
-	int		i = 0;
-	int		j = 0;
+	int		i;
+	int		j;
 	char	*temp;
 
+	i = 0;
+	j = 0;
 	ft_dup_env(cd);
 	while (cd->sorted[i])
 	{
@@ -54,28 +57,32 @@ void	ft_sort_expo(t_cd *cd)
 
 char	*ft_add_content(char *old, char *new, char *n)
 {
-	int		i = 0;
+	int		i;
 	char	*t;
+	char	*d;
 
+	i = 0;
 	t = ft_strdup(n);
 	while (old[i] != '=')
 		i++;
 	i++;
-	old = ft_strtrim(old, "\"=");
+	d = ft_strtrim(old, "\"=");
 	t = ft_strjoin(t, "=");
-	t = ft_strjoin(t, &old[i]);
-	t = ft_strjoin(t, &new[i+1]);
+	t = ft_strjoin(t, &d[i]);
+	t = ft_strjoin(t, &new[i + 1]);
 	t = ft_strjoin(t, "\"");
+	free(d);
 	return (t);
 }
 
 void	add_this(t_cd *cd, char *s)
 {
-	int		i = 0;
+	int		i;
 	char	*temp;
 	char	**t;
 	char	**t1;
 
+	i = 0;
 	t1 = ft_split_2(s, '+');
 	while (cd->my_env[i])
 	{
@@ -91,6 +98,7 @@ void	add_this(t_cd *cd, char *s)
 				temp = ft_strjoin(temp, &t1[1][1]);
 				temp = ft_strjoin(temp, "\"");
 			}
+			free(cd->my_env[i]);
 			cd->my_env[i] = temp;
 			ft_fre(t);
 			ft_fre(t1);
@@ -103,10 +111,12 @@ void	add_this(t_cd *cd, char *s)
 
 int	ft_check_addition(char *s)
 {
-	int		i = 0;
-	int		x = 0;
+	int		i;
+	int		x;
 	char	**t;
 
+	i = 0;
+	x = 0;
 	t = ft_split_2(s, '=');
 	if (!t)
 		return (0);
@@ -117,119 +127,37 @@ int	ft_check_addition(char *s)
 		i++;
 	}
 	if (x != 1 || (x >= 1 && !t[1]) || t[0][ft_strlen(t[0]) - 1] != '+')
+	{
+		ft_fre(t);
 		return (0);
+	}
+	ft_fre(t);
 	return (1);
 }
 
 void	ft_print_export(t_cd *cd)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
+	ft_sort_expo(cd);
 	while (cd->sorted[i])
 	{
-		printf("declare -x %s\n",cd->sorted[i]);
+		printf("declare -x %s\n", cd->sorted[i]);
 		i++;
 	}
-}
-
-char *ft_cpoy_content(char *s, char *f)
-{
-	int		i = 0;
-	char	*t;
-
-	f = ft_strtrim(f,"+");
-	t = ft_strdup(f);
-	while (s[i] != '=')
-		i++;
-	if (!s[i])
-		return (s);
-	i++;
-	t = ft_strjoin(t,"=\"");
-	t = ft_strjoin(t,&s[i]);
-	t = ft_strjoin(t,"\"");
-	return (t);
-}
-
-void	export_this(t_cd *cd, char *s)
-{
-	char	**new_env;
-	char	**t;
-	int		i= 0;
-
-	while (cd->my_env[i])
-		i++;
-	new_env = malloc(sizeof(char *) * (i + 2));
-	i = 0;
-	while (cd->my_env[i])
-	{
-		new_env[i] = ft_strdup(cd->my_env[i]);
-		i++;
-	}
-	t = ft_split_2(s, '=');
-	if (t[1] && t[0])
-		new_env[i] = ft_cpoy_content(s, t[0]);
-	else
-	{
-		if (ft_strchr(s, '=') && t[0])
-		{
-			new_env[i] = ft_strdup(t[0]);
-			new_env[i] = ft_strjoin(new_env[i], "=\"");
-			new_env[i] = ft_strjoin(new_env[i], "\"");
-			printf("[%s]\n",new_env[i]);
-		}
-		else
-			new_env[i] = ft_strdup(s);
-	}
-	i++;
-	new_env[i] = NULL;
-	free(cd->my_env);
-	cd->my_env = new_env;
-}
-
-void	replace_this(t_cd *cd, char *s)
-{
-	int		i = 0;
-	char	*temp;
-	char	**t;
-	char	**t1;
-
-	t1 = ft_split_2(s,'=');
-	while (cd->my_env[i])
-	{
-		t = ft_split_2(cd->my_env[i], '=');
-		if (t[0] && t1[0] && !ft_strcmp(t[0], t1[0]))
-		{
-			if (t1[1])
-			{
-				temp = ft_cpoy_content(s, t1[0]);
-				cd->my_env[i] = temp;
-			}
-			else
-			{
-				if (ft_strchr(s, '='))
-				{
-					cd->my_env[i] = ft_strdup(t[0]);
-					cd->my_env[i] = ft_strjoin(cd->my_env[i], "=\"");
-					cd->my_env[i] = ft_strjoin(cd->my_env[i], "\"");
-				}
-			}
-			ft_fre(t);
-			ft_fre(t1);
-			return ;
-		}
-		ft_fre(t);
-		i++;
-	}
+	ft_fre(cd->sorted);
 }
 
 int	check_exist(char *s,char **env)
 {
-	int		i = 0;
+	int		i;
 	char	**t;
 	char	**t1;
-	
+
+	i = 0;
 	t1 = ft_split_2(s, '=');
-	t1[0] = ft_strtrim(t1[0], "+");
+	t1[0] = ft_strtrim2(t1[0], "+");
 	while (env[i])
 	{
 		t = ft_split_2(env[i], '=');
@@ -248,20 +176,23 @@ int	check_exist(char *s,char **env)
 
 int check_char(char c)
 {
-	if (((c < 48 && c != 43) || (c >= 58 && c != 61 && c < 65) || (c >= 91 && c <= 94) || c == 96 || c > 122) && c != 124)
+	if (((c < 48 && c != 43) || (c >= 58 && c != 61 && c < 65)
+			|| (c >= 91 && c <= 94) || c == 96 || c > 122) && c != 124)
 		return (0);
 	return (1);
 }
 
-int	check_valid(char *s,char **env)
+int	check_valid(char *s, char **env)
 {
-	int		i = 0;
-	int		x = 0;
+	int		i;
+	int		x;
 	char	**t;
 
+	i = 0;
+	x = 0;
 	if (!ft_strcmp(s, "="))
 	{
-		ds = 1;
+		g_ds = 1;
 		printf("minishell: export: `%s': not a valid identifier\n", s);
 		return (0);
 	}
@@ -277,15 +208,16 @@ int	check_valid(char *s,char **env)
 	i = 0;
 	while (t && t[0][i])
 	{
-		if (!check_char(t[0][i]))
+		if (!check_char(t[0][i]) || (ft_isdigit(t[0][0])))
 		{
-			ds = 1;
+			g_ds = 1;
 			printf("minishell: export: `%s': not a valid identifier\n", s);
 			return (0);
 		}
 		i++;
 	}
 	i = 0;
+	ft_fre(t);
 	t = ft_split_2(s, '=');
 	while (t[0][i])
 	{
@@ -293,9 +225,10 @@ int	check_valid(char *s,char **env)
 			x++;
 		i++;
 	}
-	if (x > 1 || (x == 1 && !t[1]) || (t[0][ft_strlen(t[0]) - 1] != '+' && x == 1))
+	if (x > 1 || (x == 1 && !t[1])
+		|| (t[0][ft_strlen(t[0]) - 1] != '+' && x == 1))
 	{
-		ds = 1;
+		g_ds = 1;
 		printf("minishell: export: `%s': not a valid identifier\n", s);
 		return (0);
 	}
@@ -310,7 +243,6 @@ void	ft_exprot(t_list **node, t_cd *cd)
 
 	head = (*node);
 	head = head->next;
-	ft_sort_expo(cd);
 	while (1)
 	{
 		if (head->next->tokn == WS)
@@ -318,37 +250,42 @@ void	ft_exprot(t_list **node, t_cd *cd)
 		else
 			break ;
 	}
-	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN || head->next->tokn == PIPE)
+	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN
+		|| head->next->tokn == PIPE)
 	{
-		ds = 1;
+		g_ds = 1;
 		ft_print_export(cd);
 		return ;
 	}
-	else if (head->next->tokn == OREDI || head->next->tokn == IREDI || head->next->tokn == OUTPUT_H || head->next->tokn == INPUT_H)
+	else if (head->next->tokn == OREDI || head->next->tokn == IREDI
+		|| head->next->tokn == OUTPUT_H || head->next->tokn == INPUT_H)
 	{
-		ds = 1;
+		g_ds = 1;
 		ft_print_export(cd);
 		return ;
 	}
 	else
 	{
-		while (head && (head->next->tokn != END_TOKN || head->next->tokn != ST_TOKN))
+		while (head && (head->next->tokn != END_TOKN
+				|| head->next->tokn != ST_TOKN))
 		{
 			while (head->next->tokn == WS && head->next->tokn != END_TOKN)
 				head = head->next;
 			while (head->next->tokn == NUL && head->next->tokn != END_TOKN)
 				head = head->next;
-			if (!head->next->data || head->next->tokn == NUL || (head->tokn == NUL && head->next->tokn == END_TOKN))
+			if (!head->next->data || head->next->tokn == NUL
+				|| (head->tokn == NUL && head->next->tokn == END_TOKN))
 			{
-				ds = 1;
+				g_ds = 1;
 				printf("minishell: export: `': not a valid identifier\n");
 				return ;
 			}
 			else
 			{
 				temp = ft_strdup(head->next->data);
-				temp = ft_strtrim(temp, " ");
-				while (head->next->next->tokn == WR || head->next->next->tokn == NUL)
+				temp = ft_strtrim2(temp, " ");
+				while (head->next->next->tokn == WR
+					|| head->next->next->tokn == NUL)
 				{
 					if (head->next->next->tokn == WR)
 					{
@@ -360,11 +297,14 @@ void	ft_exprot(t_list **node, t_cd *cd)
 				}
 				if (check_valid(temp, cd->my_env))
 				{	
-					if (ft_check_addition(temp) && check_exist(temp, cd->my_env))
+					if (ft_check_addition(temp)
+						&& check_exist(temp, cd->my_env))
 						add_this(cd, temp);
-					else if (!check_exist(temp, cd->my_env) && head->next->tokn != WS)
+					else if (!check_exist(temp, cd->my_env)
+						&& head->next->tokn != WS)
 						export_this(cd, temp);
-					else if (check_exist(temp, cd->my_env) && head->next->tokn != WS)
+					else if (check_exist(temp, cd->my_env)
+						&& head->next->tokn != WS)
 						replace_this(cd, temp);
 				}
 				free (temp);

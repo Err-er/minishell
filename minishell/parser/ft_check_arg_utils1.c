@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg_utils1.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 15:09:46 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/22 04:43:06 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,30 @@ char	*ft_substr(char *s, int start, int len)
 	while (s[start] && x < len)
 		sub[x++] = s[start++];
 	sub [x] = '\0';
+	return (sub);
+}
+
+char	*ft_substr2(char *s, int start, int len)
+{
+	int			lenght;
+	int			x;
+	char		*sub;
+
+	x = 0;
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (ft_strdup(""));
+	lenght = ft_strlen(&s[start]);
+	if (lenght >= len)
+		lenght = len;
+	sub = malloc(lenght + 1);
+	if (!sub)
+		return (NULL);
+	while (s[start] && x < len)
+		sub[x++] = s[start++];
+	sub [x] = '\0';
+	free(s);
 	return (sub);
 }
 

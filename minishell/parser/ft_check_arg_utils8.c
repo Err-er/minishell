@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg_utils8.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/20 10:54:28 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/21 21:33:09 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_ex_sc_utils(t_list *node, t_cd *cd, char *cmd)
 	if (!ft_strcmp(cmd, "cd"))
 		ft_cd(&node, cd);
 	else if (!ft_strcmp(cmd, "echo"))
-		ds = 0;
+		g_ds = 0;
 	else if (!ft_strcmp(cmd, "export"))
 		ft_exprot(&node, cd);
 	else if (!ft_strcmp(cmd, "unset"))
@@ -75,7 +75,7 @@ void	ft_ex_sc_utils(t_list *node, t_cd *cd, char *cmd)
 	else if (!ft_strcmp(cmd, "exit"))
 		ft_exit(&node);
 	else if (!ft_strcmp(cmd, "env"))
-		ft_print_env(cd->my_env);
+		ft_env(&node, cd);
 	else if (!ft_strcmp(cmd, "minishell"))
 		increase_shelvl(cd);
 }

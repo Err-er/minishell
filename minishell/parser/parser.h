@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 17:37:37 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/22 04:43:32 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define MINI		"minishell"
 # define MINIS		"./minishell"
 
-extern int	ds;
+extern int	g_ds;
 
 typedef struct s_list
 {
@@ -89,11 +89,17 @@ typedef struct s_data
 	char	*limiter;
 }	t_data;
 
+typedef struct s_mini
+{
+    int        pid;
+    int        fd[2];
+}    t_mini;
+
 int			check_str(char *str, int i);
 int			ft_parser_edit1(t_list **node, char *input, int i, char **env);
 int			ft_parser_edit(t_list **node, char *input, int i);
 int			ft_tokinaizer(t_list **node, char *input, char **env);
-long double	ft_atoi(const char *str);
+long long	ft_atoi(const char *str);
 int			ft_parser(char *input, t_cd *cd);
 char		**ft_split(char *s, char c);
 int			words_count(char *s, char c);
@@ -112,8 +118,8 @@ void		ft_cd(t_list **node, t_cd *cd);
 void		ft_ex(char *cmds, t_cd *cd, t_vars var);
 void		ft_exprot(t_list **node, t_cd *cd);
 void		ft_unset(t_list **node, t_cd *cd);
-void		ft_fre(char **cmd);
 char		*ft_substr(char *s, int start, int len);
+char		*ft_substr2(char *s, int start, int len);
 int			ft_check_pip(t_list *node, int c);
 void		ft_putstr_fd(char *s, int fd);
 int			ft_check_pip2(t_list *node, int c);
@@ -186,4 +192,8 @@ char		*ft_ex_com_utils(t_list *head, t_vars	*var, char *str);
 t_list		*new_node_export(t_list	*node);
 void		run_minishell(t_cd	*cd, int fd_his);
 void		ft_new_env(char **env, t_cd *cd);
+void		ft_env(t_list **node, t_cd *cd);
+int			get_global2(int i);
+int			get_global3(int i);
+struct termios	get_term(struct termios term, int i);
 #endif

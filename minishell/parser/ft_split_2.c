@@ -3,16 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 12:58:18 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 10:20:51 by asabbar          ###   ########.fr       */
+/*   Created: 2021/11/11 03:47:04 by zait-sli          #+#    #+#             */
+/*   Updated: 2022/06/22 03:51:19 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../minishell.h"
 
-static void	move_word(char *from, char *to, int start, int j)
+static int	words_count2(char *s, char c)
+{
+	int	i;
+	int	words;
+
+	i = 0;
+	words = 0;
+	while (s[i] == c && s[i])
+		i++;
+	while (s[i])
+	{
+		if (i == 0 || s[i - 1] == c)
+		{
+			if (s[i] != c && s[i] != '\0')
+				words++;
+		}
+		i++;
+	}
+	return (words);
+}
+
+static void	move_word2(char *from, char *to, int start, int j)
 {
 	int	a;
 
@@ -27,7 +49,14 @@ static void	move_word(char *from, char *to, int start, int j)
 	to[a] = '\0';
 }
 
-static void	ft_mallocnmove(char **p, char const *s, char c)
+static void	ft_free2(char **p, int a)
+{
+	while (a >= 0)
+		free(p[--a]);
+	free(p);
+}
+
+static void	ft_lastpart(char **p, char const *s, char c)
 {
 	int		i;
 	int		len;
@@ -47,8 +76,8 @@ static void	ft_mallocnmove(char **p, char const *s, char c)
 		{
 			p[a] = (char *)malloc(len + 1);
 			if (p[a] == NULL)
-				ft_free(p, a);
-			move_word((char *)s, p[a], i, len);
+				ft_free2(p, a);
+			move_word2((char *)s, p[a], i, len);
 			a++;
 		}
 		i = i + len;
@@ -59,16 +88,18 @@ char	**ft_split_2(char *s, char c)
 {
 	int		i;
 	int		len;
+	int		a;
 	char	**p;
 
-	i = 0;
 	if (!s)
 		return (NULL);
-	len = words_count((char *)s, c);
-	p = (char **)malloc(sizeof(char *) * (len + 1));
+	i = 0;
+	len = words_count2((char *)s, c);
+	a = 0;
+	p = (char **)malloc(sizeof(char *) * (words_count2((char *)s, c) + 1));
 	if (p == NULL)
 		return (NULL);
-	ft_mallocnmove(p, s, c);
+	ft_lastpart(p, s, c);
 	p[len] = NULL;
 	return (p);
 }
