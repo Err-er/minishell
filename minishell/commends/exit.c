@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 13:32:23 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/22 05:13:36 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/22 20:50:20 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,35 @@ int	check_near_max(char *s)
 	return (1);
 }
 
+void	check_and_exit(t_list *head)
+{
+	int			g;
+
+	if (check_isdigit(head->next->data) && check_len(head->next->data)
+		<=19 && check_near_max(head->next->data))
+	{
+		printf("exit\n");
+		g = ft_atoi(head->next->data);
+		if (g < 0)
+			g = 256 + g % 256;
+		exit(g);
+	}
+	else
+	{
+		printf("exit\n");
+		printf("minishell: exit: %s: numeric argument required\n",
+			head->next->data);
+		exit(255);
+	}
+}
+
 void	ft_exit(t_list **node)
 {
 	t_list		*head;
-	int			g;
 
 	head = *node;
 	head = head->next;
-	while (1)
-	{
-		if (head->next->tokn == WS)
-			head = head->next;
-		else
-			break ;
-	}
+	head = head->next;
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
 	{
 		printf("exit\n");
@@ -105,22 +120,5 @@ void	ft_exit(t_list **node)
 		return ;
 	}
 	if (head->next->data)
-	{
-		if (check_isdigit(head->next->data) && check_len(head->next->data)
-			<=19 && check_near_max(head->next->data))
-		{
-			printf("exit\n");
-			g = ft_atoi(head->next->data);
-			if (g < 0)
-				g = 256 + g % 256;
-			exit(g);
-		}
-		else
-		{
-			printf("exit\n");
-			printf("minishell: exit: %s: numeric argument required\n",
-				head->next->data);
-			exit(255);
-		}
-	}
+		check_and_exit(head);
 }

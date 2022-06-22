@@ -7,13 +7,13 @@ CC = cc
 INCLUDES = minishell.h
 INCLUDES2 = ./parser/parser.h
 
-# RLFLAGS = -I/goinfre/zait-sli/.brew/opt/readline/include
+RLFLAGS = -I/goinfre/zait-sli/.brew/opt/readline/include
 
-# RLFLAGS2 = -L/goinfre/zait-sli/.brew/opt/readline/lib
+RLFLAGS2 = -L/goinfre/zait-sli/.brew/opt/readline/lib
 
-RLFLAGS = -I/Users/asabbar/homebrew/opt/readline/include
+# RLFLAGS = -I/Users/asabbar/homebrew/opt/readline/include
 
-RLFLAGS2 = -L/Users/asabbar/homebrew/opt/readline/lib
+# RLFLAGS2 = -L/Users/asabbar/homebrew/opt/readline/lib
 
 SRC =	minishell.c						\
 		minishell_utils.c				\
@@ -42,6 +42,9 @@ SRC =	minishell.c						\
 		commends/cd.c					\
 		commends/export.c				\
 		commends/export_utils.c			\
+		commends/export_utils1.c		\
+		commends/export_utils2.c		\
+		commends/export_utils3.c		\
 		commends/unset.c				\
 		commends/env.c 					\
 		commends/exit.c 				\

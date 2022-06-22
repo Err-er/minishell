@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 06:46:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/22 11:13:47 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/22 17:31:49 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_env(t_list **node, t_cd *cd)
 	if (head->next->next->tokn != END_TOKN
 		&& head->next->next->tokn != ST_TOKN && head->next->next->tokn != PIPE)
 	{	
-		printf("minishell: env: too many arguments\n");
+		ft_putstr_fd("minishell: env: too many arguments\n", 2);
 		return ;
 	}
 }

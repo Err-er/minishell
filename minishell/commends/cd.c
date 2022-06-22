@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/22 05:01:45 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/22 22:39:52 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	ft_cd(t_list **node, t_cd *cd)
 	int		j;
 	char	**t;
 	char	*temp;
+	char	buff[1024];
 
 	j = 0;
 	head = *node;
@@ -214,17 +215,33 @@ void	ft_cd(t_list **node, t_cd *cd)
 			if (!ft_strcmp(temp, ".."))
 			{
 				x = get_prev_directory(cd->pwd);
+				if (!getcwd(buff, 1024) && x > 0 && !ft_strcmp(&cd->pwd[x], "/."))
+					cd->pwd = ft_strtrim2(cd->pwd, "./");
+				else if (!getcwd(buff, 1024) && ft_strcmp(&cd->pwd[x], "/.."))
+				{
+					cd->pwd = ft_strjoin(cd->pwd, "/..");
+					ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
+					return ;
+				}
+				if (cd->pwd[ft_strlen(cd->pwd) - 1] == '.')
+					cd->pwd = ft_strtrim2(cd->pwd, "./");
+				x = get_prev_directory(cd->pwd);
 				if (x > 0)
 					cd->pwd = ft_substr2(cd->pwd, 0, x);
 				x = get_prev_directory(cd->my_env[i]);
 				if (x > 0 && i > 0)
 				{
-					x = get_prev_directory(cd->my_env[i]);
-					cd->my_env[i] = ft_substr2(cd->my_env[i], 0, x);
+					free(cd->my_env[i]);
+					cd->my_env[i] = ft_strdup(cd->pwd);
 				}
 			}
 			else if (!ft_strcmp(temp, "."))
 			{
+				if (!getcwd(buff, 1024))
+				{
+					cd->pwd = ft_strjoin(cd->pwd, "/.");
+					ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
+				}
 			}
 			else
 			{
@@ -239,15 +256,8 @@ void	ft_cd(t_list **node, t_cd *cd)
 				cd->pwd = ft_strjoin(cd->pwd, t[j]);
 				if (i > 0)
 				{	
-					if (j == 0 && head->next->data[0] == '/')
-					{
-						if (cd->my_env[i])
-							free(cd->my_env[i]);
-						cd->my_env[i] = ft_strdup("PWD=");
-					}
-					cd->my_env[i] = ft_strtrim2(cd->my_env[i], "/");
-					cd->my_env[i] = ft_strjoin(cd->my_env[i], "/");
-					cd->my_env[i] = ft_strjoin(cd->my_env[i], t[j]);
+					free(cd->my_env[i]);
+					cd->my_env[i] = ft_strdup(cd->pwd);
 				}
 			}
 			chdir(temp);

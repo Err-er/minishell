@@ -6,40 +6,49 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 23:01:24 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/22 04:36:48 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/22 21:09:38 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+char	**ft_cp(char **menv, char **nenv, char *s)
+{
+	int		i;
+	int		x;
+	char	**t;
+
+	i = 0;
+	x = 0;
+	while (menv[i])
+	{
+		t = ft_split_2(menv[i], '=');
+		if (t[0] && !ft_strcmp(s, t[0]))
+		{
+			i++;
+			if (!menv[i])
+				break ;
+		}
+		ft_fre(t);
+		nenv[x] = ft_strdup(menv[i]);
+		i++;
+		x++;
+	}
+	nenv[x] = NULL;
+	return (nenv);
+}
+
 void	unset_this(t_cd *cd, char *s)
 {
 	char	**new_env;
 	int		i;
-	int		x;
-	char	**t;
 
 	i = 0;
 	while (cd->my_env[i])
 		i++;
 	new_env = malloc(sizeof(char *) * i);
 	i = 0;
-	x = 0;
-	while (cd->my_env[i])
-	{
-		t = ft_split_2(cd->my_env[i], '=');
-		if (t[0] && !ft_strcmp(s, t[0]))
-		{
-			i++;
-			if (!cd->my_env[i])
-				break ;
-		}
-		ft_fre(t);
-		new_env[x] = ft_strdup(cd->my_env[i]);
-		i++;
-		x++;
-	}
-	new_env[x] = NULL;
+	new_env = ft_cp(cd->my_env, new_env, s);
 	ft_fre(cd->my_env);
 	cd->my_env = new_env;
 }
@@ -75,16 +84,11 @@ void	ft_unset(t_list **node, t_cd *cd)
 
 	head = *node;
 	head = head->next;
-	while (1)
-	{
-		if (head->next->tokn == WS)
-			head = head->next;
-		else
-			break ;
-	}
+	head = head->next;
 	if (!head->next->data)
 	{
-		printf("minishell: unset: `': not a valid identifier\n");
+		g_ds = 1;
+		ft_putstr_fd("minishell: unset: `': not a valid identifier\n", 2);
 		return ;
 	}
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
