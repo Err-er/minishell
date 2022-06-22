@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 13:04:54 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 04:30:20 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/22 10:48:31 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_strlen(char *s)
 
 	i = 0;
 	if (!s)
-		return(0);
+		return (0);
 	while (s[i] != '\0')
 		i++;
 	return (i);

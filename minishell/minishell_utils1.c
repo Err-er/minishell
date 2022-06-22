@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 05:25:42 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/22 10:48:57 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,39 +93,4 @@ int	get_global2(int i)
 	if (i != -1)
 		j = i;
 	return (j);
-}
-
-int	get_global3(int i)
-{
-	static int	j;
-
-	if (i == 0)
-		j = 0;
-	else if (i == 1)
-		j = 1;
-	else
-		return (j);
-	return (j);
-}
-
-void	run_minishell(t_cd	*cd, int fd_his)
-{
-	char	*input;
-
-	while (1)
-	{
-		get_global(0);
-		get_global3(1);
-		input = readline("➜ minishell $ ");
-		if (!input)
-			break ;
-		ft_parser(input, cd);
-		if (input[0])
-		{
-			ft_putstr_fd(input, fd_his);
-			ft_putstr_fd("\n", fd_his);
-			add_history(input);
-		}
-		free(input);
-	}
 }

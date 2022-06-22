@@ -6,9 +6,13 @@ CC = cc
 
 INCLUDES = minishell.h
 
-RLFLAGS = -I/goinfre/zait-sli/.brew/opt/readline/include
+# RLFLAGS = -I/goinfre/zait-sli/.brew/opt/readline/include
 
-RLFLAGS2 = -L/goinfre/zait-sli/.brew/opt/readline/lib
+# RLFLAGS2 = -L/goinfre/zait-sli/.brew/opt/readline/lib
+
+RLFLAGS = -I/Users/asabbar/homebrew/opt/readline/include
+
+RLFLAGS2 = -L/Users/asabbar/homebrew/opt/readline/lib
 
 SRC =	minishell.c						\
 		minishell_utils.c				\
@@ -30,6 +34,8 @@ SRC =	minishell.c						\
 		parser/ft_check_arg_utils7.c   	\
 		parser/ft_check_arg_utils8.c   	\
 		parser/ft_tokinaizer_utils.c    \
+		parser/ft_utils_here_doc.c	    \
+		commends/echo_utils.c   		\
 		commends/echo.c 				\
 		commends/pip.c					\
 		commends/cd.c					\

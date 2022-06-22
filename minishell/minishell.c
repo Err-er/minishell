@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/21 22:44:04 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/22 10:49:07 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,41 @@
 #include <signal.h>
 
 int	g_ds = 0;
+
+int	get_global3(int i)
+{
+	static int	j;
+
+	if (i == 0)
+		j = 0;
+	else if (i == 1)
+		j = 1;
+	else
+		return (j);
+	return (j);
+}
+
+void	run_minishell(t_cd	*cd, int fd_his)
+{
+	char	*input;
+
+	while (1)
+	{
+		get_global(0);
+		get_global3(1);
+		input = readline("➜ minishell $ ");
+		if (!input)
+			break ;
+		ft_parser(input, cd);
+		if (input[0])
+		{
+			ft_putstr_fd(input, fd_his);
+			ft_putstr_fd("\n", fd_his);
+			add_history(input);
+		}
+		free(input);
+	}
+}
 
 int	add_hist(int fd_his)
 {

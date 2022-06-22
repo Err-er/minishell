@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 00:52:08 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/22 10:40:23 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	ft_sc(t_list *node)
 		return (ft_fre(cmd), 1);
 	return (ft_fre(cmd), 0);
 }
-/*********************************************************************/
 
 void	utils_ex_ds(int ex)
 {
@@ -49,10 +48,10 @@ void	utils_ex_ds(int ex)
 	}
 	else if (WIFSIGNALED(ex))
 		g_ds = ex + 128;
-	if(g_ds == 130)
-		write(1,"\n",1);
-	else if(g_ds == 131)
-		write(1,"Quit: 3\n",9);
+	if (g_ds == 130)
+		write (1, "\n", 1);
+	else if (g_ds == 131)
+		write(1, "Quit: 3\n", 9);
 }
 
 void	ft_pipe_ex(t_list *node, t_cd *cd)
@@ -74,10 +73,10 @@ void	ft_pipe_ex(t_list *node, t_cd *cd)
 		}
 		else if (WIFSIGNALED(ex))
 			g_ds = ex + 128;
-		if(g_ds == 130)
-			write(1,"\n",1);
-		else if(g_ds == 131)
-			write(1,"Quit: 3\n",9);
+		if (g_ds == 130)
+			write(1, "\n", 1);
+		else if (g_ds == 131)
+			write(1, "Quit: 3\n", 9);
 		exit(g_ds);
 	}
 	waitpid(pid, &ex, 0);
@@ -109,16 +108,6 @@ t_list	*new_node(t_list	*node)
 		tmp = tmp->next;
 	}
 	return (n_node);
-}
-
-void	printf_list(t_list *lst)
-{
-	while (lst)
-	{
-		printf("(%s - %d)\n", lst->data, lst->tokn);
-		lst = lst->next;
-	}
-	puts("");
 }
 
 int	ft_parser(char *input, t_cd *cd)
