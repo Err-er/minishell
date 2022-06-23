@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 17:30:50 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 14:15:08 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	skip_nul(t_list **head, int i)
 char	*mini_utils(t_list **head, char *str)
 {
 	skip_nul(head, 1);
-	if ((*head)->next->tokn == WS || (*head)->next->tokn == 0)
+	if ((*head)->next->tokn == WS
+		|| (*head)->next->tokn == END_TOKN || (*head)->next->tokn == PIPE)
 		str = ft_strjoin(str, " ");
 	(*head) = (*head)->next;
 	return (str);
