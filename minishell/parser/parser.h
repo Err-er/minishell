@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 21:47:00 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/22 10:46:17 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ typedef struct s_vars
 	int		x[2];
 	char	*file_n;
 	char	*value;
-	char	*cmd;
 	int		st_in;
 	int		st_out;
 	t_list	*node;
@@ -207,12 +206,5 @@ void			ft_echo_utils(t_list *node);
 void			ft_echo_flag(t_list *node);
 void			ft_skip_redi(t_list **node, int i);
 int				skip_flags(t_list *node, int j);
-void			ft_dup_env(t_cd *cd);
-void			ft_sort_expo(t_cd *cd);
-int				ft_check_addition(char *s);
-int				check_exist(char *s, char **env);
-void			ft_print_export(t_cd *cd);
-int				check_valid(char *s, char **env);
-void			add_this(t_cd *cd, char *s);
 
 #endif

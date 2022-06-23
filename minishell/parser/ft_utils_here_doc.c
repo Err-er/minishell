@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_here_doc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 10:12:33 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 17:15:21 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/22 12:01:36 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	ft_ex_input_h(t_list **head, t_vars *var)
 	t_mini			varr;
 	struct termios	term;
 
-	get_global(1);
 	ft_firts(head, var, &varr, &term);
 	if (varr.pid == 0)
 	{

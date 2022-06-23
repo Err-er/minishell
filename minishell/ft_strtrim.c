@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 13:06:37 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/23 00:17:39 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/22 10:45:07 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_strcmp(char *str1, char *str2)
 	int	i;
 
 	i = 0;
-	if (!str1 || !str2)
+	if (!str1)
 		return (-1);
 	while (str1[i] && str2[i] && str1[i] == str2[i])
 		i++;

@@ -5,7 +5,6 @@ HEADER = minishell.h
 CC = cc
 
 INCLUDES = minishell.h
-INCLUDES2 = ./parser/parser.h
 
 RLFLAGS = -I/goinfre/zait-sli/.brew/opt/readline/include
 
@@ -42,9 +41,6 @@ SRC =	minishell.c						\
 		commends/cd.c					\
 		commends/export.c				\
 		commends/export_utils.c			\
-		commends/export_utils1.c		\
-		commends/export_utils2.c		\
-		commends/export_utils3.c		\
 		commends/unset.c				\
 		commends/env.c 					\
 		commends/exit.c 				\
@@ -67,7 +63,7 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 	@$(CC) -Wall -Wextra -Werror -lreadline $(SRC) -o $(NAME) $(RLFLAGS) $(RLFLAGS2) -g
 
-%.o : %.c $(INCLUDES) $(INCLUDES2)
+%.o : %.c $(INCLUDES)
 	$(CC) -Wall -Wextra -Werror $(RLFLAGS) -o $@ -c $<
 clean:
 	@rm -rf $(OBJECTS) $(OBJECTSB) 
