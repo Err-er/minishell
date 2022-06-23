@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 11:59:37 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/22 10:45:18 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 17:49:00 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ char	*ft_strdup(char *src)
 	}
 	dup[i] = '\0';
 	return (dup);
+}
+
+int	ft_isprint(int c)
+{
+	if (c >= 32 && c <= 126)
+		return (1);
+	else
+		return (0);
 }
 
 char	*ft_strtrim2(char *s1, char *set)

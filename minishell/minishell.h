@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:51:33 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 10:46:00 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 17:50:12 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ int		get_global(int i);
 void	handle_sigs(int sig);
 char	*ft_strchre(const char *s, int c);
 void	ft_putstr(char	*c);
+int		`ft_isprint(int c);
 
 #endif
