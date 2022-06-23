@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:05:57 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/23 01:41:28 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/23 04:56:58 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	handle_expo(t_list *head, t_cd *cd)
 	}
 }
 
-void	ft_exprot(t_list **node, t_cd *cd)
+void	ft_export(t_list **node, t_cd *cd)
 {
 	t_list	*head;
 

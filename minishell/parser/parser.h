@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/23 04:26:17 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/23 04:59:02 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void			ft_child2(char *cmds, t_cd *cd, t_vars *var);
 void			printf_list(t_list *lst);
 void			ft_cd(t_list **node, t_cd *cd);
 void			ft_ex(char *cmds, t_cd *cd, t_vars var);
-void			ft_exprot(t_list **node, t_cd *cd);
+void			ft_export(t_list **node, t_cd *cd);
 void			ft_unset(t_list **node, t_cd *cd);
 char			*ft_substr(char *s, int start, int len);
 char			*ft_substr2(char *s, int start, int len);

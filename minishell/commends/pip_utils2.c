@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:39:30 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 11:07:26 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 05:00:00 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_check_c1(char **cmds, t_cd *cd, t_vars *var, char *hh)
 {
 	if (!ft_strcmp(cmds[0], "export"))
 	{
-		ft_exprot (&var->node, cd);
+		ft_export (&var->node, cd);
 		exit(0);
 	}
 	else if (!ft_strcmp(cmds[0], "unset"))
@@ -82,7 +82,7 @@ void	ft_check_c3(char **cmds, t_cd *cd, t_vars *var, char *hh)
 {
 	if (!ft_strcmp(cmds[0], "export"))
 	{
-		ft_exprot (&var->node, cd);
+		ft_export (&var->node, cd);
 		exit(0);
 	}
 	else if (!ft_strcmp(cmds[0], "unset"))

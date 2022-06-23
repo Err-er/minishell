@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/21 21:33:09 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/23 05:00:36 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	ft_ex_export(t_list *head, t_cd *cd, t_vars var)
 		var.st_out = dup(1);
 		dup2(var.fd[1], var.x[1]);
 		close(var.fd[1]);
-		ft_exprot(&node, cd);
+		ft_export(&node, cd);
 		dup2(var.st_out, 1);
 		close(var.st_out);
 	}
 	else
-		ft_exprot(&node, cd);
+		ft_export(&node, cd);
 	ft_lstclear(&node);
 }
 
@@ -67,7 +67,7 @@ void	ft_ex_sc_utils(t_list *node, t_cd *cd, char *cmd)
 	else if (!ft_strcmp(cmd, "echo"))
 		g_ds = 0;
 	else if (!ft_strcmp(cmd, "export"))
-		ft_exprot(&node, cd);
+		ft_export(&node, cd);
 	else if (!ft_strcmp(cmd, "unset"))
 		ft_unset(&node, cd);
 	else if (!ft_strcmp(cmd, "pwd"))

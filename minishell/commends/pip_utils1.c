@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:39:55 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 19:44:07 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 04:57:48 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_check_c2(char **cmd, t_cd *cd, t_vars *var, char *hh)
 {
 	if (!ft_strcmp(cmd[0], "export"))
 	{
-		ft_exprot(&var->node, cd);
+		ft_export(&var->node, cd);
 		exit(0);
 	}
 	if (!ft_strcmp(cmd[0], "unset"))

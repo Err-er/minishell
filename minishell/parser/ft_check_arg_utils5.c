@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/21 21:32:48 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/23 05:00:36 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_ex_cmd(char *cmd, t_cd *cd, t_vars var)
 	if (!ft_strcmp(cmd, "echo"))
 		return (ft_echo(var.node), 0);
 	else if (!ft_strcmp(cmd, "export"))
-		return (ft_exprot(&var.node, cd), 0);
+		return (ft_export(&var.node, cd), 0);
 	else if (!ft_strcmp(cmd, "exit"))
 		return (0);
 	else if (!ft_strcmp(cmd, "unset"))
