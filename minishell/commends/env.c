@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 06:46:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/23 01:10:48 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/23 17:02:19 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	increase_shelvl(t_cd *cd)
 {
 	char	*temp;
 	char	*tmp;
+	int 	i;
 
 	tmp = ft_strtrim(get_path(cd->my_env, "SHLVL"), "\"");
 	cd->shlvl = ft_atoi(tmp);
@@ -85,5 +86,15 @@ void	increase_shelvl(t_cd *cd)
 		temp = ft_strjoin(temp, ft_itoa(cd->shlvl));
 		replace_this(cd, temp);
 		free(temp);
+	}
+	i = 0;
+	while(cd->my_env[i])
+	{
+		if (!ft_strchr(cd->my_env[i], '='))
+		{
+			unset_this(cd, cd->my_env[i]);
+			i = 0;
+		}
+		i++;
 	}
 }

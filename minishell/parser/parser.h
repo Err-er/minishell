@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/23 04:59:02 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/23 16:35:24 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_vars
 	int		x[2];
 	char	*file_n;
 	char	*value;
+	char	*cmd;
 	int		st_in;
 	int		st_out;
 	t_list	*node;
