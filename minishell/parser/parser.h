@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 10:46:17 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 04:26:17 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,5 +206,25 @@ void			ft_echo_utils(t_list *node);
 void			ft_echo_flag(t_list *node);
 void			ft_skip_redi(t_list **node, int i);
 int				skip_flags(t_list *node, int j);
+void			ft_dup_env(t_cd *cd);
+void			ft_sort_expo(t_cd *cd);
+int				ft_check_addition(char *s);
+int				check_exist(char *s, char **env);
+void			ft_print_export(t_cd *cd);
+int				check_valid(char *s, char **env);
+void			add_this(t_cd *cd, char *s);
+int				get_pwd(char **env);
+void			ft_getcwd(t_cd *cd);
+int				get_prev_directory(char *s);
+void			print_err(char *s, int er);
+int				check_per(char *s);
+int				treat_home(t_cd *cd);
+void			save_oldpwd(t_cd *cd);
+int				treat_minus(t_cd *cd);
+int				treat_home(t_cd *cd);
+void			save_oldpwd(t_cd *cd);
+int				treat_minus(t_cd *cd);
+int				treat_prev(t_cd *cd);
+void			treat_pnt(t_cd *cd);
 
 #endif

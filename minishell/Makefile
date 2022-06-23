@@ -39,8 +39,13 @@ SRC =	minishell.c						\
 		commends/echo.c 				\
 		commends/pip.c					\
 		commends/cd.c					\
+		commends/cd_utils.c				\
+		commends/cd_utils1.c			\
 		commends/export.c				\
 		commends/export_utils.c			\
+		commends/export_utils1.c		\
+		commends/export_utils2.c		\
+		commends/export_utils3.c		\
 		commends/unset.c				\
 		commends/env.c 					\
 		commends/exit.c 				\
