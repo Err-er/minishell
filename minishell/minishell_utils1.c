@@ -3,52 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 10:48:57 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/25 00:51:21 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
 
-char	*ft_strchre(const char *s, int c)
+void	get_in(char **env, t_cd *cd)
 {
-	int	i;
+	char	*tmp;
+	char	b[1024];
 
-	i = 0;
-	if (!s)
-		return (NULL);
-	while (s[i] != (char)c)
+	cd->pwd = ft_strdup("PWD=");
+	cd->pwd = ft_strjoin(cd->pwd, getcwd(b, 1024));
+	if (get_path(env, "SHLVL"))
 	{
-		if (s[i] == '\0')
-			return (NULL);
-		i++;
+		tmp = ft_strtrim(get_path(cd->my_env, "SHLVL"), "\"");
+		cd->shlvl = ft_atoi(tmp);
+		free(tmp);
 	}
-	return ((char *)s);
+	else
+		cd->shlvl = 0;
 }
 
 void	ft_new_env(char **env, t_cd *cd)
 {
 	int		i;
-	char	*tmp;
 
 	i = 0;
-	while (env[i])
-		i++;
-	cd->my_env = malloc(sizeof(char *) * i + 1);
-	i = -1;
-	while (env[++i])
-		cd->my_env[i] = ft_strdup(env[i]);
-	cd->my_env[i] = NULL;
-	if (get_path(cd->my_env, "OLDPWD"))
-		unset_this(cd, "OLDPWD");
-	cd->pwd = ft_strdup("PWD=");
-	cd->pwd = ft_strjoin(cd->pwd, get_path(cd->my_env, "PWD"));
-	tmp = ft_strtrim(get_path(cd->my_env, "SHLVL"), "\"");
-	cd->shlvl = ft_atoi(tmp);
-	free(tmp);
+	if (env && *env)
+	{
+		while (env[i])
+			i++;
+		cd->my_env = malloc(sizeof(char *) * i + 1);
+		i = -1;
+		while (env[++i])
+			cd->my_env[i] = ft_strdup(env[i]);
+		cd->my_env[i] = NULL;
+		replace_this(cd, cd->pwd);
+		if (get_path(cd->my_env, "OLDPWD"))
+			unset_this(cd, "OLDPWD");
+	}
+	else
+	{
+		cd->my_env = NULL;
+		export_this(cd, cd->pwd);
+	}
+	increase_shelvl(cd);
+	export_this(cd, "OLDPWD");
 }
 
 void	handle_sigs(int sig)
@@ -94,3 +100,4 @@ int	get_global2(int i)
 		j = i;
 	return (j);
 }
+// handel case :  << here echo hello > out | ls

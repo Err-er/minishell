@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip_utils3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:38:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 19:57:32 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 22:28:35 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*ft_path(char **env, char *cd)
 	str = get_path(env, "PATH");
 	p = ft_split(str, ':');
 	cmd = ft_split_2(cd, '\v');
-	if (access(cd, X_OK) == 0)
+	if (access(cmd[0], X_OK) == 0)
 		return (ft_f(p, cmd), cd);
 	if (!cmd)
 		print_error_p(cmd);

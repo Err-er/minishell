@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 18:37:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/23 04:45:27 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 00:45:55 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	treat_path(t_cd *cd, char *data)
 	if (!check_perms(data))
 		return (0);
 	t = ft_split_2(data, '/');
-	while (t[j])
+	while (t && t[j])
 	{
 		temp = ft_strdup(t[j]);
 		if (!change_pwd(temp, cd, j, data))
@@ -106,7 +106,6 @@ void	ft_cd(t_list **node, t_cd *cd)
 
 	head = *node;
 	head = head->next;
-	save_oldpwd(cd);
 	while (1)
 	{
 		if (head->next->tokn == WS)
@@ -114,16 +113,17 @@ void	ft_cd(t_list **node, t_cd *cd)
 		else
 			break ;
 	}
+	save_oldpwd(cd);
 	if (!treat_cd(cd, head->next->tokn, head->next->data))
 		return ;
-	if (get_pwd(cd->my_env) > 0)
+	if (get_path(cd->my_env, "PWD"))
 	{
 		free(cd->my_env[get_pwd(cd->my_env)]);
 		cd->my_env[get_pwd(cd->my_env)] = ft_strdup(cd->pwd);
 	}
-	if (get_path(cd->my_env, "OLDPWD"))
+	if (check_exist("OLDPWD", cd->my_env))
 		replace_this(cd, cd->oldpwd);
-	else if (!get_path(cd->my_env, "OLDPWD") && get_path(cd->my_env, "PWD"))
+	else
 		export_this(cd, cd->oldpwd);
 	g_ds = 0;
 	return ;

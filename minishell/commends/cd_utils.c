@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 04:12:54 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/23 04:13:52 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/24 22:04:53 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,6 @@ void	print_err(char *s, int er)
 
 int	check_per(char *s)
 {
-	if (!s)
-	{
-		print_err("HOME", 0);
-		return (0);
-	}
 	if (access(s, F_OK))
 	{
 		print_err(s, 1);

@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:39:55 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/23 04:57:48 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/23 23:58:41 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	dup_chi2(t_vars *var)
 	}
 }
 
-void	ft_check_c2(char **cmd, t_cd *cd, t_vars *var, char *hh)
+void	ft_check_c2(char **cmd, t_cd *cd, t_vars *var)
 {
 	if (!ft_strcmp(cmd[0], "export"))
 	{
@@ -52,7 +52,7 @@ void	ft_check_c2(char **cmd, t_cd *cd, t_vars *var, char *hh)
 	}
 	else if (!ft_strcmp(cmd[0], "pwd"))
 	{
-		printf("%s\n", getcwd(hh, 100));
+		ft_getcwd(cd);
 		exit(0);
 	}
 }
@@ -61,11 +61,10 @@ void	ft_child2(char *cmds, t_cd *cd, t_vars *var)
 {
 	char	*pat;
 	char	**cmd;
-	char	hh[100];
 
 	dup_chi2(var);
 	cmd = ft_split_2(cmds, '\v');
-	ft_check_c2(cmd, cd, var, hh);
+	ft_check_c2(cmd, cd, var);
 	pat = ft_path(cd->my_env, cmds);
 	if (access(cmd[0], X_OK) == 0)
 		pat = cmd[0];

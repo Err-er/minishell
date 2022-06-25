@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:38:33 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/13 15:44:56 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 20:52:46 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_check_output_h(char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == '>' && input[i] == '>')
+		if (input[i] == '>' && input[i + 1] == '>')
 		{
 			i += 2;
 			while (input[i] && input[i] == ' ')

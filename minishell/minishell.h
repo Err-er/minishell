@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:51:33 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/23 17:50:12 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 18:30:58 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-# define HISTORY_COM    "/Users/asabbar/.minishell_history"
 
 char	*ft_strjoin(char *s1, char *s2);
 char	*get_next_line(int fd);
@@ -50,6 +48,6 @@ int		get_global(int i);
 void	handle_sigs(int sig);
 char	*ft_strchre(const char *s, int c);
 void	ft_putstr(char	*c);
-int		`ft_isprint(int c);
+int		ft_isprint(int c);
 
 #endif

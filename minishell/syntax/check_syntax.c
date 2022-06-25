@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 15:33:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 17:37:16 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 20:35:40 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int	ft_check_oredi(char *input)
 		if (input[i] == '>' && input[i + 1] != '>')
 		{
 			i++;
-			while (input[i] && input[i] == ' '
-				&& input[i] != '|' && input[i] != '<' && input[i] != '>')
+			while (input[i] && input[i] == ' ')
 				i++;
 			if (!input[i]
 				|| input[i] == '|' || input[i] == '<' || input[i] == '>')

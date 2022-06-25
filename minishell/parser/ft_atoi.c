@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 14:46:11 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/21 21:15:25 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/24 21:36:30 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ long long	ft_atoi(const char *str)
 	i = 0;
 	sign = 1;
 	result = 0;
+	if (!str)
+		return (result);
 	while (str[i] == ' ' || str[i] == '\f' || str[i] == '\n'
 		|| str[i] == '\r' || str[i] == '\t' || str[i] == '\v')
 		i++;

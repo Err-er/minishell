@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 04:26:50 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/23 04:27:21 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 00:48:15 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	treat_home(t_cd *cd)
 	char	*temp;
 
 	temp = ft_strtrim(get_path(cd->my_env, "HOME"), "\"");
+	if (!temp)
+		return (print_err("HOME", 0), 0);
 	if (!access(temp, F_OK))
 	{
 		if (!check_per(temp))
@@ -36,8 +38,7 @@ int	treat_home(t_cd *cd)
 			chdir(temp);
 		}
 	}
-	free(temp);
-	return (1);
+	return (free(temp), 1);
 }
 
 void	save_oldpwd(t_cd *cd)

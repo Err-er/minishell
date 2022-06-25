@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_varb.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 09:49:04 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/02 13:52:27 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 23:14:43 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*get_path(char **str, char *to_find)
 
 	i = -1;
 	j = 0;
+	if (!str || !*str)
+		return (NULL);
 	while (str[++i])
 	{
 		j = 0;

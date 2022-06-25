@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 05:16:59 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/23 01:17:19 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 00:45:36 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ void	export_this(t_cd *cd, char *s)
 	int		i;
 
 	i = 0;
-	while (cd->my_env[i])
+	while (cd->my_env && cd->my_env[i])
 		i++;
 	new_env = malloc(sizeof(char *) * (i + 2));
 	i = 0;
-	while (cd->my_env[i])
+	while (cd->my_env && cd->my_env[i])
 	{
 		new_env[i] = ft_strdup(cd->my_env[i]);
 		i++;
@@ -72,7 +72,8 @@ void	export_this(t_cd *cd, char *s)
 	i++;
 	new_env[i] = NULL;
 	ft_fre(t);
-	ft_fre(cd->my_env);
+	if (cd->my_env && *cd->my_env)
+		ft_fre(cd->my_env);
 	cd->my_env = new_env;
 }
 
@@ -103,7 +104,7 @@ void	replace_this(t_cd *cd, char *s)
 	while (cd->my_env[++i])
 	{
 		t = ft_split_2(cd->my_env[i], '=');
-		if (t[0] && t1[0] && !ft_strcmp(t[0], t1[0]))
+		if (t && t1 && t[0] && t1[0] && !ft_strcmp(t[0], t1[0]))
 		{
 			tmp = ft_strdup(cd->my_env[i]);
 			free(cd->my_env[i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pip_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:40:32 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 19:47:13 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 20:37:54 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_iredi_p(t_vars *var, t_list	**head, char *str)
 		var->file_n = ft_strjoin(var->file_n, (*head)->data);
 		(*head) = (*head)->next;
 	}
-	var->fd[0] = open(var->file_n, O_RDONLY);
+	var->fd[0] = open(var->file_n, O_RDWR, 0677);
 	if (var->fd[0] == -1 || !var->file_n)
 	{
 		perror("Error");

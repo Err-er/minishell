@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 16:20:16 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 10:44:32 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/24 20:22:31 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	ft_echo(t_list *node)
 		{
 			head = head->next;
 			ft_skip_redi(&head, 0);
+			if (node->tokn == PIPE)
+				break ;
 			if (head->tokn == 0)
 				write(1, "\n", 1);
 			else if (head->data

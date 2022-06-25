@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/23 05:00:36 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/24 20:30:59 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ int	ft_dup_ex(t_vars var, int *end)
 		}
 	}
 	else if (var.fd[0])
-		return (dup2(var.fd[0], var.x[0]), close(var.fd[0]), 1);
+	{
+		dup2(var.fd[0], var.x[0]);
+		close(var.fd[0]);
+	}
 	if (var.fd[1])
 		return (dup2(var.fd[1], var.x[1]), close(var.fd[1]), 1);
 	return (1);
@@ -101,7 +104,7 @@ void	ft_ex(char *cmds, t_cd *cd, t_vars var)
 		exit(0);
 	pat = ft_path(cd->my_env, cmds);
 	if (access(cmd[0], X_OK) == 0)
-		pat = cmds;
+		pat = cmd[0];
 	if (execve(pat, cmd, cd->my_env) == -1)
 	{
 		perror("Error ");

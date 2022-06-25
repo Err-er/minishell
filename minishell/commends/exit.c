@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 13:32:23 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/23 01:10:11 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 00:53:06 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,17 +105,22 @@ void	ft_exit(t_list **node)
 
 	head = *node;
 	head = head->next;
-	head = head->next;
+	while (1)
+	{
+		if (head->next->tokn == WS)
+			head = head->next;
+		else
+			break ;
+	}
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
 	{
 		printf("exit\n");
 		exit(g_ds);
-		return ;
 	}
 	if (head->next->next->tokn != END_TOKN && head->next->next->tokn
 		!= ST_TOKN && head->next->next->tokn != PIPE)
 	{	
-		printf("minishell: exit: too many arguments\n");
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		g_ds = 1;
 		return ;
 	}

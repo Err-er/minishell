@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 10:42:18 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 10:46:57 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/24 20:23:50 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	ft_echo_flag(t_list *node)
 			while (skip_flags(node, 1))
 				node = node->next;
 		}
+		if (node->tokn == PIPE)
+			break ;
 		if (node->data)
 			ft_putstr(node->data);
 		node = node->next;
@@ -89,6 +91,8 @@ void	ft_echo_utils(t_list *node)
 	while (node && node->tokn != END_TOKN && node->tokn != PIPE)
 	{
 		ft_skip_redi(&node, 1);
+		if (node->tokn == PIPE)
+			break ;
 		if (node->data && node->tokn != END_TOKN)
 			ft_putstr(node->data);
 		node = node->next;

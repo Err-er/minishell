@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 01:14:58 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/23 01:35:36 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/24 21:27:18 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	check_valid(char *s, char **env)
 	i = 0;
 	if (!ft_strcmp(s, "="))
 		return (not_valid(s));
-	while (env[i])
+	while (env && env[i])
 	{
 		if (!ft_strcmp(s, env[i]))
 			return (0);

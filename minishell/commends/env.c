@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 06:46:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/23 17:02:19 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/24 23:42:55 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	ft_env(t_list **node, t_cd *cd)
 	}
 	if (head->next->tokn == END_TOKN || head->next->tokn == ST_TOKN)
 	{
-		ft_print_env(cd->my_env);
+		if (cd->my_env && *cd->my_env)
+			ft_print_env(cd->my_env);
 		return ;
 	}
 	if (head->next->next->tokn != END_TOKN
@@ -67,28 +68,12 @@ void	ft_print_env(char **env)
 	g_ds = 0;
 }
 
-void	increase_shelvl(t_cd *cd)
+void	remove_vars(t_cd *cd)
 {
-	char	*temp;
-	char	*tmp;
-	int 	i;
+	int	i;
 
-	tmp = ft_strtrim(get_path(cd->my_env, "SHLVL"), "\"");
-	cd->shlvl = ft_atoi(tmp);
-	free(tmp);
-	if (cd->shlvl < 0)
-		cd->shlvl = 0;
-	else
-		cd->shlvl += 1;
-	if (get_path(cd->my_env, "SHLVL"))
-	{
-		temp = ft_strdup("SHLVL=");
-		temp = ft_strjoin(temp, ft_itoa(cd->shlvl));
-		replace_this(cd, temp);
-		free(temp);
-	}
 	i = 0;
-	while(cd->my_env[i])
+	while (cd->my_env && cd->my_env[i])
 	{
 		if (!ft_strchr(cd->my_env[i], '='))
 		{
@@ -97,4 +82,31 @@ void	increase_shelvl(t_cd *cd)
 		}
 		i++;
 	}
+}
+
+void	increase_shelvl(t_cd *cd)
+{
+	char	*temp;
+	char	*tmp;
+
+	if (cd->shlvl < 0)
+		cd->shlvl = 0;
+	else
+		cd->shlvl += 1;
+	tmp = ft_itoa(cd->shlvl);
+	if (get_path(cd->my_env, "SHLVL"))
+	{
+		temp = ft_strdup("SHLVL=");
+		temp = ft_strjoin(temp, tmp);
+		replace_this(cd, temp);
+	}
+	else
+	{
+		temp = ft_strdup("SHLVL=");
+		temp = ft_strjoin(temp, tmp);
+		export_this(cd, temp);
+	}
+	free(tmp);
+	free(temp);
+	remove_vars(cd);
 }

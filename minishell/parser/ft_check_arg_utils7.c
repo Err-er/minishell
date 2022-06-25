@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg_utils7.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/23 16:37:34 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/23 21:01:51 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,7 @@ void	ft_ex_com_utils2(t_list *node, t_cd *cd, t_vars	var, char *str)
 	get_global(1);
 	var.c2 = fork();
 	if (var.c2 == 0)
-	{
-		if (!ft_strcmp(var.cmd, MINI) || !ft_strcmp(var.cmd, MINIS))
-			increase_shelvl(cd);
 		ft_ex(str, cd, var);
-	}
 	waitpid(var.c2, &ex, 0);
 	utils_ex_ds(ex);
 }

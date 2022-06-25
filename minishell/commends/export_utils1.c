@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 01:14:56 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/23 17:40:27 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/25 00:44:55 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int	check_exist(char *s, char **env)
 	char	**t1;
 
 	i = 0;
+	if (!env || !env[0])
+		return (0);
 	t1 = ft_split_2(s, '=');
 	t1[0] = ft_strtrim2(t1[0], "+");
 	while (env[i])
@@ -112,11 +114,14 @@ void	ft_print_export(t_cd *cd)
 
 	i = 0;
 	g_ds = 0;
-	ft_sort_expo(cd);
-	while (cd->sorted[i])
+	if (cd->my_env && cd->my_env[0])
 	{
-		printf("declare -x %s\n", cd->sorted[i]);
-		i++;
+		ft_sort_expo(cd);
+		while (cd->sorted[i])
+		{
+			printf("declare -x %s\n", cd->sorted[i]);
+			i++;
+		}
+		ft_fre(cd->sorted);
 	}
-	ft_fre(cd->sorted);
 }

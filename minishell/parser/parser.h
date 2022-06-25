@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/23 16:35:24 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/24 20:14:54 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 # define LIMITER	21
 # define END_TOKN	0
 # define MINI		"minishell"
-# define HERE_D		".here_doc"
+# define HERE_D		"./parser/here_doc"
 # define MINIS		"./minishell"
 
 extern int	g_ds;
@@ -71,7 +71,6 @@ typedef struct s_vars
 	int		x[2];
 	char	*file_n;
 	char	*value;
-	char	*cmd;
 	int		st_in;
 	int		st_out;
 	t_list	*node;
@@ -175,14 +174,14 @@ int				ft_check_red2(t_list *node, int fd);
 int				ft_oredi_p(t_vars *var, t_list	**head, char *str);
 int				ft_outputh_p(t_vars *var, t_list	**head, char *str);
 void			dup_chi2(t_vars *var);
-void			ft_check_c2(char **cmd, t_cd *cd, t_vars *var, char *hh);
+void			ft_check_c2(char **cmd, t_cd *cd, t_vars *var);
 void			ft_child2(char *cmds, t_cd *cd, t_vars *var);
 int				forkpipe(int *end);
 int				ft_cheak(int i, char **cmd);
-void			ft_check_c1(char **cmds, t_cd *cd, t_vars *var, char *hh);
+void			ft_check_c1(char **cmds, t_cd *cd, t_vars *var);
 void			ft_child1(char *cmd, t_cd *cd, int *end, t_vars *var);
 void			dup_chi3(t_vars *var, int *end);
-void			ft_check_c3(char **cmds, t_cd *cd, t_vars *var, char *hh);
+void			ft_check_c3(char **cmds, t_cd *cd, t_vars *var);
 void			ft_child3(char *cmd, t_cd *cd, int *end, t_vars *var);
 void			ft_fre(char **cmd);
 void			print_error_p(char **cmd);
@@ -197,7 +196,7 @@ int				ft_ex_com_utils1(t_list **head, t_vars *var);
 void			ft_ex_com_utils2(t_list *node, t_cd *cd, t_vars	var, char *str);
 char			*ft_ex_com_utils(t_list *head, t_vars	*var, char *str);
 t_list			*new_node_export(t_list	*node);
-void			run_minishell(t_cd	*cd, int fd_his);
+void			run_minishell(t_cd	*cd);
 void			ft_new_env(char **env, t_cd *cd);
 void			ft_env(t_list **node, t_cd *cd);
 int				get_global2(int i);

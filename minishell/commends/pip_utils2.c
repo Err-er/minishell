@@ -6,13 +6,13 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:39:30 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/23 05:00:00 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/24 20:15:21 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_check_c1(char **cmds, t_cd *cd, t_vars *var, char *hh)
+void	ft_check_c1(char **cmds, t_cd *cd, t_vars *var)
 {
 	if (!ft_strcmp(cmds[0], "export"))
 	{
@@ -31,7 +31,7 @@ void	ft_check_c1(char **cmds, t_cd *cd, t_vars *var, char *hh)
 	}
 	else if (!ft_strcmp(cmds[0], "pwd"))
 	{
-		printf("%s\n", getcwd(hh, 100));
+		ft_getcwd(cd);
 		exit(0);
 	}
 }
@@ -40,11 +40,10 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_vars *var)
 {
 	char	*pat;
 	char	**cmds;
-	char	hh[100];
 
 	dup_chi1(var, end);
 	cmds = ft_split_2(cmd, '\v');
-	ft_check_c1(cmds, cd, var, hh);
+	ft_check_c1(cmds, cd, var);
 	pat = ft_path(cd->my_env, cmd);
 	if (access(cmds[0], X_OK) == 0)
 		pat = cmds[0];
@@ -78,7 +77,7 @@ void	dup_chi3(t_vars *var, int *end)
 	}
 }
 
-void	ft_check_c3(char **cmds, t_cd *cd, t_vars *var, char *hh)
+void	ft_check_c3(char **cmds, t_cd *cd, t_vars *var)
 {
 	if (!ft_strcmp(cmds[0], "export"))
 	{
@@ -100,7 +99,7 @@ void	ft_check_c3(char **cmds, t_cd *cd, t_vars *var, char *hh)
 	}
 	else if (!ft_strcmp(cmds[0], "pwd"))
 	{
-		printf("%s\n", getcwd(hh, 100));
+		ft_getcwd(cd);
 		exit(0);
 	}
 }
@@ -109,11 +108,10 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_vars *var)
 {
 	char	*pat;
 	char	**cmds;
-	char	hh[100];
 
 	dup_chi3(var, end);
 	cmds = ft_split_2(cmd, '\v');
-	ft_check_c3(cmds, cd, var, hh);
+	ft_check_c3(cmds, cd, var);
 	pat = ft_path(cd->my_env, cmd);
 	if (access(cmds[0], X_OK) == 0)
 		pat = cmds[0];
