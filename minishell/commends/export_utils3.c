@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 01:15:01 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/23 01:35:39 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 01:16:27 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_add_content(char *old, char *new, char *n)
 		i++;
 	i++;
 	d = ft_strtrim(old, "\"=");
-	t = ft_strjoin(t, "=");
+	t = ft_strjoin(t, "=\"");
 	t = ft_strjoin(t, &d[i]);
 	t = ft_strjoin(t, &new[i + 1]);
 	t = ft_strjoin(t, "\"");
