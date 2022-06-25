@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 05:16:59 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/25 00:45:36 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 19:55:41 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	export_this(t_cd *cd, char *s)
 		i++;
 	}
 	t = ft_split_2(s, '=');
-	if (t[0] && t[1])
+	if (t && t[0] && t[1])
 		new_env[i] = ft_cpoy_content(s, t[0]);
 	else
 		new_env[i] = copy_empty(s, t[0]);

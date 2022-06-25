@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:39:30 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/24 20:15:21 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 19:56:31 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ void	ft_child1(char *cmd, t_cd *cd, int *end, t_vars *var)
 	dup_chi1(var, end);
 	cmds = ft_split_2(cmd, '\v');
 	ft_check_c1(cmds, cd, var);
-	pat = ft_path(cd->my_env, cmd);
 	if (access(cmds[0], X_OK) == 0)
 		pat = cmds[0];
+	else
+		pat = ft_path(cd->my_env, cmd);
 	if (execve(pat, cmds, cd->my_env) == -1)
 	{
 		perror("Error");
@@ -112,9 +113,10 @@ void	ft_child3(char *cmd, t_cd *cd, int *end, t_vars *var)
 	dup_chi3(var, end);
 	cmds = ft_split_2(cmd, '\v');
 	ft_check_c3(cmds, cd, var);
-	pat = ft_path(cd->my_env, cmd);
 	if (access(cmds[0], X_OK) == 0)
 		pat = cmds[0];
+	else
+		pat = ft_path(cd->my_env, cmd);
 	if (execve(pat, cmds, cd->my_env) == -1)
 	{
 		perror("Error ");

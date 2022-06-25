@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:38:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/23 22:28:35 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 19:57:04 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_path(char **env, char *cd)
 	cmd = ft_split_2(cd, '\v');
 	if (access(cmd[0], X_OK) == 0)
 		return (ft_f(p, cmd), cd);
-	if (!cmd)
+	if (!cmd || !str)
 		print_error_p(cmd);
 	i = -1;
 	while (p[++i])

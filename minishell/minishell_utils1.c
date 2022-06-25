@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/25 00:51:21 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 19:55:25 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ void	ft_new_env(char **env, t_cd *cd)
 	int		i;
 
 	i = 0;
+	get_in(env, cd);
+	if (!env[0])
+	{
+		cd->my_env = NULL;
+		export_this(cd, cd->pwd);
+	}
 	if (env && *env)
 	{
 		while (env[i])
@@ -47,11 +53,6 @@ void	ft_new_env(char **env, t_cd *cd)
 		replace_this(cd, cd->pwd);
 		if (get_path(cd->my_env, "OLDPWD"))
 			unset_this(cd, "OLDPWD");
-	}
-	else
-	{
-		cd->my_env = NULL;
-		export_this(cd, cd->pwd);
 	}
 	increase_shelvl(cd);
 	export_this(cd, "OLDPWD");
