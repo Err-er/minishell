@@ -1,5 +1,0 @@
-➜ minishell $ echo $""
-double quotes not closed
-
-➜ minishell $ echo $''
-double quotes not closed
