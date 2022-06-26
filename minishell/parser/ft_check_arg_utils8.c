@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/23 21:01:45 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 21:55:45 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	ft_ex_sc_utils(t_list *node, t_cd *cd, char *cmd)
 		ft_exit(&node);
 	else if (!ft_strcmp(cmd, "env"))
 		ft_env(&node, cd);
-	else if (!ft_strcmp(cmd, "minishell"))
-		increase_shelvl(cd);
 }
 
 void	ft_ex_sc(t_list *node, t_cd *cd)

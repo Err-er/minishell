@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg_utils3.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/22 10:38:27 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/25 20:45:11 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,14 @@ int	ft_expand(t_list **node, char *input, char **env, int i)
 	int		j;
 
 	j = 0;
-	if (!input[i + 1] || input[i + 1] == ' ' || input[i + 1] == '$')
+	if (!input[i + 1] || input[i + 1] == ' ')
 		return (ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WR)), 2);
 	else if (input[i + 1] == '?')
 		return (ft_lstadd_back(node,
 				ft_lstnew(ft_strdup(ft_itoa(g_ds)), WR)), 2);
-	else if (!ft_isalpha(input[i + 1]) && !ft_isdigit(input[i + 1]))
-		return (ft_lstadd_back(node, ft_lstnew(ft_strdup("$"), WR)), 1);
+	else if ((!ft_isalpha(input[i + 1]) && !ft_isdigit(input[i + 1]))
+		|| (input[i + 1] == '"' && input[i + 2] == '"'))
+		return (ft_lstadd_back(node, ft_lstnew(ft_strdup(""), WR)), 2);
 	else
 		return (ft_expand_utils(node, input, env, i));
 }

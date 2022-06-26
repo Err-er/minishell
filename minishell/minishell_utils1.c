@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/25 19:55:25 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 20:34:22 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,3 @@ int	get_global2(int i)
 		j = i;
 	return (j);
 }
-// handel case :  << here echo hello > out | ls

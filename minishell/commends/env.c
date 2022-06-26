@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 06:46:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/24 23:42:55 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/25 21:56:03 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,29 @@ void	remove_vars(t_cd *cd)
 	}
 }
 
+void	get_shlvl_value(t_cd *cd)
+{
+	char	*tmp;
+
+	if (get_path(cd->my_env, "SHLVL"))
+	{
+		tmp = ft_strtrim(get_path(cd->my_env, "SHLVL"), "\"");
+		cd->shlvl = ft_atoi(tmp);
+		free(tmp);
+	}
+	else
+		cd->shlvl = 0;
+	if (cd->shlvl < 0)
+		cd->shlvl = 0;
+	else
+		cd->shlvl += 1;
+}
+
 void	increase_shelvl(t_cd *cd)
 {
 	char	*temp;
 	char	*tmp;
 
-	if (cd->shlvl < 0)
-		cd->shlvl = 0;
-	else
-		cd->shlvl += 1;
 	tmp = ft_itoa(cd->shlvl);
 	if (get_path(cd->my_env, "SHLVL"))
 	{
