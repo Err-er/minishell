@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:22:23 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/19 11:08:07 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/26 13:19:29 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,28 @@ void	ft_dup_p(t_vars *var)
 	var->c2 = 0;
 }
 
+int	count_pipe(t_list *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		if (lst->tokn == PIPE)
+			i++;
+		lst = lst->next;
+	}
+	return (i + 1);
+}
+
 int	c_pip(char **str, t_cd *cd, t_list *node)
 {
 	t_vars	var;
+	int		pipe;
 
+	pipe = count_pipe(node);
 	inisial(&var, str);
-	while (var.str[++var.i])
+	while (++var.i < pipe)
 	{
 		var.fd[1] = 0;
 		var.fd[0] = 0;

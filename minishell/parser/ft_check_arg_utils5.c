@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_arg_utils5.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/25 19:56:41 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/26 13:14:27 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_pip_utils(t_list *head, char *str)
 	while (head)
 	{
 		ft_pip_utils_1(&head, &str);
-		ft_pip_utils_2(&head);
+		ft_pip_utils_2(&head, &str);
 		if (head->tokn == IREDI)
 		{
 			head = head->next;

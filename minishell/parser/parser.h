@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:16:35 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/24 20:14:54 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/26 13:14:36 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int				ft_isdigit(int c);
 int				ft_parser_edit1_utils(t_list **node,
 					char *input, t_data *var, char **env);
 int				ft_expand_utils(t_list **node, char *input, char **env, int i);
-void			ft_pip_utils_2(t_list **head);
+void			ft_pip_utils_2(t_list **head, char **str);
 void			ft_pip_utils_1(t_list **head, char **str);
 int				ft_check_pip3(t_list *node, int c, int c2);
 void			ft_ex(char *cmds, t_cd *cd, t_vars var);

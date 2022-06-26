@@ -6,7 +6,7 @@
 /*   By: asabbar <asabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:40:00 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/18 15:51:07 by asabbar          ###   ########.fr       */
+/*   Updated: 2022/06/26 13:11:32 by asabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_pip_utils_1(t_list **head, char **str)
 	}
 }
 
-void	ft_pip_utils_2(t_list **head)
+void	ft_pip_utils_2(t_list **head, char **str)
 {
 	if ((*head)->tokn == OREDI)
 	{
@@ -109,5 +109,7 @@ void	ft_pip_utils_2(t_list **head)
 		(*head) = (*head)->next;
 		while ((*head)->tokn == WS && (*head)->tokn != END_TOKN)
 			(*head) = (*head)->next;
+		if ((*head)->tokn == END_TOKN)
+			(*str) = ft_strjoin((*str), "\v");
 	}
 }
