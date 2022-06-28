@@ -8,9 +8,9 @@ INCLUDES = minishell.h
 
 INCLUDES2 = parser/parser.h
 
-RLFLAGS = -I//goinfre/asabbar/.brew/opt/readline/include
+RLFLAGS = -I//goinfre/zait-sli/.brew/opt/readline/include
 
-RLFLAGS2 = -L//goinfre/asabbar/.brew/opt/readline/lib
+RLFLAGS2 = -L//goinfre/zait-sli/.brew/opt/readline/lib
 
 SRC =	minishell.c						\
 		minishell_utils.c				\

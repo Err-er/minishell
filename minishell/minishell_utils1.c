@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:50:59 by asabbar           #+#    #+#             */
-/*   Updated: 2022/06/25 20:34:22 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/26 21:50:37 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_new_env(char **env, t_cd *cd)
 		cd->my_env = NULL;
 		export_this(cd, cd->pwd);
 	}
-	if (env && *env)
+	else if (env && *env)
 	{
 		while (env[i])
 			i++;

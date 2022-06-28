@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 06:46:31 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/06/25 21:56:03 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/06/26 21:51:58 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	increase_shelvl(t_cd *cd)
 	char	*temp;
 	char	*tmp;
 
+	get_shlvl_value(cd);
 	tmp = ft_itoa(cd->shlvl);
 	if (get_path(cd->my_env, "SHLVL"))
 	{
